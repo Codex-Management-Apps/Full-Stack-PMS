@@ -3,7 +3,7 @@ import { NormalLayout } from '@/layouts/NormalLayout'
 
 
 
-export default function Main() {
+export default function ViewPage() {
   return (
     <NormalLayout>
       <div className="flex flex-col gap-5 w-full">

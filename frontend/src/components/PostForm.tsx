@@ -23,11 +23,11 @@ export function PostForm() {
 
     const onSubmit = async(data:z.infer<typeof postSchema>) =>{
        try{
-            const response = await axios.post("BACKEND_API_URL", {data})
-            console.log('Data sent successfully:', response.data);
+            const response = await axios.post("http://localhost:8080/post", data);
+            console.log(response.data); 
         }
        catch(error){
-        console.error("Error sending data: ", error)
+        console.error("Error sending data: ", error);
        }
     }
     return (
@@ -69,14 +69,7 @@ export function PostForm() {
             </div>
             <Button type="submit">Submit</Button>
         </form>
-            
-            {/* Content
-            <Input placeholder="Title"/>
-            <Textarea placeholder="Type your message here"/>
-
-            <div>
-                <Button variant="default">Submit</Button>
-            </div> */}
     </Form>
+    
   )
 }
