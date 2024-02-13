@@ -1,52 +1,49 @@
 package com.ancientstudents.backend.controller;
 
 import com.ancientstudents.backend.exception.PostNotFoundException;
-import com.ancientstudents.backend.model.User;
-import com.ancientstudents.backend.repository.UserRepository;
+import com.ancientstudents.backend.model.Post;
+import com.ancientstudents.backend.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.util.List;
-
 @RestController
-public class UserController {
+@CrossOrigin("http://localhost:5173")
+public class PostController {
     @Autowired
-    private UserRepository userRepository;
+    private PostRepository postRepository;
 
-//    @GetMapping("/users")
-//    List<User> getAllUsers(){
-//        return userRepository.findAll();
-//    }
-//
-//    @PostMapping("/user")
-//    User newUser(@RequestBody User newUser){
-//        return userRepository.save(newUser);
-//    }
-//
-//    @GetMapping("/user/{id}")
-//    User getUserById(@PathVariable Long id){
-//        return userRepository.findById(id)
-//                .orElseThrow(()->new UserNotFoundException(id));
-//    }
-//
-//    @PutMapping("user/{id}")
-//    User updateUser(@RequestBody User newUser, @PathVariable Long id){
-//        return userRepository.findById(id)
-//                .map(user -> {
-//                    user.setUsername(newUser.getUsername());
-//                    user.setName(newUser.getName());
-//                    user.setEmail(newUser.getEmail());
-//                    return userRepository.save(user);
-//                }).orElseThrow(()->new UserNotFoundException(id));
-//    }
-//
-//    @DeleteMapping("user/{id}")
-//    String deleteUser(@PathVariable Long id){
-//        if(!userRepository.existsById(id)){
-//            throw new UserNotFoundException(id);
-//        }
-//        userRepository.deleteById(id);
-//        return "User with id " + id + " has been deleted successfully.";
-//    }
+    @GetMapping("/post")
+    List<Post> getAllPost(){
+        return postRepository.findAll();
+    }
+
+    @PostMapping("/post")
+    Post newPost(@RequestBody Post newPost){
+        return postRepository.save(newPost);
+    }
+
+    @GetMapping("/post/{id}")
+    Post getPostById(@PathVariable Long id){
+        return postRepository.findById(id).orElseThrow(() -> new PostNotFoundException(id));
+    }
+
+    @PutMapping("/post/{id}")
+    Post updatePost(@RequestBody Post newPost, @PathVariable Long id){
+        return postRepository.findById(id)
+                .map(post -> {
+                    post.setTitle(newPost.getTitle());
+                    post.setContent(newPost.getContent());
+                    return postRepository.save(post);
+                }).orElseThrow(()-> new PostNotFoundException(id));
+    }
+
+    @DeleteMapping("/post/{id}")
+    String deletePost(@PathVariable Long id){
+        if(!postRepository.existsById(id)){
+            throw new PostNotFoundException(id);
+        }
+        postRepository.deleteById(id);
+        return "User with id"+ id + " has been deleted success.";
+    }
 }

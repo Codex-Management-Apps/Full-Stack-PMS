@@ -1,7 +1,7 @@
 package com.ancientstudents.backend.repository;
 
-import com.ancientstudents.backend.model.User;
+import com.ancientstudents.backend.model.Post;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface PostRepository extends JpaRepository<Post, Long> {
 }
