@@ -1,10 +1,10 @@
 # [Project]Event driven Programming
 
-## prerequisite
+## Prerequisite
 - node v20.9^
 - npm v10.2^
-- java  v21.^
-
+- jdk v21.^
+- 
 ## Setup
 For the followign IDE kindly, Use `Visual studio code` for the frontend and use `Apache`,`Intelij`,`eclipse` for the backend.
 
