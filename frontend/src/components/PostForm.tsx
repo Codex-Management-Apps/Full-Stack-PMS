@@ -13,27 +13,49 @@ import { useForm } from "react-hook-form"
 
 import { postSchema } from "@/schemas"
 import { z } from "zod"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { sumbitPostData } from "@/controller/post"
 import axios from "axios"
 
-
-
-export function PostForm() {
+export function PostForm({
+    initialData,
+    onClose,
+  }: {
+    initialData?: { id?: number; title?: string; content?: string };
+    onClose: () => void;
+  }){
     
-    const form = useForm<z.infer<typeof postSchema>>();
+    const isEditing = !!initialData?.id;
 
-    const onSubmit = async(data:z.infer<typeof postSchema>) =>{
-       try{
-            const response = await axios.post("http://localhost:8080/post", data);
-            console.log(response.data); 
+    const form = useForm<z.infer<typeof postSchema>>({
+        resolver: zodResolver(postSchema),
+        defaultValues: {
+            title: initialData?.title || '',
+            content: initialData?.content || ''
         }
-       catch(error){
+    });
+
+    
+    const handleSubmitData = async (data: z.infer<typeof postSchema>) => {
+        try {
+        if (isEditing) {
+            // Handle update logic
+            const response = await axios.put(`http://localhost:8080/post/${initialData?.id}`, data);
+            console.log(response.data);
+        } else {
+            // Handle create logic
+            const response = await axios.post("http://localhost:8080/post", data);
+            console.log(response.data);
+        }
+        onClose();
+        } catch (error) {
         console.error("Error sending data: ", error);
-       }
-    }
+        }
+    };
     return (
     <Form {...form}>
         <form 
-            onSubmit={form.handleSubmit(onSubmit)}
+            onSubmit={form.handleSubmit(handleSubmitData)}
             className="space-y-6">
             <div className="space-y-4">
                 <FormField 
@@ -68,6 +90,9 @@ export function PostForm() {
                 />
             </div>
             <Button type="submit">Submit</Button>
+            <Button type="button" onClick={onClose}>
+                Cancel
+            </Button>
         </form>
     </Form>
     

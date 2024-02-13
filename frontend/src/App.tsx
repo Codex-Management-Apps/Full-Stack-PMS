@@ -9,10 +9,10 @@ export default function Home() {
     <div>
       <BrowserRouter>
         <Routes>
-          <Route index element={<Main/>} />
+        <Route index element={<Main/>} />
           <Route path="/" element={<Main/>}/>
           <Route path="/create" element={<CreatePage/>} />
-          <Route path="/edit" element={<ViewPage/>}/>
+          <Route path="/view/:id" element={<ViewPage/>}/>
           <Route path="*" element={<NoPage/>}/>
         </Routes>
       </BrowserRouter>

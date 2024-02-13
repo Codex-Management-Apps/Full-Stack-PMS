@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import PageTitle from "./PageTitle";
 import { PostCard } from "./PostCard";
 
-interface Post {
+export interface Post {
   id: number;
   title: string;
   content: string;

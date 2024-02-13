@@ -22,3 +22,14 @@ export async function sumbitPostData(data : {title: string, content:string}){
      console.error("Error sending data: ", error);
     }
  }
+
+export async function getPostById(id?:string){
+    try{
+        const response = await axios.get(`http://localhost:8080/post/${id}`)
+        console.log(response.data)
+        return response.data
+    }
+    catch(error){
+        console.error("Error sending data: ", error);
+    }
+}
