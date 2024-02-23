@@ -7,7 +7,7 @@ import { useParams } from 'react-router-dom';
 
 
 
-export default function ViewPage() {
+export default function EmployeePage() {
   const { id } = useParams<{ id: string }>();
   const [data, setData] = useState({
     id: "",
@@ -28,11 +28,7 @@ export default function ViewPage() {
 
   return (
     <NormalLayout>
-      <div>
-        <h1>Title: {data.title}</h1>
-        <p>Content: {data.content}</p>
-      {/* Render other components based on the fetched data */}
-      </div>
+      EmployeePage
     </NormalLayout>
   )
 }

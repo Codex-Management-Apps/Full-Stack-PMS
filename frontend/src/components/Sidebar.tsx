@@ -2,7 +2,9 @@ import { useState } from 'react'
 import {
   ChevronRight,
   LayoutDashboard,
-    
+  UserRound,
+  Home,
+  UserRoundSearch
   } from "lucide-react"
 import { Nav } from './ui/nav'
 import { Button } from './ui/button'
@@ -34,12 +36,17 @@ export default function SideNavbar({}: Props) {
             isCollapsed={mobileWidth ? true : isCollapsed}
             links={[
               {
-                title: "Main Page",
+                title: "Dashboard",
                 href : "/",
                 icon: LayoutDashboard,
                 variant: "default",
               },
-              
+              {
+                title: "Employee",
+                href : "/employee",
+                icon: UserRound,
+                variant: "default",
+              },           
             ]}
           />
     </div>
