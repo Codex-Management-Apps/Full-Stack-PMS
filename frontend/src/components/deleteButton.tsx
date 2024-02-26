@@ -1,4 +1,4 @@
 
-export fucntion DeleteButton (){
+export function DeleteButton (){
     
 }
