@@ -1,8 +1,16 @@
 package com.ancientstudents.backend.model;
 
+import java.sql.Date;
+
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 @Entity
 public class Employee {
@@ -18,6 +26,11 @@ public class Employee {
     private String barangay;
     private String province;
     private String country;
+    @UpdateTimestamp
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @Column(name = "last_update")
+    private String lastUpdate;
+
 
     public Long getId() {
         return id;
@@ -89,5 +102,12 @@ public class Employee {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+    public String getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(String lastUpdate) {
+        this.lastUpdate = lastUpdate;
     }
 }

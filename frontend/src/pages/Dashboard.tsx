@@ -1,7 +1,7 @@
 import { NormalLayout } from '@/layouts/NormalLayout'
 
 
-export default function Main() {
+export default function Dashboard() {
   
   return (
     <NormalLayout>

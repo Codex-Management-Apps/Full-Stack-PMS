@@ -7,7 +7,7 @@ import {
   } from "@/components/ui/card";
 import { Button } from "./ui/button";
 import { DeletePostById } from "@/controller/post";
-import { PostForm } from "./PostForm";
+import { PostForm } from "./forms/AddEmployeeForm";
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 

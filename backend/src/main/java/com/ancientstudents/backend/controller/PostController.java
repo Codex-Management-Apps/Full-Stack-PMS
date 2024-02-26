@@ -18,16 +18,19 @@ public class PostController {
         return postRepository.findAll();
     }
 
+    @SuppressWarnings("null")
     @PostMapping("/post")
     Post newPost(@RequestBody Post newPost){
         return postRepository.save(newPost);
     }
 
+    @SuppressWarnings("null")
     @GetMapping("/post/{id}")
     Post getPostById(@PathVariable Long id){
         return postRepository.findById(id).orElseThrow(() -> new PostNotFoundException(id));
     }
 
+    @SuppressWarnings("null")
     @PutMapping("/post/{id}")
     Post updatePost(@RequestBody Post newPost, @PathVariable Long id){
         return postRepository.findById(id)
@@ -38,6 +41,7 @@ public class PostController {
                 }).orElseThrow(()-> new PostNotFoundException(id));
     }
 
+    @SuppressWarnings("null")
     @DeleteMapping("/post/{id}")
     String deletePost(@PathVariable Long id){
         if(!postRepository.existsById(id)){
