@@ -41,7 +41,7 @@ export function AddEmployeeForm(){
             title: "Data submitted",
         })
         sumbitEmployeeData(employeeData)// Pass the updated employeeData object to the sumbitEmployeeData function
-        handleReload(3)
+        //handleReload(3)//
     }
     
     return (
