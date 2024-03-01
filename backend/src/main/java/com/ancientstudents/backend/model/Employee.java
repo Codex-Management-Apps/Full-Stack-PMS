@@ -1,20 +1,10 @@
 package com.ancientstudents.backend.model;
 
-<<<<<<< HEAD
-import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-import jakarta.persistence.Column;
-=======
->>>>>>> d40b9840ba633a2e0e46f5c8e15998a92f79457c
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-<<<<<<< HEAD
-
-=======
->>>>>>> d40b9840ba633a2e0e46f5c8e15998a92f79457c
 
 @Entity
 @CrossOrigin("http://localhost:5173")
