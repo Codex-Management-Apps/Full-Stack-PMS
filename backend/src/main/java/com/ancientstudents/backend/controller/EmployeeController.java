@@ -9,30 +9,26 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin("http://localhost:5174/")
 public class EmployeeController {
     @Autowired
     private EmployeeRepository employeeRepository;
 
-    @SuppressWarnings("null")
     @PostMapping("/employee")
     Employee newEmployee(@RequestBody Employee newEmployee){
         return employeeRepository.save(newEmployee);
     }
 
-    @GetMapping("/employee")
+    @GetMapping("/employees")
     List<Employee> getAllEmployees(){
         return employeeRepository.findAll();
     }
 
-    @SuppressWarnings("null")
     @GetMapping("/employee/{id}")
     Employee getEmployeeById(@PathVariable Long id){
         return employeeRepository.findById(id)
                 .orElseThrow(()->new EmployeeNotFoundException(id));
     }
 
-    @SuppressWarnings("null")
     @PutMapping("employee/{id}")
     Employee updateEmployee(@RequestBody Employee newEmployee, @PathVariable Long id){
         return employeeRepository.findById(id)
@@ -50,7 +46,6 @@ public class EmployeeController {
                 }).orElseThrow(()->new EmployeeNotFoundException(id));
     }
 
-    @SuppressWarnings("null")
     @DeleteMapping("employee/{id}")
     String deleteUser(@PathVariable Long id){
         if(!employeeRepository.existsById(id)){
