@@ -1,22 +1,27 @@
 package com.ancientstudents.backend.model;
 
+<<<<<<< HEAD
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import jakarta.persistence.Column;
+=======
+>>>>>>> d40b9840ba633a2e0e46f5c8e15998a92f79457c
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+<<<<<<< HEAD
 
+=======
+>>>>>>> d40b9840ba633a2e0e46f5c8e15998a92f79457c
 
 @Entity
 @CrossOrigin("http://localhost:5173")
 public class Employee {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
     private String emp_num;
     private String firstname;
@@ -26,11 +31,6 @@ public class Employee {
     private String barangay;
     private String province;
     private String country;
-    @UpdateTimestamp
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
-    @Column(name = "last_update")
-    private String lastUpdate;
-
 
     public Long getId() {
         return id;
@@ -102,12 +102,5 @@ public class Employee {
 
     public void setCountry(String country) {
         this.country = country;
-    }
-    public String getLastUpdate() {
-        return lastUpdate;
-    }
-
-    public void setLastUpdate(String lastUpdate) {
-        this.lastUpdate = lastUpdate;
     }
 }
