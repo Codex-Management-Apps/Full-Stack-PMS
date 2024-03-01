@@ -19,7 +19,7 @@ export type Employee = {
 export async function sumbitEmployeeData(data: Employee){
 
     try{
-        data.last_update = setCurrentDate();
+         data.last_update = setCurrentDate();
          const response = await axios.post("http://localhost:8080/employee", data);
          console.log(response.data);
          return response.data; 
@@ -63,6 +63,7 @@ export async function getEmployeeById(id?:string){
 export async function UpdateEmployee(data:Employee,id:string){
     try{
         if(id === '') throw Error
+        console.log("Pre: " + data.last_update)
         const response = await axios.put(`http://localhost:8080/employee/${id}`,data)
         console.log(response.data)
         return response.data

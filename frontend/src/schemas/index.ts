@@ -13,4 +13,10 @@ export const addEmpSchema = z.object({
     barangay: z.string().min(1),
     province: z.string().min(1),
     country: z.string().min(1),
+    last_update: z.string()
+});
+
+export const Department = z.object({
+    departmentName: z.string().min(1),
+    status: z.string().min(1)
 });

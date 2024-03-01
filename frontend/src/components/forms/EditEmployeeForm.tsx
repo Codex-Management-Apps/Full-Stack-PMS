@@ -18,27 +18,41 @@ import { DialogFooter } from "../ui/dialog"
 import { Label } from "../ui/label"
 import { useToast } from "../ui/use-toast"
 import { Employee, UpdateEmployee } from "@/controller/employee"
+import { setCurrentDate } from "@/lib/utils"
+
 
 export function EditEmployeeForm(data:Employee){
     const {toast} = useToast();
-    
     const form = useForm<z.infer<typeof addEmpSchema>>({
-        defaultValues:data
+        defaultValues: {
+            firstname: data.firstname, 
+            middlename: data.middlename,
+            lastname: data.lastname,
+            address_line: data.address_line,
+            barangay: data.barangay,
+            province: data.province,
+            country: data.country,
+            last_update: setCurrentDate(),
+        }
     });
+    // use default values in forms and never use value or default value in input
+    // It makes the form values static and unable to edit
     const handleSubmit = (Submitdata: z.infer<typeof addEmpSchema>) => {
        
         console.log(Submitdata)
         if(data.id !== '' || data.id !== undefined) {
+            
             UpdateEmployee(Submitdata, data.id ?? '')// Pass the updated employeeData object to the sumbitEmployeeData function
             toast({
                 variant: "default",
+                title: "Data Submitted",
                 description: (
                     <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
                       <code className="text-white">{JSON.stringify(Submitdata, null, 2)}</code>
                     </pre>
                   ),
             })
-        } else{
+        }else{
             toast({
                 variant: "destructive",
                 title: "Failed to Submit data",
@@ -68,7 +82,7 @@ export function EditEmployeeForm(data:Employee){
                                             {...field}
                                             id="firstname"
                                             name="firstname"
-                                            value={data.firstname}
+                                            placeholder="firstname"
                                             type="firstname"/>
                                     </FormControl>
                                     <FormMessage/>
@@ -91,7 +105,7 @@ export function EditEmployeeForm(data:Employee){
                                     {...field}
                                     id="middlename"
                                     name="middlename"
-                                    value={data.middlename}
+                                    placeholder="middlename"
                                     type="text"
                                     />
                                     </FormControl>
@@ -115,8 +129,7 @@ export function EditEmployeeForm(data:Employee){
                                         {...field}
                                         id="lastname"
                                         name="lastname"
-                                        value={data.lastname}
-
+                                        placeholder="lastname"
                                         type="text"
                                         />
                                     </FormControl>
@@ -140,7 +153,7 @@ export function EditEmployeeForm(data:Employee){
                                         {...field}
                                         id="address_line"
                                         name="address_line"
-                                        value={data.address_line}
+                                        placeholder="address_line"
                                         type="text"
                                         />
                                     </FormControl>
@@ -164,8 +177,7 @@ export function EditEmployeeForm(data:Employee){
                                             {...field}
                                             id="barangay"
                                             name="barangay"
-                                            value={data.barangay}
-    
+                                            placeholder="barangay"
                                             type="text"/>
                                     </FormControl>
                                     <FormMessage/>
@@ -188,8 +200,7 @@ export function EditEmployeeForm(data:Employee){
                                             {...field}
                                             id="province"
                                             name="province"
-                                            value={data.province}
-    
+                                            placeholder="province"
                                             type="text"/>
                                     </FormControl>
                                     <FormMessage/>
@@ -212,8 +223,7 @@ export function EditEmployeeForm(data:Employee){
                                             {...field}
                                             id="country"
                                             name="country"
-                                            value={data.country}
-    
+                                            placeholder="country"
                                             type="text"/>
                                     </FormControl>
                                     <FormMessage/>

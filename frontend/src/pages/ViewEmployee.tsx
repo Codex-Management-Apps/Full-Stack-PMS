@@ -8,7 +8,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { Employee, getEmployeeById } from '@/controller/employee'
 import { EditEmployeeDialog } from '@/components/dialog/EditEmployeeDialog'
-import { EditAssignDesignationDialog } from '@/components/dialog/EditAssignDesignationDialog'
+import { AddAssignDesignationDialog } from '@/components/dialog/AddAssignDesignationDialog'
   
 
 export default function ViewEmployee(){
@@ -134,7 +134,7 @@ export default function ViewEmployee(){
 
                 <div className='font-bold w-full flex justify-between'>
                 <PageTittle title='Assign Designation'/>
-                    <EditAssignDesignationDialog/>
+                    <AddAssignDesignationDialog/>
                 </div>
 
                 <Card className='w-full'>

@@ -19,22 +19,31 @@ import { DialogFooter } from "../ui/dialog"
 import { Label } from "../ui/label"
 import { useToast } from "../ui/use-toast"
 import { sumbitEmployeeData } from "@/controller/employee"
+import { setCurrentDate } from "@/lib/utils"
+
 export function AddEmployeeForm(){
+
     const {toast} = useToast();
+
     const form = useForm<z.infer<typeof addEmpSchema>>({
         resolver: zodResolver(addEmpSchema),
-        
+        defaultValues: {
+            last_update: setCurrentDate(),
+        }
     });
+
     const handleSubmit = (data: z.infer<typeof addEmpSchema>) => {
         toast({
             variant: "default",
+            title: "Data Submitted",
             description: (
                 <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
                   <code className="text-white">{JSON.stringify(data, null, 2)}</code>
                 </pre>
               ),
         })
-        sumbitEmployeeData(data)// Pass the updated employeeData object to the sumbitEmployeeData function
+        sumbitEmployeeData(data)
+        // Pass the updated employeeData object to the sumbitEmployeeData function
     }
     
     return (
@@ -77,7 +86,6 @@ export function AddEmployeeForm(){
                                     <FormControl>
                                         <Input 
                                             {...field}
-                                            
                                             id="middlename"
                                             placeholder="middlename"
                                             type="middlename"/>
@@ -212,6 +220,5 @@ export function AddEmployeeForm(){
             
         </form>
     </Form>
-    
   )
 }

@@ -1,5 +1,7 @@
 import PageTittle from '@/components/PageTitle'
-import { Button } from '@/components/ui/button'
+import { AddDeparmentsDialog } from '@/components/dialog/AddDepartmentsDialog'
+import { AddDesignationDialog } from '@/components/dialog/AddDesignationDialog'
+
 import { Card, CardContent } from '@/components/ui/card'
 import { NormalLayout } from '@/layouts/NormalLayout'
 
@@ -23,8 +25,8 @@ export default function Dashboard() {
                 item 3
               </Card>
               <div className=' flex gap-5'>
-                <Button variant={'outline'}>Add Designation</Button>
-                <Button variant={'outline'}>Add Departments</Button>
+                <AddDesignationDialog/>
+                <AddDeparmentsDialog/>
               </div>
             </div>
           </div>
