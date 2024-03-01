@@ -21,6 +21,7 @@ public class Employee {
     private String barangay;
     private String province;
     private String country;
+    private String last_update;
 
     public Long getId() {
         return id;
@@ -92,5 +93,12 @@ public class Employee {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public String getLastUpdate(){
+        return last_update;
+    }
+    public void setLastUpdate(String last_update){
+        this.last_update = last_update;
     }
 }
