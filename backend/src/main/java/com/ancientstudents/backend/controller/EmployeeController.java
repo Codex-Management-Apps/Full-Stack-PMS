@@ -45,6 +45,7 @@ public class EmployeeController {
                     employee.setBarangay(newEmployee.getBarangay());
                     employee.setProvince(newEmployee.getProvince());
                     employee.setCountry(newEmployee.getCountry());
+                    employee.setLastUpdate(newEmployee.getLastUpdate());
                     return employeeRepository.save(employee);
                 }).orElseThrow(()->new EmployeeNotFoundException(id));
     }

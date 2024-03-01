@@ -5,11 +5,12 @@
 
 import { NormalLayout } from '@/layouts/NormalLayout'
 import PageTittle from '@/components/PageTitle';
-import { DataTable } from './DataTable';
+import { DataTable } from '@/components/DataTable';
 import { ColumnDef } from '@tanstack/react-table'
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { AddEmployeeDialog } from '@/components/dialog/AddEmployeeDialog';
+import { getAllEmployee } from '@/controller/employee';
 
 type Employee = {
   id: number,
@@ -42,18 +43,14 @@ export default function EmployeePage() {
   const [Employee, setEmployee] = useState<Employee[]>([]);
   
   useEffect(() => {
-    getAllEmployee()
+    getData();
   },[]);
 
-  async function getAllEmployee() {
-    try{
-      const response = await axios.get("http://localhost:8080/employee")
-      console.log(response.data)
-      setEmployee(response.data)
-    } catch(error){
-        console.log(error)
-    }
+  const getData = async () =>{
+    const data = await getAllEmployee();
+    setEmployee(data);
   }
+
   return (
     <NormalLayout>
     {/* <Button className='absolute top-20 right-80 bg-white-500 text-white-500 border border-gray-400 rounded-md px-8 py-2'>Add</Button> */}
@@ -65,6 +62,5 @@ export default function EmployeePage() {
         <DataTable columns={columns} data={Employee} />
       </div>
     </NormalLayout>
-
   )
 }

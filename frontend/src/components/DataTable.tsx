@@ -55,7 +55,6 @@ export function DataTable<TData, TValue>({
                 })
             }
         }
-        handleReload(3)
     };
 
     return(

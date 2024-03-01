@@ -13,28 +13,39 @@ import { useForm } from "react-hook-form"
 
 import { addEmpSchema} from "@/schemas"
 import { z } from "zod"
-import { zodResolver } from "@hookform/resolvers/zod"
 
 import { DialogFooter } from "../ui/dialog"
 import { Label } from "../ui/label"
 import { useToast } from "../ui/use-toast"
-import { sumbitEmployeeData } from "@/controller/employee"
-export function AddEmployeeForm(){
+import { Employee, UpdateEmployee } from "@/controller/employee"
+
+export function EditEmployeeForm(data:Employee){
     const {toast} = useToast();
+    
     const form = useForm<z.infer<typeof addEmpSchema>>({
-        resolver: zodResolver(addEmpSchema),
-        
+        defaultValues:data
     });
-    const handleSubmit = (data: z.infer<typeof addEmpSchema>) => {
-        toast({
-            variant: "default",
-            description: (
-                <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-                  <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-                </pre>
-              ),
-        })
-        sumbitEmployeeData(data)// Pass the updated employeeData object to the sumbitEmployeeData function
+    const handleSubmit = (Submitdata: z.infer<typeof addEmpSchema>) => {
+       
+        console.log(Submitdata)
+        if(data.id !== '' || data.id !== undefined) {
+            UpdateEmployee(Submitdata, data.id ?? '')// Pass the updated employeeData object to the sumbitEmployeeData function
+            toast({
+                variant: "default",
+                description: (
+                    <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+                      <code className="text-white">{JSON.stringify(Submitdata, null, 2)}</code>
+                    </pre>
+                  ),
+            })
+        } else{
+            toast({
+                variant: "destructive",
+                title: "Failed to Submit data",
+                description: "Something when wrong when submitting"
+            })
+        }
+        
     }
     
     return (
@@ -56,7 +67,8 @@ export function AddEmployeeForm(){
                                         <Input 
                                             {...field}
                                             id="firstname"
-                                            placeholder="firstname"
+                                            name="firstname"
+                                            value={data.firstname}
                                             type="firstname"/>
                                     </FormControl>
                                     <FormMessage/>
@@ -75,12 +87,13 @@ export function AddEmployeeForm(){
                             render={({field}) => (
                                 <FormItem>
                                     <FormControl>
-                                        <Input 
-                                            {...field}
-                                            
-                                            id="middlename"
-                                            placeholder="middlename"
-                                            type="middlename"/>
+                                    <Input 
+                                    {...field}
+                                    id="middlename"
+                                    name="middlename"
+                                    value={data.middlename}
+                                    type="text"
+                                    />
                                     </FormControl>
                                     <FormMessage/>
                                 </FormItem>
@@ -98,12 +111,14 @@ export function AddEmployeeForm(){
                             render={({field}) => (
                                 <FormItem>
                                     <FormControl>
-                                        <Input 
-                                            {...field}
-                                            
-                                            id="lastname"
-                                            placeholder="lastname"
-                                            type="lastname"/>
+                                    <Input 
+                                        {...field}
+                                        id="lastname"
+                                        name="lastname"
+                                        value={data.lastname}
+
+                                        type="text"
+                                        />
                                     </FormControl>
                                     <FormMessage/>
                                 </FormItem>
@@ -121,12 +136,13 @@ export function AddEmployeeForm(){
                             render={({field}) => (
                                 <FormItem>
                                     <FormControl>
-                                        <Input 
-                                            {...field}
-                                            
-                                            id="address_line"
-                                            placeholder="address_line"
-                                            type="addressline"/>
+                                    <Input 
+                                        {...field}
+                                        id="address_line"
+                                        name="address_line"
+                                        value={data.address_line}
+                                        type="text"
+                                        />
                                     </FormControl>
                                     <FormMessage/>
                                 </FormItem>
@@ -146,10 +162,11 @@ export function AddEmployeeForm(){
                                     <FormControl>
                                         <Input 
                                             {...field}
-                                            
                                             id="barangay"
-                                            placeholder="barangay"
-                                            type="barangay"/>
+                                            name="barangay"
+                                            value={data.barangay}
+    
+                                            type="text"/>
                                     </FormControl>
                                     <FormMessage/>
                                 </FormItem>
@@ -169,10 +186,11 @@ export function AddEmployeeForm(){
                                     <FormControl>
                                         <Input 
                                             {...field}
-                                            
                                             id="province"
-                                            placeholder="province"
-                                            type="province"/>
+                                            name="province"
+                                            value={data.province}
+    
+                                            type="text"/>
                                     </FormControl>
                                     <FormMessage/>
                                 </FormItem>
@@ -193,8 +211,10 @@ export function AddEmployeeForm(){
                                         <Input 
                                             {...field}
                                             id="country"
-                                            placeholder="country"
-                                            type="country"/>
+                                            name="country"
+                                            value={data.country}
+    
+                                            type="text"/>
                                     </FormControl>
                                     <FormMessage/>
                                 </FormItem>
