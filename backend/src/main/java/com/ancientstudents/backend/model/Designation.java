@@ -2,17 +2,25 @@ package com.ancientstudents.backend.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
 public class Designation {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String designation_name;
     private String department_id;
     private String status;
+
+    public Designation(Long id, String designation_name, String department_id, String status) {
+        this.id = id;
+        this.designation_name = designation_name;
+        this.department_id = department_id;
+        this.status = status;
+    }
 
     public Long getId() {
         return id;

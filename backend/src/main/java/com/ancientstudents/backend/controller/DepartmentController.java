@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 public class DepartmentController {
@@ -18,7 +21,7 @@ public class DepartmentController {
         return departmentRepository.save(newDepartment);
     }
 
-    @GetMapping("/departments")
+    @GetMapping("/department")
     List<Department> getAllDepartments(){
         return departmentRepository.findAll();
     }
@@ -33,11 +36,12 @@ public class DepartmentController {
     Department updateDepartment(@RequestBody Department newDepartment, @PathVariable Long id){
         return departmentRepository.findById(id)
                 .map(department -> {
-                    department.setDepartment_name(newDepartment.getDepartment_name());
+                    department.setDepartmentName(newDepartment.getDepartmentName());
                     department.setStatus(newDepartment.getStatus());
                     return departmentRepository.save(department);
                 }).orElseThrow(()->new DepartmentNotFoundException(id));
     }
+    
 
     @DeleteMapping("department/{id}")
     String deleteUser(@PathVariable Long id){
@@ -47,4 +51,10 @@ public class DepartmentController {
         departmentRepository.deleteById(id);
         return "Department with id " + id + " has been deleted successfully.";
     }
+
+    @GetMapping("departments/")
+    public String getMethodName(@RequestParam String param) {
+        return new String();
+    }
+    
 }

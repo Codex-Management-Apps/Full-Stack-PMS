@@ -3,49 +3,48 @@ import {
     FormControl,
     FormField,
     FormItem,
-
-    FormMessage,
   } from "@/components/ui/form"
 import { Button } from "../ui/button"
-import { Input } from "../ui/input"
 
 import { useForm } from "react-hook-form"
 
-import { addEmpSchema} from "@/schemas"
+import { AssignDesignation} from "@/schemas"
 import { z } from "zod"
 
 import { DialogFooter } from "../ui/dialog"
 import { Label } from "../ui/label"
 import { useToast } from "../ui/use-toast"
-import { Employee, UpdateEmployee } from "@/controller/employee"
+import { EditAssignDesignationDialogProps } from "../dialog/EditAssignDesignationDialog"
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "../ui/select"
+import { useParams } from "react-router-dom"
 
-export function EditAssignDesignationForm(data:Employee ){
-    const {toast} = useToast();
+export function EditAssignDesignationForm(props:EditAssignDesignationDialogProps ){
     
-    const form = useForm<z.infer<typeof addEmpSchema>>({
-        defaultValues:data
-    });
-    const handleSubmit = (Submitdata: z.infer<typeof addEmpSchema>) => {
-       
-        console.log(Submitdata)
-        if(data.id !== '' || data.id !== undefined) {
-            UpdateEmployee(Submitdata, data.id ?? '')// Pass the updated employeeData object to the sumbitEmployeeData function
-            toast({
-                variant: "default",
-                description: (
-                    <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-                      <code className="text-white">{JSON.stringify(Submitdata, null, 2)}</code>
-                    </pre>
-                  ),
-            })
-        } else{
-            toast({
-                variant: "destructive",
-                title: "Failed to Submit data",
-                description: "Something when wrong when submitting"
-            })
+    const { id } = useParams<{ id: string }>();
+    const {toast} = useToast();
+    const form = useForm<z.infer<typeof AssignDesignation>>({
+        defaultValues: {
+            empNum: id,
+            designationId: props.designationId,
+            employeeType:  props.employeeType,
+            status:  props.status
         }
-        
+    });
+    const handleSubmit = (data: z.infer<typeof AssignDesignation>) => {
+        const newData = {
+            ...data,
+        }
+        toast({
+            variant: "default",
+            title: "Data Updated, Kindly Refresh the page",
+            description: (
+                <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+                  <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+                </pre>
+              ),
+        })
+       // Pass the updated employeeData object to the sumbitEmployeeData function
+       console.log(newData)
     }
     
     return (
@@ -55,181 +54,91 @@ export function EditAssignDesignationForm(data:Employee ){
             className="">
             <div className="grid gap-4 py-4">
                 <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="firstname" className="text-right"> Firstname </Label>
+                    <Label htmlFor="designationName" className="text-right"> Department name </Label>
                     <div className=" col-span-3">
                         <FormField
                             
                             control={form.control}
-                            name="firstname"
+                            name="designationName"
                             render={({field}) => (
                                 <FormItem>
-                                    <FormControl>
-                                        <Input 
-                                            {...field}
-                                            id="firstname"
-                                            name="firstname"
-                                            value={data.firstname}
-                                            type="firstname"/>
-                                    </FormControl>
-                                    <FormMessage/>
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="middlename" className="text-right"> Middlename </Label>
-                    <div className=" col-span-3">
-                        <FormField
-                            
-                            control={form.control}
-                            name="middlename"
-                            render={({field}) => (
-                                <FormItem>
-                                    <FormControl>
-                                    <Input 
-                                    {...field}
-                                    id="middlename"
-                                    name="middlename"
-                                    value={data.middlename}
-                                    type="text"
-                                    />
-                                    </FormControl>
-                                    <FormMessage/>
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="lastname" className="text-right"> Lastname </Label>
-                    <div className=" col-span-3">
-                        <FormField
-                            
-                            control={form.control}
-                            name="lastname"
-                            render={({field}) => (
-                                <FormItem>
-                                    <FormControl>
-                                    <Input 
-                                        {...field}
-                                        id="lastname"
-                                        name="lastname"
-                                        value={data.lastname}
-
-                                        type="text"
-                                        />
-                                    </FormControl>
-                                    <FormMessage/>
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="address_line" className="text-right"> Address Line </Label>
-                    <div className=" col-span-3">
-                        <FormField
-                            
-                            control={form.control}
-                            name="address_line"
-                            render={({field}) => (
-                                <FormItem>
-                                    <FormControl>
-                                    <Input 
-                                        {...field}
-                                        id="address_line"
-                                        name="address_line"
-                                        value={data.address_line}
-                                        type="text"
-                                        />
-                                    </FormControl>
-                                    <FormMessage/>
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="barangay" className="text-right"> Barangay </Label>
-                    <div className=" col-span-3">
-                        <FormField
-                            
-                            control={form.control}
-                            name="barangay"
-                            render={({field}) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <Input 
-                                            {...field}
-                                            id="barangay"
-                                            name="barangay"
-                                            value={data.barangay}
-    
-                                            type="text"/>
-                                    </FormControl>
-                                    <FormMessage/>
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="province" className="text-right"> Province </Label>
-                    <div className=" col-span-3">
-                        <FormField
-                            
-                            control={form.control}
-                            name="province"
-                            render={({field}) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <Input 
-                                            {...field}
-                                            id="province"
-                                            name="province"
-                                            value={data.province}
-    
-                                            type="text"/>
-                                    </FormControl>
-                                    <FormMessage/>
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="country" className="text-right"> Country </Label>
-                    <div className=" col-span-3">
-                        <FormField
-                            
-                            control={form.control}
-                            name="country"
-                            render={({field}) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <Input 
-                                            {...field}
-                                            id="country"
-                                            name="country"
-                                            value={data.country}
-    
-                                            type="text"/>
-                                    </FormControl>
-                                    <FormMessage/>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                        <FormControl>
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Select a designation" />
+                                        </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            <SelectItem value="1">Manager</SelectItem>
+                                            <SelectItem value="2">Software Engineer</SelectItem>
+                                            <SelectItem value="3">Financial Analyst</SelectItem>
+                                            <SelectItem value="4">Marketing Specialist</SelectItem>
+                                        </SelectContent>
+                                    </Select>
                                 </FormItem>
                             )}
                         />
                     </div>
                 </div>
                 
-            </div>
+                <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="employeeType" className="text-right"> Employee Type </Label>
+                    <div className=" col-span-3">
+                        <FormField
+                            
+                            control={form.control}
+                            name="employeeType"
+                            render={({field}) => (
+                                <FormItem>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                        <FormControl>
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Select a employee type" />
+                                        </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            <SelectItem value="Regular">Regular</SelectItem>
+                                            <SelectItem value="Part-Time">Part-Time</SelectItem>
+                                            <SelectItem value="Probation">Probation</SelectItem>
+                                            <SelectItem value="Probation">Dropped</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                </FormItem>
+                            )}
+                        />
+                    </div>
+                </div>
+                <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="status" className="text-right"> Status </Label>
+                    <div className=" col-span-3">
+                        <FormField
+                            control={form.control}
+                            name="status"
+                            render={({field}) => (
+                                <FormItem>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                        <FormControl>
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Select a status" />
+                                        </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            <SelectItem value="Active">Active</SelectItem>
+                                            <SelectItem value="Resigned">Resigned</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                </FormItem>
+                            )}
+                        />
+                    </div>
+                </div>
+                
             <div>
                 <DialogFooter>
-                    <Button type="submit">Submit</Button>
+                    <Button type="submit">Edit</Button>
                 </DialogFooter>
             </div>
-            
+            </div>
         </form>
     </Form>
     

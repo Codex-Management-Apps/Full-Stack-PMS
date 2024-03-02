@@ -6,36 +6,73 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow,} from '@
 import PageTittle from '@/components/PageTitle'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { Employee, getEmployeeById } from '@/controller/employee'
 import { EditEmployeeDialog } from '@/components/dialog/EditEmployeeDialog'
 import { AddAssignDesignationDialog } from '@/components/dialog/AddAssignDesignationDialog'
+import { AssignDesignation, getAssignDesignationByEmployeeId, isEmployeeAssigned } from '@/controller/assigned'
+import { Employee, getEmployeeById } from '@/controller/employee'
+import { EditAssignDesignationDialog } from '@/components/dialog/EditAssignDesignationDialog'
   
 
 export default function ViewEmployee(){
+
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
-    const [data, setData] = useState<Employee>({
+    const [hadAssigned, setHadAssigned] = useState<Boolean>(false);
+    const [data, setData] = useState<AssignDesignation>({
         id: "",
+        employeeType: "",
+        status: "",
+        empNum: {
+            firstname: "",
+            lastname: "",
+            middlename: "",
+            address_line: '',
+            barangay: '',
+            country: '',
+            province: '',
+            last_update: ''
+        },
+        designationId: {
+            designation_name: "",
+            id: '',
+            department_id: {
+                departmentName: '',
+                status: ''
+            },
+            status: ''
+        } // Replace with the actual value for designation_id
+    })
+    const [data2, setData2] = useState<Employee>({
         firstname: "",
-        middlename: "",
         lastname: "",
-        address_line: "",
-        barangay:"",
-        country: "",
-        province: "",
-        last_update: "",
-    });
+        middlename: "",
+        address_line: '',
+        barangay: '',
+        country: '',
+        province: '',
+        last_update: ''
+    })
+
     useEffect(() => {
-        const fetchData = async ()=>{
-        try {
-            const employeeData = await getEmployeeById(id);
-            setData(employeeData);
-        } catch (error) {
-            console.error("Error fetching post data: ", error);
-        }
+        const fetchData = async () => {
+            try {
+                const isExist = await isEmployeeAssigned(id ?? '');
+                console.log(isExist);
+                if(isExist){
+                    setHadAssigned(true);
+                    const assignedData = await getAssignDesignationByEmployeeId(id ?? '');
+                    setData(assignedData);
+                } else {
+                    const responsedData = await getEmployeeById(id);
+                    setData2(responsedData);
+                }
+            } catch (error) {
+                console.error("Error fetching post data: ", error);
+            }
         }
         fetchData()
-    },[id])
+    }, [id])
+
     const backClick = () => {
         navigate("/employee")
     }
@@ -47,7 +84,7 @@ export default function ViewEmployee(){
                     <PageTittle title='View User'/>
                     <div className='flex gap-3'>
                         <Button variant={'outline'} onClick={backClick}>Back</Button>
-                        <EditEmployeeDialog {...data} />
+                        <EditEmployeeDialog {...(hadAssigned ? data.empNum : data) as Employee} />
                     </div>
                 </div>
                 <Card className='w-full mb-5'>
@@ -68,7 +105,7 @@ export default function ViewEmployee(){
                                     Id
                                 </TableCell>
                                 <TableCell>
-                                    {data.id}
+                                    {hadAssigned ? data.empNum.id : data2.id}
                                 </TableCell>
                             </TableRow>
                             <TableRow>
@@ -76,7 +113,7 @@ export default function ViewEmployee(){
                                     Firstname
                                 </TableCell>
                                 <TableCell>
-                                    {data.firstname}
+                                    {hadAssigned ? data.empNum.firstname : data2.firstname}
                                 </TableCell>
                             </TableRow>
                             <TableRow>
@@ -84,7 +121,7 @@ export default function ViewEmployee(){
                                     Middlename
                                 </TableCell>
                                 <TableCell>
-                                    {data.middlename}
+                                    {hadAssigned ? data.empNum.middlename : data2.middlename}
                                 </TableCell>
                             </TableRow>
                             <TableRow>
@@ -92,7 +129,7 @@ export default function ViewEmployee(){
                                     Lastname
                                 </TableCell>
                                 <TableCell>
-                                    {data.lastname}
+                                {hadAssigned ? data.empNum.lastname : data2.lastname}
                                 </TableCell>
                             </TableRow>
                             <TableRow>
@@ -100,7 +137,7 @@ export default function ViewEmployee(){
                                     Address Line
                                 </TableCell>
                                 <TableCell>
-                                    {data.address_line}
+                                    {hadAssigned ? data.empNum.address_line : data2.address_line}
                                 </TableCell>
                             </TableRow>
                             <TableRow>
@@ -108,7 +145,7 @@ export default function ViewEmployee(){
                                     Brgy
                                 </TableCell>
                                 <TableCell>
-                                    {data.barangay}
+                                    {hadAssigned ? data.empNum.barangay : data2.barangay}
                                 </TableCell>
                             </TableRow>
                             <TableRow>
@@ -116,7 +153,7 @@ export default function ViewEmployee(){
                                     Province
                                 </TableCell>
                                 <TableCell>
-                                    {data.province}
+                                    {hadAssigned ? data.empNum.province : data2.province}
                                 </TableCell>
                             </TableRow>
                             <TableRow>
@@ -124,7 +161,7 @@ export default function ViewEmployee(){
                                     Country
                                 </TableCell>
                                 <TableCell>
-                                    {data.country}
+                                    {hadAssigned ? data.empNum.country : data2.country}
                                 </TableCell>
                             </TableRow>
                         </TableBody>
@@ -134,7 +171,16 @@ export default function ViewEmployee(){
 
                 <div className='font-bold w-full flex justify-between'>
                 <PageTittle title='Assign Designation'/>
-                    <AddAssignDesignationDialog/>
+                {hadAssigned ? (
+                    <EditAssignDesignationDialog
+                        empNum={data.empNum.id}
+                        designationId={data.designationId.id}
+                        employeeType={data.employeeType}
+                        status={data.status}
+                    />
+                    ) : (
+                    <AddAssignDesignationDialog />
+                    )}
                 </div>
 
                 <Card className='w-full'>
@@ -151,7 +197,7 @@ export default function ViewEmployee(){
                                     Designation
                                 </TableCell>
                                 <TableCell>
-                                    {/* {data.} */}
+                                    {data.designationId.designation_name}
                                 </TableCell>
                             </TableRow>
                             <TableRow>
@@ -159,7 +205,7 @@ export default function ViewEmployee(){
                                     Employee Type
                                 </TableCell>
                                 <TableCell>
-                                    {/* {data.} */}
+                                    {data.employeeType}
                                 </TableCell>
                             </TableRow>
                             <TableRow>
@@ -167,7 +213,7 @@ export default function ViewEmployee(){
                                     Status
                                 </TableCell>
                                 <TableCell>
-                                    {/* {data.} */}
+                                    {data.status}
                                 </TableCell>
                             </TableRow>
                         </TableBody>

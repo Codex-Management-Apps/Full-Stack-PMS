@@ -7,37 +7,41 @@ import {
     FormMessage,
   } from "@/components/ui/form"
 import { Button } from "../ui/button"
-import { Input } from "../ui/input"
-
 import { useForm } from "react-hook-form"
-
-import { Department } from "@/schemas"
+import { AssignDesignation } from "@/schemas"
 import { z } from "zod"
-import { zodResolver } from "@hookform/resolvers/zod"
-
 import { DialogFooter } from "../ui/dialog"
 import { Label } from "../ui/label"
 import { useToast } from "../ui/use-toast"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
-import { sumbitDepartmentData } from "@/controller/department"
+import { newAssignDesignation } from "@/controller/assigned"
+import { useParams } from "react-router-dom"
 
 
 export function AddAssignDesignationForm(){
     
+    const { id } = useParams<{ id: string }>();
     const {toast} = useToast();
-    const form = useForm<z.infer<typeof Department>>({
-        resolver: zodResolver(Department),
+    const form = useForm<z.infer<typeof AssignDesignation>>({
+        defaultValues: {
+            empNum: id,
+            designationId: "",
+            employeeType:  "",
+            status:  ""
+        }
     });
-    const handleSubmit = (data: z.infer<typeof Department>) => {
+    const handleSubmit = (data: z.infer<typeof AssignDesignation>) => {
+        
         toast({
             variant: "default",
+            title: "Data Added, Kindly Refresh the page",
             description: (
                 <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
                   <code className="text-white">{JSON.stringify(data, null, 2)}</code>
                 </pre>
               ),
         })
-       sumbitDepartmentData(data)// Pass the updated employeeData object to the sumbitEmployeeData function
+        newAssignDesignation(data)// Pass the updated employeeData object to the sumbitEmployeeData function
     }
     
     return (
@@ -47,12 +51,12 @@ export function AddAssignDesignationForm(){
             className="">
             <div className="grid gap-4 py-4">
                 <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="departmentName" className="text-right"> Department name </Label>
+                    <Label htmlFor="designationId" className="text-right"> Department name </Label>
                     <div className=" col-span-3">
                         <FormField
                             
                             control={form.control}
-                            name="departmentName"
+                            name="designationId"
                             render={({field}) => (
                                 <FormItem>
                                     <Select onValueChange={field.onChange} defaultValue={field.value}>
@@ -75,12 +79,12 @@ export function AddAssignDesignationForm(){
                 </div>
                 
                 <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="status" className="text-right"> Employee Type </Label>
+                    <Label htmlFor="employeeType" className="text-right"> Employee Type </Label>
                     <div className=" col-span-3">
                         <FormField
                             
                             control={form.control}
-                            name="status"
+                            name="employeeType"
                             render={({field}) => (
                                 <FormItem>
                                     <Select onValueChange={field.onChange} defaultValue={field.value}>
@@ -105,7 +109,6 @@ export function AddAssignDesignationForm(){
                     <Label htmlFor="status" className="text-right"> Status </Label>
                     <div className=" col-span-3">
                         <FormField
-                            
                             control={form.control}
                             name="status"
                             render={({field}) => (

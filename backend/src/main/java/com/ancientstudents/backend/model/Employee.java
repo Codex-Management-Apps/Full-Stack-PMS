@@ -2,8 +2,10 @@ package com.ancientstudents.backend.model;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
@@ -11,7 +13,7 @@ import jakarta.persistence.Id;
 public class Employee {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String emp_num;
     private String firstname;
@@ -21,8 +23,21 @@ public class Employee {
     private String barangay;
     private String province;
     private String country;
-    private String last_update;
-
+    @Column(name = "lastUpdate")
+    private String lastUpdate;
+    
+    public Employee(Long id, String emp_num, String firstname, String middlename, String lastname, String address_line, String barangay, String province, String country, String lastUpdate) {
+        this.id = id;
+        this.emp_num = emp_num;
+        this.firstname = firstname;
+        this.middlename = middlename;
+        this.lastname = lastname;
+        this.address_line = address_line;
+        this.barangay = barangay;
+        this.province = province;
+        this.country = country;
+        this.lastUpdate = lastUpdate;
+    }
     public Long getId() {
         return id;
     }
@@ -96,9 +111,9 @@ public class Employee {
     }
 
     public String getLastUpdate(){
-        return last_update;
+        return lastUpdate;
     }
-    public void setLastUpdate(String last_update){
-        this.last_update = last_update;
+    public void setLastUpdate(String lastUpdate){
+        this.lastUpdate = lastUpdate;
     }
 }

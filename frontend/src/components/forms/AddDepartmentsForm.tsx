@@ -30,6 +30,7 @@ export function AddDepartmentsForm(){
     const handleSubmit = (data: z.infer<typeof Department>) => {
         toast({
             variant: "default",
+            title: "Data Added, Kindly Refresh the page",
             description: (
                 <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
                   <code className="text-white">{JSON.stringify(data, null, 2)}</code>

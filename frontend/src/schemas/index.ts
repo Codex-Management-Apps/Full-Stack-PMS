@@ -20,3 +20,12 @@ export const Department = z.object({
     departmentName: z.string().min(1),
     status: z.string().min(1)
 });
+
+export const AssignDesignation = z.object({
+    id: z.string(),
+    empNum: z.string(),
+    designationId: z.string(),
+    designationName: z.string(),
+    employeeType: z.string(),
+    status: z.string()
+})

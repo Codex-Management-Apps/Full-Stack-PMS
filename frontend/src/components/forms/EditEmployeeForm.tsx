@@ -45,7 +45,7 @@ export function EditEmployeeForm(data:Employee){
             UpdateEmployee(Submitdata, data.id ?? '')// Pass the updated employeeData object to the sumbitEmployeeData function
             toast({
                 variant: "default",
-                title: "Data Submitted",
+                title: "Data Updated, Kindly Refresh the page",
                 description: (
                     <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
                       <code className="text-white">{JSON.stringify(Submitdata, null, 2)}</code>
@@ -236,7 +236,7 @@ export function EditEmployeeForm(data:Employee){
             </div>
             <div>
                 <DialogFooter>
-                    <Button type="submit">Submit</Button>
+                    <Button type="submit">Edit</Button>
                 </DialogFooter>
             </div>
             

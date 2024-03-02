@@ -9,8 +9,14 @@ import {
 } from "@/components/ui/dialog"
 import { EditAssignDesignationForm } from "../forms/EditAssignDesignationForm"
 
+export type EditAssignDesignationDialogProps = {
+    empNum?: string,
+    designationId?:string,
+    employeeType: string,
+    status:string
+};
 
-export function EditAssignDesignationDialog(){
+export function EditAssignDesignationDialog(props: EditAssignDesignationDialogProps){
     
     return(
         <Dialog>
@@ -24,7 +30,7 @@ export function EditAssignDesignationDialog(){
                     <DialogDescription>LastUpdate: ????</DialogDescription>    
                 </DialogHeader>
                 {/* WP : is still under developed */}
-                <EditAssignDesignationForm/>
+                <EditAssignDesignationForm {...props} />
                 
             </DialogContent>
             
