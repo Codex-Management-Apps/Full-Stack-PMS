@@ -8,7 +8,6 @@ import PageTittle from '@/components/PageTitle';
 import { DataTable } from '@/components/DataTable';
 import { ColumnDef } from '@tanstack/react-table'
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import { AddEmployeeDialog } from '@/components/dialog/AddEmployeeDialog';
 import { getAllEmployee } from '@/controller/employee';
 

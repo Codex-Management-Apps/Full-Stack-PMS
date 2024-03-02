@@ -2,7 +2,7 @@ import PageTittle from '@/components/PageTitle'
 import { AddDeparmentsDialog } from '@/components/dialog/AddDepartmentsDialog'
 import { AddDesignationDialog } from '@/components/dialog/AddDesignationDialog'
 
-import { Card, CardContent } from '@/components/ui/card'
+import { Card } from '@/components/ui/card'
 import { NormalLayout } from '@/layouts/NormalLayout'
 
 

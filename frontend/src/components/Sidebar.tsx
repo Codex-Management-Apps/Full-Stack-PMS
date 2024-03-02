@@ -3,8 +3,6 @@ import {
   ChevronRight,
   LayoutDashboard,
   UserRound,
-  Home,
-  UserRoundSearch
   } from "lucide-react"
 import { Nav } from './ui/nav'
 import { Button } from './ui/button'

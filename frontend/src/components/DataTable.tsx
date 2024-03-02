@@ -19,7 +19,6 @@ import {
 import { Button } from "@/components/ui/button"
 import { useNavigate } from "react-router-dom"
 import { DeleteEmployeeById } from "@/controller/employee"
-import { handleReload } from "@/lib/utils"
 import { toast } from "@/components/ui/use-toast"
   
 interface DataTableProps<TData, TValue>{
