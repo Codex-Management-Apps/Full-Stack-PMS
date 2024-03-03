@@ -15,14 +15,17 @@ export default function Dashboard() {
         <div className='grid grid-cols-1 gap-4 transition-all lg:grid-cols-2 w-full'>
           <Card>
             <p className="p-4 font-semibold"> Recent Employee</p>
+            <p>No results</p>
           </Card>
           <div className='flex flex-col gap-5'>
             <Card>
               <p className="p-4 font-semibold"> Recent Designation</p>
+              <p>No results</p>
             </Card>
             <div className=' flex flex-col gap-2 justify-between'>
               <Card>
                 <p className="p-4 font-semibold"> Recent Departments</p>
+                <p>No results</p>
               </Card>
               <div className=' flex gap-5'>
                 <AddDesignationDialog/>
