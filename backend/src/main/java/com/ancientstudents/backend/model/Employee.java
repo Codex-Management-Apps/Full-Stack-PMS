@@ -1,15 +1,18 @@
 package com.ancientstudents.backend.model;
 
+import java.util.List;
+
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 @Entity
-@CrossOrigin("http://localhost:5173")
 public class Employee {
 
     @Id
@@ -23,9 +26,13 @@ public class Employee {
     private String barangay;
     private String province;
     private String country;
+
     @Column(name = "lastUpdate")
     private String lastUpdate;
     
+    public Employee(){
+    }
+
     public Employee(Long id, String emp_num, String firstname, String middlename, String lastname, String address_line, String barangay, String province, String country, String lastUpdate) {
         this.id = id;
         this.emp_num = emp_num;
@@ -37,6 +44,9 @@ public class Employee {
         this.province = province;
         this.country = country;
         this.lastUpdate = lastUpdate;
+    }
+    public Employee(Long id) {
+        this.id = id;
     }
     public Long getId() {
         return id;
@@ -116,4 +126,22 @@ public class Employee {
     public void setLastUpdate(String lastUpdate){
         this.lastUpdate = lastUpdate;
     }
+
+
+    @Override
+    public String toString() {
+        return "{" +
+            " id='" + getId() + "'" +
+            ", emp_num='" + getEmp_num() + "'" +
+            ", firstname='" + getFirstname() + "'" +
+            ", middlename='" + getMiddlename() + "'" +
+            ", lastname='" + getLastname() + "'" +
+            ", address_line='" + getAddress_line() + "'" +
+            ", barangay='" + getBarangay() + "'" +
+            ", province='" + getProvince() + "'" +
+            ", country='" + getCountry() + "'" +
+            ", lastUpdate='" + getLastUpdate() + "'" +
+            "}";
+    }
+
 }

@@ -18,7 +18,7 @@ public class DesignationController {
         return designationRepository.save(newDesignation);
     }
 
-    @GetMapping("/designations")
+    @GetMapping("/designation")
     List<Designation> getAllDesignations(){
         return designationRepository.findAll();
     }
@@ -33,8 +33,8 @@ public class DesignationController {
     Designation updateDesignation(@RequestBody Designation newDesignation, @PathVariable Long id){
         return designationRepository.findById(id)
                 .map(designation -> {
-                    designation.setDesignation_name(newDesignation.getDesignation_name());
-                    designation.setDepartment_id(newDesignation.getDepartment_id());
+                    designation.setDesignationName(newDesignation.getDesignationName());
+                    designation.setDepartmentId(newDesignation.getDepartmentId());
                     designation.setStatus(newDesignation.getStatus());
                     return designationRepository.save(designation);
                 }).orElseThrow(()->new DesignationNotFoundException(id));

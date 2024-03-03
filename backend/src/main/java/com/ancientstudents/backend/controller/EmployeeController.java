@@ -3,6 +3,9 @@ package com.ancientstudents.backend.controller;
 import com.ancientstudents.backend.exception.EmployeeNotFoundException;
 import com.ancientstudents.backend.model.Employee;
 import com.ancientstudents.backend.repository.EmployeeRepository;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +17,6 @@ public class EmployeeController {
     @Autowired
     private EmployeeRepository employeeRepository;
 
-    @SuppressWarnings("null")
     @PostMapping("/employee")
     Employee newEmployee(@RequestBody Employee newEmployee){
         return employeeRepository.save(newEmployee);

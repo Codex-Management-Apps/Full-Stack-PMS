@@ -1,16 +1,24 @@
 import { Employee } from "./employee"
 import { Designation } from "./designation"
 import axios from "axios"
-import { EditAssignDesignationDialogProps } from "@/components/dialog/EditAssignDesignationDialog";
 
 export type AssignDesignation = {
-    id?: string,
+    id: string,
     employeeType: string,
     status: string,
-    designationId: Designation,
-    empNum: Employee,
+    designation: Designation,
+    employee: Employee,
 }
-
+export type AssignDesignationSubmission = {
+    employeeType: string,
+    status: string,
+    designation:{
+        id:string
+    },
+    employee:{
+        id:string
+    }
+}
 
 
 export async function getAssignDesignationByEmployeeId(id:string){
@@ -37,7 +45,7 @@ export async function isEmployeeAssigned(id:string) {
     }
 }
 
-export async function newAssignDesignation(data:EditAssignDesignationDialogProps) {
+export async function newAssignDesignation(data:AssignDesignationSubmission) {
     try{
         console.log(data)
         const response = await axios.post("http://localhost:8080/assigned", data);
@@ -49,7 +57,7 @@ export async function newAssignDesignation(data:EditAssignDesignationDialogProps
     }
 }
 
-export async function updateAssignDesignation(data:EditAssignDesignationDialogProps, id : string | undefined) {
+export async function updateAssignDesignation(data:AssignDesignationSubmission, id : string) {
     try{
         if(id === undefined) throw Error
         const response = await axios.put(`http://localhost:8080/assigned/${id}`,data)

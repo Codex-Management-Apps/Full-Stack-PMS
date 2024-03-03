@@ -5,7 +5,7 @@ export const postSchema = z.object({
     content: z.string().min(10),
 });
 
-export const addEmpSchema = z.object({
+export const EmployeeSchema = z.object({
     firstname: z.string().min(1),
     middlename: z.string().min(1),
     lastname: z.string().min(1),
@@ -20,6 +20,12 @@ export const Department = z.object({
     departmentName: z.string().min(1),
     status: z.string().min(1)
 });
+export const DesignationSchema = z.object({
+    id: z.string(),
+    departmentId: Department,
+    designationName: z.string(),
+  });
+  
 
 export const AssignDesignation = z.object({
     id: z.string(),
@@ -27,5 +33,8 @@ export const AssignDesignation = z.object({
     designationId: z.string(),
     designationName: z.string(),
     employeeType: z.string(),
-    status: z.string()
-})
+    status: z.string(),
+    designation: DesignationSchema,
+    employee: EmployeeSchema,
+  });
+

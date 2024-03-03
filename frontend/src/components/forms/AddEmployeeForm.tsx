@@ -11,7 +11,7 @@ import { Input } from "../ui/input"
 
 import { useForm } from "react-hook-form"
 
-import { addEmpSchema} from "@/schemas"
+import { EmployeeSchema} from "@/schemas"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 
@@ -25,14 +25,14 @@ export function AddEmployeeForm(){
 
     const {toast} = useToast();
 
-    const form = useForm<z.infer<typeof addEmpSchema>>({
-        resolver: zodResolver(addEmpSchema),
+    const form = useForm<z.infer<typeof EmployeeSchema>>({
+        resolver: zodResolver(EmployeeSchema),
         defaultValues: {
             last_update: setCurrentDate(),
         }
     });
 
-    const handleSubmit = (data: z.infer<typeof addEmpSchema>) => {
+    const handleSubmit = (data: z.infer<typeof EmployeeSchema>) => {
         toast({
             variant: "default",
             title: "Data Added, Kindly Refresh the page",

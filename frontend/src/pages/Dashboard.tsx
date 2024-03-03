@@ -18,11 +18,11 @@ export default function Dashboard() {
           </Card>
           <div className='flex flex-col gap-5'>
             <Card>
-              item 2
+              <p className="p-4 font-semibold"> Recent Designation</p>
             </Card>
             <div className=' flex flex-col gap-2 justify-between'>
               <Card>
-                item 3
+                <p className="p-4 font-semibold"> Recent Departments</p>
               </Card>
               <div className=' flex gap-5'>
                 <AddDesignationDialog/>

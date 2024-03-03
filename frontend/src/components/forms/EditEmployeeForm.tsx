@@ -11,7 +11,7 @@ import { Input } from "../ui/input"
 
 import { useForm } from "react-hook-form"
 
-import { addEmpSchema} from "@/schemas"
+import { EmployeeSchema} from "@/schemas"
 import { z } from "zod"
 
 import { DialogFooter } from "../ui/dialog"
@@ -23,7 +23,7 @@ import { setCurrentDate } from "@/lib/utils"
 
 export function EditEmployeeForm(data:Employee){
     const {toast} = useToast();
-    const form = useForm<z.infer<typeof addEmpSchema>>({
+    const form = useForm<z.infer<typeof EmployeeSchema>>({
         defaultValues: {
             firstname: data.firstname, 
             middlename: data.middlename,
@@ -37,7 +37,7 @@ export function EditEmployeeForm(data:Employee){
     });
     // use default values in forms and never use value or default value in input
     // It makes the form values static and unable to edit
-    const handleSubmit = (Submitdata: z.infer<typeof addEmpSchema>) => {
+    const handleSubmit = (Submitdata: z.infer<typeof EmployeeSchema>) => {
        
         console.log(Submitdata)
         if(data.id !== '' || data.id !== undefined) {

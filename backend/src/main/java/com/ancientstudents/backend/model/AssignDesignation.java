@@ -1,5 +1,7 @@
 package com.ancientstudents.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -8,35 +10,39 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import java.util.Objects;
 
 @Entity
 public class AssignDesignation {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="employeeId")
-    private Employee empNum;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="DesignationId")
-    private Designation designationId;
-    
+    @ManyToOne
+    @JoinColumn(name = "employeeId", referencedColumnName = "id")
+    private Employee employee;
+
+    @ManyToOne
+    @JoinColumn(name = "designationId", referencedColumnName = "id")
+    private Designation designation;
+
+
     @Column(name = "employeeType")
     private String employeeType;
 
     @Column(name = "status")
     private String status;
 
-    public AssignDesignation(){ }
+    public AssignDesignation() {
+    }
 
-    public AssignDesignation(String employeeType,String status){
+    public AssignDesignation(Long id, Employee employee, Designation designation, Department department, String employeeType, String status) {
+        this.id = id;
+        this.employee = employee;
+        this.designation = designation;
         this.employeeType = employeeType;
         this.status = status;
     }
-
 
     public Long getId() {
         return this.id;
@@ -46,20 +52,20 @@ public class AssignDesignation {
         this.id = id;
     }
 
-    public Employee getEmpNum() {
-        return this.empNum;
+    public Employee getEmployee() {
+        return this.employee;
     }
 
-    public void setEmpNum(Employee empNum) {
-        this.empNum = empNum;
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 
-    public Designation getDesignationId() {
-        return this.designationId;
+    public Designation getDesignation() {
+        return this.designation;
     }
 
-    public void setDesignationId(Designation designationId) {
-        this.designationId = designationId;
+    public void setDesignation(Designation designation) {
+        this.designation = designation;
     }
 
     public String getEmployeeType() {
@@ -76,6 +82,37 @@ public class AssignDesignation {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public AssignDesignation id(Long id) {
+        setId(id);
+        return this;
+    }
+
+    public AssignDesignation employee(Employee employee) {
+        setEmployee(employee);
+        return this;
+    }
+
+    public AssignDesignation designation(Designation designation) {
+        setDesignation(designation);
+        return this;
+    }
+
+    public AssignDesignation status(String status) {
+        setStatus(status);
+        return this;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+            " id='" + getId() + "'" +
+            ", employee='" + getEmployee() + "'" +
+            ", designation='" + getDesignation() + "'" +
+            ", employeeType='" + getEmployeeType() + "'" +
+            ", status='" + getStatus() + "'" +
+            "}";
     }
 
 }

@@ -22,7 +22,7 @@ export default function ViewEmployee(){
         id: "",
         employeeType: "",
         status: "",
-        empNum: {
+        employee: {
             firstname: "",
             lastname: "",
             middlename: "",
@@ -32,10 +32,10 @@ export default function ViewEmployee(){
             province: '',
             last_update: ''
         },
-        designationId: {
-            designation_name: "",
+        designation: {
+            designationName: "",
             id: '',
-            department_id: {
+            departmentId: {
                 departmentName: '',
                 status: ''
             },
@@ -84,7 +84,7 @@ export default function ViewEmployee(){
                     <PageTittle title='View User'/>
                     <div className='flex gap-3'>
                         <Button variant={'outline'} onClick={backClick}>Back</Button>
-                        <EditEmployeeDialog {...(hadAssigned ? data.empNum : data) as Employee} />
+                        <EditEmployeeDialog {...(hadAssigned ? data.employee : data) as Employee} />
                     </div>
                 </div>
                 <Card className='w-full mb-5'>
@@ -105,7 +105,7 @@ export default function ViewEmployee(){
                                     Id
                                 </TableCell>
                                 <TableCell>
-                                    {hadAssigned ? data.empNum.id : data2.id}
+                                    {hadAssigned ? data.employee.id : data2.id}
                                 </TableCell>
                             </TableRow>
                             <TableRow>
@@ -113,7 +113,7 @@ export default function ViewEmployee(){
                                     Firstname
                                 </TableCell>
                                 <TableCell>
-                                    {hadAssigned ? data.empNum.firstname : data2.firstname}
+                                    {hadAssigned ? data.employee.firstname : data2.firstname}
                                 </TableCell>
                             </TableRow>
                             <TableRow>
@@ -121,7 +121,7 @@ export default function ViewEmployee(){
                                     Middlename
                                 </TableCell>
                                 <TableCell>
-                                    {hadAssigned ? data.empNum.middlename : data2.middlename}
+                                    {hadAssigned ? data.employee.middlename : data2.middlename}
                                 </TableCell>
                             </TableRow>
                             <TableRow>
@@ -129,7 +129,7 @@ export default function ViewEmployee(){
                                     Lastname
                                 </TableCell>
                                 <TableCell>
-                                {hadAssigned ? data.empNum.lastname : data2.lastname}
+                                {hadAssigned ? data.employee.lastname : data2.lastname}
                                 </TableCell>
                             </TableRow>
                             <TableRow>
@@ -137,7 +137,7 @@ export default function ViewEmployee(){
                                     Address Line
                                 </TableCell>
                                 <TableCell>
-                                    {hadAssigned ? data.empNum.address_line : data2.address_line}
+                                    {hadAssigned ? data.employee.address_line : data2.address_line}
                                 </TableCell>
                             </TableRow>
                             <TableRow>
@@ -145,7 +145,7 @@ export default function ViewEmployee(){
                                     Brgy
                                 </TableCell>
                                 <TableCell>
-                                    {hadAssigned ? data.empNum.barangay : data2.barangay}
+                                    {hadAssigned ? data.employee.barangay : data2.barangay}
                                 </TableCell>
                             </TableRow>
                             <TableRow>
@@ -153,7 +153,7 @@ export default function ViewEmployee(){
                                     Province
                                 </TableCell>
                                 <TableCell>
-                                    {hadAssigned ? data.empNum.province : data2.province}
+                                    {hadAssigned ? data.employee.province : data2.province}
                                 </TableCell>
                             </TableRow>
                             <TableRow>
@@ -161,7 +161,7 @@ export default function ViewEmployee(){
                                     Country
                                 </TableCell>
                                 <TableCell>
-                                    {hadAssigned ? data.empNum.country : data2.country}
+                                    {hadAssigned ? data.employee.country : data2.country}
                                 </TableCell>
                             </TableRow>
                         </TableBody>
@@ -173,8 +173,9 @@ export default function ViewEmployee(){
                 <PageTittle title='Assign Designation'/>
                 {hadAssigned ? (
                     <EditAssignDesignationDialog
-                        empNum={data.empNum.id}
-                        designationId={data.designationId.id}
+                        id= {data.id}
+                        empNum={data.employee}
+                        designation={data.designation}
                         employeeType={data.employeeType}
                         status={data.status}
                     />
@@ -197,7 +198,7 @@ export default function ViewEmployee(){
                                     Designation
                                 </TableCell>
                                 <TableCell>
-                                    {data.designationId.designation_name}
+                                    {data.designation.designationName}
                                 </TableCell>
                             </TableRow>
                             <TableRow>

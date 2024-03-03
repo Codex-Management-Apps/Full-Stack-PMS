@@ -17,6 +17,7 @@ import { useToast } from "../ui/use-toast"
 import { EditAssignDesignationDialogProps } from "../dialog/EditAssignDesignationDialog"
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "../ui/select"
 import { useParams } from "react-router-dom"
+import { updateAssignDesignation } from "@/controller/assigned"
 
 export function EditAssignDesignationForm(props:EditAssignDesignationDialogProps ){
     
@@ -25,26 +26,33 @@ export function EditAssignDesignationForm(props:EditAssignDesignationDialogProps
     const form = useForm<z.infer<typeof AssignDesignation>>({
         defaultValues: {
             empNum: id,
-            designationId: props.designationId,
+            designationId: props.designation.id,
             employeeType:  props.employeeType,
             status:  props.status
         }
     });
     const handleSubmit = (data: z.infer<typeof AssignDesignation>) => {
         const newData = {
-            ...data,
+            employeeType: data.employeeType,
+            status: data.status,
+            designation:{
+                id:data.designationId
+            },
+            employee:{
+                id:data.empNum
+            }
         }
         toast({
             variant: "default",
             title: "Data Updated, Kindly Refresh the page",
             description: (
                 <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-                  <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+                  <code className="text-white">{JSON.stringify(newData, null, 2)}</code>
                 </pre>
               ),
         })
        // Pass the updated employeeData object to the sumbitEmployeeData function
-       console.log(newData)
+       updateAssignDesignation(newData, props.id)
     }
     
     return (
@@ -54,18 +62,18 @@ export function EditAssignDesignationForm(props:EditAssignDesignationDialogProps
             className="">
             <div className="grid gap-4 py-4">
                 <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="designationName" className="text-right"> Department name </Label>
+                    <Label htmlFor="designationId" className="text-right"> Department name </Label>
                     <div className=" col-span-3">
                         <FormField
                             
                             control={form.control}
-                            name="designationName"
+                            name="designationId"
                             render={({field}) => (
                                 <FormItem>
                                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                                         <FormControl>
                                         <SelectTrigger>
-                                            <SelectValue placeholder="Select a designation" />
+                                            <SelectValue placeholder="Select a department" />
                                         </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>

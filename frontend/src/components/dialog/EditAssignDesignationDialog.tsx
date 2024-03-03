@@ -8,10 +8,13 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { EditAssignDesignationForm } from "../forms/EditAssignDesignationForm"
+import { Employee } from "@/controller/employee";
+import { Designation } from "@/controller/designation";
 
 export type EditAssignDesignationDialogProps = {
-    empNum?: string,
-    designationId?:string,
+    id: string,
+    empNum: Employee,
+    designation: Designation,
     employeeType: string,
     status:string
 };

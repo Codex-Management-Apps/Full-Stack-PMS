@@ -30,17 +30,26 @@ export function AddAssignDesignationForm(){
         }
     });
     const handleSubmit = (data: z.infer<typeof AssignDesignation>) => {
-        
+        const newData = {
+            employeeType: data.employeeType,
+            status: data.status,
+            designation:{
+                id:data.designationId
+            },
+            employee:{
+                id:data.empNum
+            }
+        }
         toast({
             variant: "default",
             title: "Data Added, Kindly Refresh the page",
             description: (
                 <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-                  <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+                  <code className="text-white">{JSON.stringify(newData, null, 2)}</code>
                 </pre>
               ),
         })
-        newAssignDesignation(data)// Pass the updated employeeData object to the sumbitEmployeeData function
+        newAssignDesignation(newData)// Pass the updated employeeData object to the sumbitEmployeeData function
     }
     
     return (
