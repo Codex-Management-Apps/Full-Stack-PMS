@@ -8,9 +8,10 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { EditEmployeeDialog } from '@/components/dialog/EditEmployeeDialog'
 import { AddAssignDesignationDialog } from '@/components/dialog/AddAssignDesignationDialog'
-import { AssignDesignation, getAssignDesignationByEmployeeId, isEmployeeAssigned } from '@/controller/assigned'
-import { Employee, getEmployeeById } from '@/controller/employee'
+import { getAssignDesignationByEmployeeId, isEmployeeAssigned } from '@/controller/assigned'
+import { getEmployeeById } from '@/controller/employee'
 import { EditAssignDesignationDialog } from '@/components/dialog/EditAssignDesignationDialog'
+import { AssignDesignation, Employee } from '@/lib/types'
   
 
 export default function ViewEmployee(){

@@ -1,18 +1,8 @@
 
+import { Employee } from "@/lib/types";
 import { setCurrentDate } from "@/lib/utils";
 import axios from "axios";
 
-export type Employee = {
-    id?: string,
-    address_line: string;
-    barangay: string;
-    country: string;
-    firstname: string;
-    lastname: string;
-    middlename: string;
-    province: string;
-    last_update?: string;
-};
 
 
 

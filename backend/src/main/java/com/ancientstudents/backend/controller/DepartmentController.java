@@ -4,11 +4,16 @@ import com.ancientstudents.backend.exception.DepartmentNotFoundException;
 import com.ancientstudents.backend.model.Department;
 import com.ancientstudents.backend.repository.DepartmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
 
 
 @RestController
@@ -44,7 +49,7 @@ public class DepartmentController {
     
 
     @DeleteMapping("department/{id}")
-    String deleteUser(@PathVariable Long id){
+    String deleteDepartment(@PathVariable Long id){
         if(!departmentRepository.existsById(id)){
             throw new DepartmentNotFoundException(id);
         }
@@ -52,9 +57,12 @@ public class DepartmentController {
         return "Department with id " + id + " has been deleted successfully.";
     }
 
-    @GetMapping("departments/")
-    public String getMethodName(@RequestParam String param) {
-        return new String();
+    @RequestMapping(value = "department/top", method=RequestMethod.GET)
+    public Page<Department> requestMethodName(@RequestParam(value ="count") String count) {
+        PageRequest pageRequest = PageRequest.of(0,Integer.valueOf(count));
+        Page<Department> topDepartment = departmentRepository.findAll(pageRequest);
+
+        return topDepartment;
     }
     
 }

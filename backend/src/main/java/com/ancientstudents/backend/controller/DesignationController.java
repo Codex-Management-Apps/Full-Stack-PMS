@@ -1,9 +1,12 @@
 package com.ancientstudents.backend.controller;
 
 import com.ancientstudents.backend.exception.DesignationNotFoundException;
+import com.ancientstudents.backend.model.Department;
 import com.ancientstudents.backend.model.Designation;
 import com.ancientstudents.backend.repository.DesignationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -47,5 +50,13 @@ public class DesignationController {
         }
         designationRepository.deleteById(id);
         return "Designation with id " + id + " has been deleted successfully.";
+    }
+    
+    @RequestMapping(value = "designation/top", method=RequestMethod.GET)
+    public Page<Designation> requestMethodName(@RequestParam(value ="count") String count) {
+        PageRequest pageRequest = PageRequest.of(0,Integer.valueOf(count));
+        Page<Designation> topDesignation = designationRepository.findAll(pageRequest);
+
+        return topDesignation;
     }
 }

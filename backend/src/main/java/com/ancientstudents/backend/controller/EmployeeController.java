@@ -1,12 +1,15 @@
 package com.ancientstudents.backend.controller;
 
 import com.ancientstudents.backend.exception.EmployeeNotFoundException;
+import com.ancientstudents.backend.model.Designation;
 import com.ancientstudents.backend.model.Employee;
 import com.ancientstudents.backend.repository.EmployeeRepository;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -60,5 +63,13 @@ public class EmployeeController {
         }
         employeeRepository.deleteById(id);
         return "Employee with id " + id + " has been deleted successfully.";
+    }
+
+    @RequestMapping(value = "employee/top", method=RequestMethod.GET)
+    public Page<Employee> requestMethodName(@RequestParam(value ="count") String count) {
+        PageRequest pageRequest = PageRequest.of(0,Integer.valueOf(count));
+        Page<Employee> topEmployee = employeeRepository.findAll(pageRequest);
+
+        return topEmployee;
     }
 }

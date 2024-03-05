@@ -1,24 +1,5 @@
-import { Employee } from "./employee"
-import { Designation } from "./designation"
 import axios from "axios"
-
-export type AssignDesignation = {
-    id: string,
-    employeeType: string,
-    status: string,
-    designation: Designation,
-    employee: Employee,
-}
-export type AssignDesignationSubmission = {
-    employeeType: string,
-    status: string,
-    designation:{
-        id:string
-    },
-    employee:{
-        id:string
-    }
-}
+import { AssignDesignationSubmission } from "@/lib/types";
 
 
 export async function getAssignDesignationByEmployeeId(id:string){
@@ -64,6 +45,18 @@ export async function updateAssignDesignation(data:AssignDesignationSubmission, 
         console.log(response.data)
         return response.data
     } catch (error) {
+        console.log(error);
+    }
+}
+
+export async function getTopNAssignDesignation(count:string){
+    try{
+        if(count === undefined) count =''
+    
+        const response = await axios.get(`http://localhost:8080/assigned/top?count=${count}`)
+        console.log(response.data.content);
+        return response.data.content;
+    }catch(error){
         console.log(error);
     }
 }

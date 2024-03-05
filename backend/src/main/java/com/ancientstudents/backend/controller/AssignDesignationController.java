@@ -8,6 +8,9 @@ import com.ancientstudents.backend.model.Designation;
 import com.ancientstudents.backend.model.Employee;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.jaxb.PageAdapter;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,6 +56,13 @@ public class AssignDesignationController {
         return assignDesignationRepository.save(assignDesignation);
 
     }
+    @RequestMapping(value = "/assigned/top", method=RequestMethod.GET)
+    public Page<AssignDesignation> requestMethodName(@RequestParam(value = "count") String count) {
+        PageRequest pageRequest = PageRequest.of(0,Integer.parseInt(count));
+        Page<AssignDesignation> topEmployee = assignDesignationRepository.findAll(pageRequest);
+        return topEmployee;
+    }
+    
     
     @PutMapping("assigned/{id}")
     public AssignDesignation updateAssignDesignation(@PathVariable Long id, @RequestBody AssignDesignation newData) {
