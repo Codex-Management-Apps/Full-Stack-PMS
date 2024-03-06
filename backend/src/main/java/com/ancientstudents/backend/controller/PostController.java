@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+@CrossOrigin("http://localhost:5175/")
 @RestController
-@CrossOrigin("http://localhost:5173")
+
 public class PostController {
     @Autowired
     private PostRepository postRepository;

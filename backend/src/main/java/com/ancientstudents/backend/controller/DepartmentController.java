@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 
-
+@CrossOrigin("http://localhost:5175/")
 @RestController
 public class DepartmentController {
     @Autowired

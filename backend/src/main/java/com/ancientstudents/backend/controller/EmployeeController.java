@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin("http://localhost:5175/")
 @RestController
-@CrossOrigin("http://localhost:5173")
 public class EmployeeController {
     @Autowired
     private EmployeeRepository employeeRepository;
