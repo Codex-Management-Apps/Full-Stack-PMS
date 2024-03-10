@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.util.List;
 
+@CrossOrigin("http://localhost:5175/")
 @RestController
 public class UserController {
     @Autowired
