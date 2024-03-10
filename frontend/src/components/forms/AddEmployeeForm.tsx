@@ -11,9 +11,8 @@ import { Input } from "../ui/input"
 
 import { useForm } from "react-hook-form"
 
-import { EmployeeSchema} from "@/schemas"
+import { AddEmployeeSchema} from "@/schemas"
 import { z } from "zod"
-import { zodResolver } from "@hookform/resolvers/zod"
 
 import { DialogFooter } from "../ui/dialog"
 import { Label } from "../ui/label"
@@ -25,14 +24,20 @@ export function AddEmployeeForm(){
 
     const {toast} = useToast();
 
-    const form = useForm<z.infer<typeof EmployeeSchema>>({
-        resolver: zodResolver(EmployeeSchema),
+    const form = useForm<z.infer<typeof AddEmployeeSchema>>({
         defaultValues: {
+            address_line: "",
+            barangay: "",
+            country: "",
+            firstname: "",
+            lastname: "",
+            middlename: "",
+            province: "",
             last_update: setCurrentDate(),
         }
     });
 
-    const handleSubmit = (data: z.infer<typeof EmployeeSchema>) => {
+    const handleSubmit = (data: z.infer<typeof AddEmployeeSchema>) => {
         toast({
             variant: "default",
             title: "Data Added, Kindly Refresh the page",
@@ -134,7 +139,7 @@ export function AddEmployeeForm(){
                                             
                                             id="address_line"
                                             placeholder="address_line"
-                                            type="addressline"/>
+                                            type="address_line"/>
                                     </FormControl>
                                     <FormMessage/>
                                 </FormItem>

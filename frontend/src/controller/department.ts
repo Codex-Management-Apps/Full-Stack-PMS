@@ -23,7 +23,7 @@ export async function sumbitDepartmentData(data: Department){
     }
 }
 
-export async function getAllEmployee() {
+export async function getAllDepartments() {
     try{
       const response = await axios.get("http://localhost:8080/department")
       console.log(response.data)

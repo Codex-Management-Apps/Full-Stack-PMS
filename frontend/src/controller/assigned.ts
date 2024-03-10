@@ -26,7 +26,7 @@ export async function isEmployeeAssigned(id:string) {
     }
 }
 
-export async function newAssignDesignation(data:AssignDesignationSubmission) {
+export async function submitAssignDesignation(data: AssignDesignationSubmission) {
     try{
         console.log(data)
         const response = await axios.post("http://localhost:8080/assigned", data);

@@ -9,7 +9,7 @@ import {
 
 import { EditEmployeeForm } from "../forms/EditEmployeeForm";
 import { DialogDescription } from "@radix-ui/react-dialog";
-import { Employee } from "@/controller/employee";
+import { Employee } from "@/lib/types";
 
 
 export function EditEmployeeDialog(data: Employee){

@@ -13,32 +13,61 @@ import { DialogFooter } from "../ui/dialog"
 import { Label } from "../ui/label"
 import { useToast } from "../ui/use-toast"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
-import { newAssignDesignation } from "@/controller/assigned"
 import { useParams } from "react-router-dom"
+import { useEffect, useState } from "react"
+import { getAllDesignation } from "@/controller/designation"
+import { Designation } from "@/lib/types"
+import { submitAssignDesignation } from "@/controller/assigned"
 
 
 export function AddAssignDesignationForm(){
-    
+    const [designation, setdesignation] = useState<Designation[]>([]);
     const { id } = useParams<{ id: string }>();
     const {toast} = useToast();
+
+    useEffect(()=> {
+        handleData();
+    }, [])
+
+    const handleData = async() => {
+        try {
+            const response = await getAllDesignation()
+            console.log(response)
+            setdesignation(response);
+        }catch(error){
+            console.log(error)
+        }
+    }
+
     const form = useForm<z.infer<typeof AssignDesignation>>({
         defaultValues: {
-            empNum: id,
-            designationId: "",
+            employee:{
+                id: id
+            },
+            designation:{
+                id: "",
+                designationName: "",
+            },
             employeeType:  "",
             status:  ""
         }
     });
     const handleSubmit = (data: z.infer<typeof AssignDesignation>) => {
         const newData = {
-            employeeType: data.employeeType,
-            status: data.status,
-            designation:{
-                id:data.designationId
-            },
-            employee:{
-                id:data.empNum
-            }
+           employeeType: data.employeeType,
+           status: data.status,
+           employee:{
+            id: data.employee.id,
+           },
+           designation: {
+            id:(() => {
+                const matchingDesignation = designation.find(
+                  (d) => d.designationName === data.designation.designationName
+                );
+            
+                return matchingDesignation ? matchingDesignation.id : null;
+              })()|| null, 
+           }
         }
         toast({
             variant: "default",
@@ -49,7 +78,8 @@ export function AddAssignDesignationForm(){
                 </pre>
               ),
         })
-        newAssignDesignation(newData)// Pass the updated employeeData object to the sumbitEmployeeData function
+        console.log(newData)// Pass the updated employeeData object to the sumbitEmployeeData function
+        submitAssignDesignation(newData)
     }
     
     return (
@@ -59,12 +89,12 @@ export function AddAssignDesignationForm(){
             className="">
             <div className="grid gap-4 py-4">
                 <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="designationId" className="text-right"> Department name </Label>
+                    <Label htmlFor="designation.designationName" className="text-right"> Designation name </Label>
                     <div className=" col-span-3">
                         <FormField
                             
                             control={form.control}
-                            name="designationId"
+                            name="designation.designationName"
                             render={({field}) => (
                                 <FormItem>
                                     <Select onValueChange={field.onChange} defaultValue={field.value}>
@@ -74,10 +104,9 @@ export function AddAssignDesignationForm(){
                                         </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
-                                            <SelectItem value="1">Manager</SelectItem>
-                                            <SelectItem value="2">Software Engineer</SelectItem>
-                                            <SelectItem value="3">Financial Analyst</SelectItem>
-                                            <SelectItem value="4">Marketing Specialist</SelectItem>
+                                            {designation.map((d,i) =>(
+                                                 <SelectItem key={i} value={d.designationName}>{d.designationName}</SelectItem>
+                                            ))}
                                         </SelectContent>
                                     </Select>
                                 </FormItem>

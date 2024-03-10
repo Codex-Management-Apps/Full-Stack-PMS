@@ -18,15 +18,44 @@ import { EditAssignDesignationDialogProps } from "../dialog/EditAssignDesignatio
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "../ui/select"
 import { useParams } from "react-router-dom"
 import { updateAssignDesignation } from "@/controller/assigned"
+import { getAllDesignation } from "@/controller/designation"
+import { Designation } from "@/lib/types"
+import { useState, useEffect } from "react"
 
 export function EditAssignDesignationForm(props:EditAssignDesignationDialogProps ){
     
+    const [designation, setdesignation] = useState<Designation[]>([]);
     const { id } = useParams<{ id: string }>();
     const {toast} = useToast();
+
+    useEffect(()=> {
+        handleData();
+    }, [])
+
+    const handleData = async() => {
+        try {
+            const response = await getAllDesignation()
+            console.log(response)
+            setdesignation(response);
+        }catch(error){
+            console.log(error)
+        }
+    }
     const form = useForm<z.infer<typeof AssignDesignation>>({
         defaultValues: {
-            empNum: id,
-            designationId: props.designation.id,
+            employee:{
+                id: id
+            },
+            designation:{
+                id: props.designation.id,
+                designationName: (() => {
+                    const matchingDesignation = designation.find(
+                    (d) => d.id === props.designation.id
+                    );
+                        console.log(matchingDesignation ? matchingDesignation.designationName : "");
+                    return matchingDesignation ? matchingDesignation.designationName : "";
+                })(),
+            },
             employeeType:  props.employeeType,
             status:  props.status
         }
@@ -36,10 +65,16 @@ export function EditAssignDesignationForm(props:EditAssignDesignationDialogProps
             employeeType: data.employeeType,
             status: data.status,
             designation:{
-                id:data.designationId
+                id:(() => {
+                    const matchingDesignation = designation.find(
+                      (d) => d.designationName === data.designation.designationName
+                    );
+                
+                    return matchingDesignation ? matchingDesignation.id : null;
+                  })()|| null
             },
             employee:{
-                id:data.empNum
+                id: id || null
             }
         }
         toast({
@@ -62,25 +97,24 @@ export function EditAssignDesignationForm(props:EditAssignDesignationDialogProps
             className="">
             <div className="grid gap-4 py-4">
                 <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="designationId" className="text-right"> Department name </Label>
+                    <Label htmlFor="designation.designationName" className="text-right"> Designation name </Label>
                     <div className=" col-span-3">
                         <FormField
                             
                             control={form.control}
-                            name="designationId"
+                            name="designation.designationName"
                             render={({field}) => (
                                 <FormItem>
                                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                                         <FormControl>
                                         <SelectTrigger>
-                                            <SelectValue placeholder="Select a department" />
+                                            <SelectValue placeholder="Select a designation" />
                                         </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
-                                            <SelectItem value="1">Manager</SelectItem>
-                                            <SelectItem value="2">Software Engineer</SelectItem>
-                                            <SelectItem value="3">Financial Analyst</SelectItem>
-                                            <SelectItem value="4">Marketing Specialist</SelectItem>
+                                            {designation.map((d,i) =>(
+                                                 <SelectItem key={i} value={d.designationName}>{d.designationName}</SelectItem>
+                                            ))}
                                         </SelectContent>
                                     </Select>
                                 </FormItem>

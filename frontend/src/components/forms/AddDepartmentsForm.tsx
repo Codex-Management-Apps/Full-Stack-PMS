@@ -11,7 +11,7 @@ import { Input } from "../ui/input"
 
 import { useForm } from "react-hook-form"
 
-import { Department } from "@/schemas"
+import { AddDepartmentSchema } from "@/schemas"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 
@@ -24,10 +24,14 @@ import { sumbitDepartmentData } from "@/controller/department"
 
 export function AddDepartmentsForm(){
     const {toast} = useToast();
-    const form = useForm<z.infer<typeof Department>>({
-        resolver: zodResolver(Department),
+    const form = useForm<z.infer<typeof AddDepartmentSchema>>({
+        resolver: zodResolver(AddDepartmentSchema),
+        defaultValues:{
+            departmentName: "",
+            status: ""
+        }
     });
-    const handleSubmit = (data: z.infer<typeof Department>) => {
+    const handleSubmit = (data: z.infer<typeof AddDepartmentSchema>) => {
         toast({
             variant: "default",
             title: "Data Added, Kindly Refresh the page",

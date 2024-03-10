@@ -19,12 +19,12 @@ export function CardContent(props:React.HTMLAttributes<HTMLDivElement>){
 export default function Card(props : DCardProps){
     return(
         <>
-        {<div className=" flex flex-wrap justify-between gap-3">
+        {<div className=" flex flex-wrap justify-between gap-3 items-center">
             <section>
                 <div className="text-sm">
                     <p>{props.name}</p>
                 </div>
-                <div className='text-ellipsis overflow-hidden whitespace-nowrap w-[120px] sm:w-auto text-gray-400'>
+                <div className='text-ellipsis overflow-hidden whitespace-nowrap w-[120px] sm:w-auto text-gray-400 text-xs'>
                     {props.description}
                 </div>
             </section>

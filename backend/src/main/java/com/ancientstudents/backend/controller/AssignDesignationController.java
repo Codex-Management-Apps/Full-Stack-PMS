@@ -10,9 +10,7 @@ import com.ancientstudents.backend.model.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.jaxb.PageAdapter;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,8 +22,6 @@ import com.ancientstudents.backend.repository.DesignationRepository;
 import com.ancientstudents.backend.repository.EmployeeRepository;
 
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -128,10 +124,12 @@ public class AssignDesignationController {
 
 
     private Employee getEmployeeById(@PathVariable Long id){
+        if(id == null) return null;
         return employeeRepository.findById(id)
                 .orElseThrow(()->new EmployeeNotFoundException(id));
     }
     private Designation getDesignationById(@PathVariable Long id){
+        if(id == null) return null;
         return designationRepository.findById(id)
                 .orElseThrow(()->new DesignationNotFoundException(id));
     }

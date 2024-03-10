@@ -9,10 +9,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 
 @CrossOrigin("http://localhost:5175/")
@@ -23,6 +19,7 @@ public class DepartmentController {
 
     @PostMapping("/department")
     Department newDepartment(@RequestBody Department newDepartment){
+        if(newDepartment == null) return null;
         return departmentRepository.save(newDepartment);
     }
 
@@ -33,12 +30,14 @@ public class DepartmentController {
 
     @GetMapping("/department/{id}")
     Department getDepartmentById(@PathVariable Long id){
+        if(id == null) return null;
         return departmentRepository.findById(id)
                 .orElseThrow(()->new DepartmentNotFoundException(id));
     }
 
     @PutMapping("department/{id}")
     Department updateDepartment(@RequestBody Department newDepartment, @PathVariable Long id){
+        if(id == null) return null;
         return departmentRepository.findById(id)
                 .map(department -> {
                     department.setDepartmentName(newDepartment.getDepartmentName());
@@ -50,6 +49,7 @@ public class DepartmentController {
 
     @DeleteMapping("department/{id}")
     String deleteDepartment(@PathVariable Long id){
+        if(id == null) return null;
         if(!departmentRepository.existsById(id)){
             throw new DepartmentNotFoundException(id);
         }

@@ -8,8 +8,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { EditAssignDesignationForm } from "../forms/EditAssignDesignationForm"
-import { Employee } from "@/controller/employee";
-import { Designation } from "@/controller/designation";
+
+import { Employee,Designation } from "@/lib/types";
 
 export type EditAssignDesignationDialogProps = {
     id: string,
@@ -32,7 +32,6 @@ export function EditAssignDesignationDialog(props: EditAssignDesignationDialogPr
                     <DialogTitle>Edit Assign Designation</DialogTitle>
                     <DialogDescription>LastUpdate: ????</DialogDescription>    
                 </DialogHeader>
-                {/* WP : is still under developed */}
                 <EditAssignDesignationForm {...props} />
                 
             </DialogContent>
