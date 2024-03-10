@@ -1,7 +1,6 @@
 package com.ancientstudents.backend.controller;
 
 import com.ancientstudents.backend.exception.DesignationNotFoundException;
-import com.ancientstudents.backend.model.Department;
 import com.ancientstudents.backend.model.Designation;
 import com.ancientstudents.backend.repository.DesignationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin("http://localhost:5175/")
 @RestController
 public class DesignationController {
     @Autowired
@@ -18,6 +18,7 @@ public class DesignationController {
 
     @PostMapping("/designation")
     Designation newDesignation(@RequestBody Designation newDesignation){
+        if (newDesignation == null) return null;
         return designationRepository.save(newDesignation);
     }
 
@@ -28,12 +29,14 @@ public class DesignationController {
 
     @GetMapping("/designation/{id}")
     Designation getDesignationById(@PathVariable Long id){
+        if(id == null) return null;
         return designationRepository.findById(id)
                 .orElseThrow(()->new DesignationNotFoundException(id));
     }
 
     @PutMapping("designation/{id}")
     Designation updateDesignation(@RequestBody Designation newDesignation, @PathVariable Long id){
+        if(id == null) return null;
         return designationRepository.findById(id)
                 .map(designation -> {
                     designation.setDesignationName(newDesignation.getDesignationName());
@@ -45,6 +48,7 @@ public class DesignationController {
 
     @DeleteMapping("designation/{id}")
     String deleteUser(@PathVariable Long id){
+        if(id == null) return null;
         if(!designationRepository.existsById(id)){
             throw new DesignationNotFoundException(id);
         }

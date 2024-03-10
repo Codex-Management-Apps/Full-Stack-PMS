@@ -38,7 +38,8 @@ export default function ViewEmployee(){
             id: '',
             departmentId: {
                 departmentName: '',
-                status: ''
+                status: '',
+                id: ''
             },
             status: ''
         } // Replace with the actual value for designation_id
@@ -85,7 +86,7 @@ export default function ViewEmployee(){
                     <PageTittle title='View User'/>
                     <div className='flex gap-3'>
                         <Button variant={'outline'} onClick={backClick}>Back</Button>
-                        <EditEmployeeDialog {...(hadAssigned ? data.employee : data) as Employee} />
+                        <EditEmployeeDialog {...hadAssigned ? data.employee : data2}/>
                     </div>
                 </div>
                 <Card className='w-full mb-5'>

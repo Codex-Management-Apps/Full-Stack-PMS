@@ -1,11 +1,9 @@
 package com.ancientstudents.backend.controller;
 
 import com.ancientstudents.backend.exception.EmployeeNotFoundException;
-import com.ancientstudents.backend.model.Designation;
 import com.ancientstudents.backend.model.Employee;
 import com.ancientstudents.backend.repository.EmployeeRepository;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,14 +12,15 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin("http://localhost:5175/")
 @RestController
-@CrossOrigin("http://localhost:5173")
 public class EmployeeController {
     @Autowired
     private EmployeeRepository employeeRepository;
 
     @PostMapping("/employee")
     Employee newEmployee(@RequestBody Employee newEmployee){
+        if(newEmployee == null) return null;
         return employeeRepository.save(newEmployee);
     }
 
@@ -30,16 +29,16 @@ public class EmployeeController {
         return employeeRepository.findAll();
     }
 
-    @SuppressWarnings("null")
     @GetMapping("/employee/{id}")
     Employee getEmployeeById(@PathVariable Long id){
+        if(id == null) return null;
         return employeeRepository.findById(id)
                 .orElseThrow(()->new EmployeeNotFoundException(id));
     }
 
-    @SuppressWarnings("null")
     @PutMapping("employee/{id}")
     Employee updateEmployee(@RequestBody Employee newEmployee, @PathVariable Long id){
+        if(id == null) return null;
         return employeeRepository.findById(id)
                 .map(employee -> {
                     employee.setEmp_num(newEmployee.getEmp_num());
@@ -55,9 +54,9 @@ public class EmployeeController {
                 }).orElseThrow(()->new EmployeeNotFoundException(id));
     }
 
-    @SuppressWarnings("null")
     @DeleteMapping("employee/{id}")
     String deleteUser(@PathVariable Long id){
+        if(id == null) return null;
         if(!employeeRepository.existsById(id)){
             throw new EmployeeNotFoundException(id);
         }

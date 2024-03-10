@@ -4,8 +4,6 @@ import { setCurrentDate } from "@/lib/utils";
 import axios from "axios";
 
 
-
-
 export async function sumbitEmployeeData(data: Employee){
 
     try{

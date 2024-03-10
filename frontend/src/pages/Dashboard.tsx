@@ -3,7 +3,6 @@ import PageTittle from '@/components/PageTitle'
 import { AddDeparmentsDialog } from '@/components/dialog/AddDepartmentsDialog'
 import { AddDesignationDialog } from '@/components/dialog/AddDesignationDialog'
 
-import { Card } from '@/components/ui/card'
 import { NormalLayout } from '@/layouts/NormalLayout'
 import { useEffect, useState } from 'react'
 
@@ -25,7 +24,7 @@ export default function Dashboard() {
 
   const handleData = async () => {
     try {
-      const employeData = await getTopNAssignDesignation(count);
+      const employeData = await getTopNAssignDesignation("10");
       const designationData = await getTopNDesignation(count);
       const departmentData = await getTopNDepartment(count);
 
