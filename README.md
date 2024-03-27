@@ -21,10 +21,11 @@ Check out this project branches where we save all code from each milestone we cr
 - Java jdk v21.^
 
 ### Installation 
-First of all get the project by cloning this repository
+First of all get the project by cloning this repository to your desktop
 ```
 git clone https://github.com/khesir/event-driven-program.git
 ```
+
 ### Frontend 
 Frontend
 Install the dependencies and run the program
@@ -34,20 +35,26 @@ Install the dependencies and run the program
  npm run dev
 ```
 ### Database
-Create a MySQL database named "backend" before running the backend:
+If you don't have the existing database named **backend** then create a MySQL database named **backend** before running the backend:
 ```
 CREATE DATABASE backend
 ```
 
 ### Back End
-Make sure that you have MySQL running in the background. Navigate to the backend/target directory and run the following command to start the backend:
+Change some env files in the backend and match it with your mysql credentials.
+To change navigate to backend/src/main/resources and there you find application.properties. 
+```
+spring.datasource.username= <INSERT MYSQL USERNAME>
+spring.datasource.password= <INSERT MYSQL PASSWORD>
+```
+
+
+In order to run the backend make sure that you have MySQL running in the background. Navigate to the backend/target directory and run the following command to start the backend:
 ```
 cd backend/target
 ```
 
-run this command to run the backend in order for this to run
+Run this command to run the backend in order for this to run
 ```
 java -jar backend-0.0.1-SNAPSHOT.jar
 ```
-
-Note: If you're using XAMPP, move this project folder inside the htdocs directory and run it to establish a connection to the database.
