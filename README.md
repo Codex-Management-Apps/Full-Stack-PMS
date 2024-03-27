@@ -42,7 +42,7 @@ CREATE DATABASE backend
 
 ### Back End
 Change some env files in the backend and match it with your mysql credentials.
-To change navigate to backend/src/main/resources and there you find application.properties. 
+To change, navigate to backend/src/main/resources and there you find application.properties file. Change this following information. 
 ```
 spring.datasource.username= <INSERT MYSQL USERNAME>
 spring.datasource.password= <INSERT MYSQL PASSWORD>
