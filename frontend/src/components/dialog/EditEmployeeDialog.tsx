@@ -18,7 +18,7 @@ export function EditEmployeeDialog(data: Employee){
         <Dialog>
             <DialogTrigger asChild>
                 
-                <Button variant={'outline'}>Edit</Button>
+                <Button variant={'outline'}>Leave Requests</Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-md">
                 <DialogHeader>

@@ -24,7 +24,7 @@ import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu"
 
 type Checked = DropdownMenuCheckboxItemProps["checked"]
 
-export default function ViewEmployee(){
+export default function EmployeePortal(){
 
     const [showStatusBar, setShowStatusBar] = React.useState<Checked>(true)
     const [showActivityBar, setShowActivityBar] = React.useState<Checked>(false)
@@ -465,7 +465,7 @@ export default function ViewEmployee(){
                                 <TableCell>
                                     Id
                                 </TableCell>
-                                <TableCell>
+                                <TableCell className='ml-[20px]'>
                                     {hadAssigned ? data.employee.id : data2.id}
                                 </TableCell>
                             </TableRow>
@@ -581,9 +581,12 @@ export default function ViewEmployee(){
                         </TableBody>
                     </Table>
                 </Card>
-
             </div>
-            
+
+            <div className='flex justify-center mt-[20px]'>
+                <Button>File Leave</Button>
+            </div>
+
         </NormalLayout>
     )
 }
