@@ -38,6 +38,7 @@ public class AssignDesignationController {
     @Autowired
     private EmployeeRepository employeeRepository;
     
+    // Create new Assigned Data
     @PostMapping("/assigned")
     public AssignDesignation newAssignDesignation(@RequestBody AssignDesignation newData) {
 
@@ -49,10 +50,11 @@ public class AssignDesignationController {
         assignDesignation.setStatus(newData.getStatus());
         assignDesignation.setDesignation(getDesignationById(desigId));
         assignDesignation.setEmployee(getEmployeeById(empId));
-        System.out.println(assignDesignation);
+        
         return assignDesignationRepository.save(assignDesignation);
-
     }
+
+    // Get the N count for the Assigned User
     @RequestMapping(value = "/assigned/top", method=RequestMethod.GET)
     public Page<AssignDesignation> requestMethodName(@RequestParam(value = "count") String count) {
         PageRequest pageRequest = PageRequest.of(0,Integer.parseInt(count));
@@ -61,6 +63,7 @@ public class AssignDesignationController {
     }
     
     
+    // Update the Assigned User data
     @PutMapping("assigned/{id}")
     public AssignDesignation updateAssignDesignation(@PathVariable Long id, @RequestBody AssignDesignation newData) {
         if(newData == null || id == null) return null;
@@ -77,7 +80,7 @@ public class AssignDesignationController {
 
     
     // Note: Both Assigned Method can Might be merge as one, as for now this is the current solution
-
+    // Method to get Assign Designation data by Id
     @RequestMapping(value ="/assigned/employee", method = RequestMethod.GET)
     public AssignDesignation getAssignDesignationByEmployeeId(@RequestParam(value = "id") Long empId) {
         if(empId == null) return null;
@@ -99,6 +102,7 @@ public class AssignDesignationController {
     
     // Request that recieved emp id as parameter and sends if user exists or not
     // This method is costly, it gets expensive when we now have multiple data
+    // Method that looks if the user is assigned or not
     @RequestMapping(value ="/assigned", method = RequestMethod.GET)
     public Boolean isEmployeeAssigned(@RequestParam(value = "id") Long empId){ 
 
@@ -122,12 +126,13 @@ public class AssignDesignationController {
         return isfound;
     }
 
-
+    // Basic Data getter using its Id
     private Employee getEmployeeById(@PathVariable Long id){
         if(id == null) return null;
         return employeeRepository.findById(id)
                 .orElseThrow(()->new EmployeeNotFoundException(id));
     }
+
     private Designation getDesignationById(@PathVariable Long id){
         if(id == null) return null;
         return designationRepository.findById(id)
