@@ -4,6 +4,8 @@ import NoPage from './pages/NoPage';
 import EmployeePage from './pages/EmployeePage';
 import ViewEmployee from './pages/ViewEmployee';
 import EmployeePortal from './pages/EmployeePortal';
+import LeaveRequestPage from './pages/LeaveRequestPage';
+import ViewLeaveRequestPage   from './pages/ViewLeaveRequestPage';
 
 export default function Home() {
   return (
@@ -18,6 +20,12 @@ export default function Home() {
           <Route path="/employee/:id" element={<ViewEmployee/>} />
           {/* Employee Portal Manager */}
           <Route path="/auth/employee/:id" element={<EmployeePortal/>} />
+          
+          {/* View All Leave Request */}
+          <Route path="/leave" element={<LeaveRequestPage/>} />
+          {/* View Leave Request by ID */}
+          <Route path='/leave/:id' element={<ViewLeaveRequestPage/>}/>
+
           {/* Page Not Found */}
           <Route path="*" element={<NoPage/>}/>
         </Routes>

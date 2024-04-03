@@ -14,7 +14,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { getAllDesignation } from "@/controller/designation"
-import { AddAssignDesignationSchema, Designation, Employee } from "@/lib/types"
+import { AddAssignDesignationSchema, Designation } from "@/lib/types"
 import { AssignDesignationSchema } from "@/schemas"
 import { submitAssignDesignation } from "@/controller/assigned"
 

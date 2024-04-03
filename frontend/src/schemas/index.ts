@@ -55,3 +55,11 @@ export const SignatorySchema = z.object({
     position: z.string (),
     status: z.string(),
 })
+
+export const RequestFileLeave = z.object({
+    reason: z.string(),
+    status: z.string(),
+    dateOfLeave: z.string(),
+    dateOfEnd: z.string(),
+    comment: z.string(),
+})
