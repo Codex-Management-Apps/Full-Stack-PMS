@@ -1,14 +1,11 @@
 package com.ancientstudents.backend.model;
 
-import java.util.List;
-import java.sql.Date;
-import java.sql.Timestamp;
-
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class LeaveRequest {
@@ -17,13 +14,21 @@ public class LeaveRequest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private int employee;
+    @ManyToOne
+    @JoinColumn(name = "Employee_id", referencedColumnName = "id")
+    private AssignPosition employee;
+
     private String reason;
-    private Date dateOfLeave;
-    private Date dateOfEnd;
+
+    private String dateOfLeave;
+    
+    private String dateOfEnd;
+    
     private String status;
+    
     private String comment;
-    private Timestamp created_at;
+    
+    private String created_at;
 
     public LeaveRequest() {
     }
@@ -36,11 +41,11 @@ public class LeaveRequest {
         this.id = id;
     }
 
-    public int getEmployee() {
+    public AssignPosition getEmployee() {
         return employee;
     }
 
-    public void setEmployee(int employee) {
+    public void setEmployee(AssignPosition employee) {
         this.employee = employee;
     }
 
@@ -52,19 +57,19 @@ public class LeaveRequest {
         this.reason = reason;
     }
 
-    public Date getDateOfLeave() {
+    public String getDateOfLeave() {
         return dateOfLeave;
     }
 
-    public void setDateOfLeave(Date dateOfLeave) {
+    public void setDateOfLeave(String dateOfLeave) {
         this.dateOfLeave = dateOfLeave;
     }
 
-    public Date getDateOfEnd() {
+    public String getDateOfEnd() {
         return dateOfEnd;
     }
 
-    public void setDateOfEnd(Date dateOfEnd) {
+    public void setDateOfEnd(String dateOfEnd) {
         this.dateOfEnd = dateOfEnd;
     }
 
@@ -84,12 +89,26 @@ public class LeaveRequest {
         this.comment = comment;
     }
 
-    public Timestamp getCreated_at() {
+    public String getCreated_at() {
         return created_at;
     }
 
-    public void setCreated_at(Timestamp created_at) {
+    public void setCreated_at(String created_at) {
         this.created_at = created_at;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+            " id='" + getId() + "'" +
+            ", employee='" + getEmployee() + "'" +
+            ", reason='" + getReason() + "'" +
+            ", dateOfLeave='" + getDateOfLeave() + "'" +
+            ", dateOfEnd='" + getDateOfEnd() + "'" +
+            ", status='" + getStatus() + "'" +
+            ", comment='" + getComment() + "'" +
+            ", created_at='" + getCreated_at() + "'" +
+            "}";
     }
 
 }

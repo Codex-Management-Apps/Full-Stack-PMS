@@ -58,6 +58,7 @@ export function FileRequestLeaveForm(){
                 ...data,
                 employee: employee!
             }
+            console.log(newData)
             await createFileLeaveRequest(newData)
             toast({
                 variant: "default",

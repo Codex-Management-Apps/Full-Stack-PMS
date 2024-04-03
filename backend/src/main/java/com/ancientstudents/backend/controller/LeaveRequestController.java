@@ -6,8 +6,6 @@ import com.ancientstudents.backend.repository.LeaveRequestRepository;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,17 +16,21 @@ public class LeaveRequestController {
     @Autowired
     private LeaveRequestRepository leaveRequestRepository;
 
+    // Creating Leave Request
     @PostMapping("/leaveRequest")
     LeaveRequest newLeaveRequest(@RequestBody LeaveRequest newLeaveRequest){
         if(newLeaveRequest == null) return null;
         return leaveRequestRepository.save(newLeaveRequest);
     }
 
+    // Getting All Leave Request
     @GetMapping("/leaveRequest")
     List<LeaveRequest> getAllLeaveRequests(){
         return leaveRequestRepository.findAll();
     }
 
+
+    // Getting Specific LeaveRequest
     @GetMapping("/leaveRequest/{id}")
     LeaveRequest getLeaveRequestById(@PathVariable Long id){
         if(id == null) return null;
@@ -36,6 +38,7 @@ public class LeaveRequestController {
                 .orElseThrow(()->new LeaveRequestNotFoundException(id));
     }
 
+    // Updating a Leave Request
     @PutMapping("leaveRequest/{id}")
     LeaveRequest updateLeaveRequest(@RequestBody LeaveRequest newLeaveRequest, @PathVariable Long id){
         if(id == null) return null;
@@ -52,7 +55,7 @@ public class LeaveRequestController {
                 }).orElseThrow(()->new LeaveRequestNotFoundException(id));
     }
 
-
+    // Deleting Leave Request
     @DeleteMapping("leaveRequest/{id}")
     String deleteUser(@PathVariable Long id){
         if(id == null) return null;
