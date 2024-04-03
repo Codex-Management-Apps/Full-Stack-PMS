@@ -57,6 +57,16 @@ export type Employee = {
     last_update?: string,
 };
 
+export type LeaveRequest = {
+    id: string,
+    employee: AssignPosition,
+    reason: string,
+    dateOfLeave: string,
+    dateOfEnd: string,
+    status: string,
+    comment: string,
+    created_at: string,
+}
 
 
 // Data for submission
@@ -113,4 +123,12 @@ export type AddAssignPositionSubmissionSchema = {
 export type SignatorySubmissionSchema = {
     status: string,
     superior: AddAssignPositionSubmissionSchema,
+}
+
+export type AddRequestFileLeaveSchema = {
+    comment: string,
+    dateOfEnd: string,
+    dateOfLeave: string,
+    reason: string,
+    employee: AssignPosition
 }

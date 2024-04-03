@@ -85,19 +85,6 @@ export function AddSignatoryForm(){
             
             await submitAssignPosition(handledData, positions, id || "");
 
-            // // Task 2
-            // const employeeData = await getAssignDesignationByEmployeeId(id || "")
-            
-            // const superiorData = await getSignatoryBySuperiorID(employeeData.id);
-
-            // const newData = {
-            //     status: "Active",
-            //     superior:superiorData
-            // }
-            
-            // await createSignatory(newData)
-
-            // If the promise resolves without throwing an error, it means the submission was successful
             toast({
                 variant: "default",
                 title: "Data Submitted",
@@ -201,7 +188,7 @@ export function AddSignatoryForm(){
                             />
                         </div>
                     </div>
-                    <DataTable columns={columns} data={superiors} isEmployee={false}/>
+                    <DataTable columns={columns} data={superiors} isEmployee={false} isRequest={false}/>
                 </div>
             <div>
                 <DialogFooter>

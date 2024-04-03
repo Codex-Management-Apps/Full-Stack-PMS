@@ -25,12 +25,14 @@ interface DataTableProps<TData, TValue>{
     columns: ColumnDef<TData, TValue>[]
     data: TData[]
     isEmployee : Boolean
+    isRequest: Boolean
 }
 
 export function DataTable<TData, TValue>({
     columns,
     data,
-    isEmployee
+    isEmployee,
+    isRequest
   }: DataTableProps<TData, TValue>) {
     const navigate = useNavigate();
     const table = useReactTable({
@@ -55,6 +57,8 @@ export function DataTable<TData, TValue>({
                     title: "Data deleted",
                 })
             }
+        } else if (status === "req"){
+            navigate(`/leave/${dataId}`)
         }
     };
 
@@ -98,7 +102,14 @@ export function DataTable<TData, TValue>({
                                             </Button>
                                             <Button variant={"destructive"} onClick={() => viewData("delete",row as Row<TData & { id: string }>)}>Delete</Button>
                                         </TableCell>
-                                }
+                                    }
+                                    {isRequest && 
+                                        <TableCell>
+                                             <Button variant={"outline"} onClick={() => viewData("req",row as Row<TData & { id: string }>)}>
+                                                View
+                                            </Button>
+                                        </TableCell>
+                                    }
                                 </TableRow>
                             ))
                         ): (
