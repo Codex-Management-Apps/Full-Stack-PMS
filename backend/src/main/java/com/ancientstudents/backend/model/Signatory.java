@@ -15,7 +15,7 @@ public class Signatory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "in_charge", referencedColumnName = "id")     
     private AssignPosition inCharge;
 

@@ -7,21 +7,20 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 
-import { AddAssignDesignationForm } from "../forms/AddAssignDesignationForm";
+import { AddSignatoryForm } from "../forms/AddSignatoryForm"
 
-
-export function AddAssignDesignationDialog(){
+export function AddSignatoryDialog(){
     
     return(
         <Dialog>
             <DialogTrigger asChild>
-                <Button>Assign Designation</Button>
+                <Button>Add Role</Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-md">
                 <DialogHeader>
-                    <DialogTitle>Assign Designation </DialogTitle>
+                    <DialogTitle>Add Role </DialogTitle>
                 </DialogHeader>
-                <AddAssignDesignationForm/>
+                <AddSignatoryForm />
             </DialogContent>
             
         </Dialog>

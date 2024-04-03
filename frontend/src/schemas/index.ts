@@ -13,7 +13,6 @@ export const AddEmployeeSchema = z.object({
     barangay: z.string().min(1),
     province: z.string().min(1),
     country: z.string().min(1),
-    last_update: z.string()
 });
 
 export const AddDepartmentSchema = z.object({
@@ -22,7 +21,6 @@ export const AddDepartmentSchema = z.object({
 });
 
 export const EmployeeSchema = z.object({
-    id:z.string(),
     firstname: z.string().min(1),
     middlename: z.string().min(1),
     lastname: z.string().min(1),
@@ -30,7 +28,6 @@ export const EmployeeSchema = z.object({
     barangay: z.string().min(1),
     province: z.string().min(1),
     country: z.string().min(1),
-    last_update: z.string()
 });
 
 
@@ -47,11 +44,14 @@ export const DesignationSchema = z.object({
   });
   
 
-export const AssignDesignation = z.object({
-    id: z.string(),
+export const AssignDesignationSchema = z.object({
     employeeType: z.string(),
     status: z.string(),
-    designation: DesignationSchema,
-    employee: EmployeeSchema,
+    designation: z.string(),
   });
 
+export const SignatorySchema = z.object({
+    superior: z.string(),
+    position: z.string (),
+    status: z.string(),
+})

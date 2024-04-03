@@ -18,37 +18,24 @@ import { DialogFooter } from "../ui/dialog"
 import { Label } from "../ui/label"
 import { useToast } from "../ui/use-toast"
 import { sumbitEmployeeData } from "@/controller/employee"
-import { setCurrentDate } from "@/lib/utils"
 
 export function AddEmployeeForm(){
 
     const {toast} = useToast();
 
-    const form = useForm<z.infer<typeof AddEmployeeSchema>>({
-        defaultValues: {
-            address_line: "",
-            barangay: "",
-            country: "",
-            firstname: "",
-            lastname: "",
-            middlename: "",
-            province: "",
-            last_update: setCurrentDate(),
-        }
-    });
+    const form = useForm<z.infer<typeof AddEmployeeSchema>>();
 
-    const handleSubmit = (data: z.infer<typeof AddEmployeeSchema>) => {
+    const handleSubmit = (data : z.infer<typeof AddEmployeeSchema>) => {
         toast({
             variant: "default",
             title: "Data Added, Kindly Refresh the page",
             description: (
                 <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-                  <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+                    <code className="text-white">{JSON.stringify(data, null, 2)}</code>
                 </pre>
-              ),
+                ),
         })
-        sumbitEmployeeData(data)
-        // Pass the updated employeeData object to the sumbitEmployeeData function
+        sumbitEmployeeData(data);
     }
     
     return (

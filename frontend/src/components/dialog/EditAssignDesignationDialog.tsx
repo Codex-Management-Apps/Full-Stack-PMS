@@ -9,17 +9,13 @@ import {
 } from "@/components/ui/dialog"
 import { EditAssignDesignationForm } from "../forms/EditAssignDesignationForm"
 
-import { Employee,Designation } from "@/lib/types";
+import { Employee,Designation, AssignDesignation } from "@/lib/types";
 
-export type EditAssignDesignationDialogProps = {
-    id: string,
-    empNum: Employee,
-    designation: Designation,
-    employeeType: string,
-    status:string
-};
+export type Props = {
+    designation : AssignDesignation | undefined
+}
 
-export function EditAssignDesignationDialog(props: EditAssignDesignationDialogProps){
+export function EditAssignDesignationDialog({designation}: Props){
     
     return(
         <Dialog>
@@ -32,7 +28,7 @@ export function EditAssignDesignationDialog(props: EditAssignDesignationDialogPr
                     <DialogTitle>Edit Assign Designation</DialogTitle>
                     <DialogDescription>LastUpdate: ????</DialogDescription>    
                 </DialogHeader>
-                <EditAssignDesignationForm {...props} />
+                <EditAssignDesignationForm data={designation} />
                 
             </DialogContent>
             

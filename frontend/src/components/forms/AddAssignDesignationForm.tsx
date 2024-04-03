@@ -3,11 +3,9 @@ import {
     FormControl,
     FormField,
     FormItem,
-
   } from "@/components/ui/form"
 import { Button } from "../ui/button"
 import { useForm } from "react-hook-form"
-import { AssignDesignation } from "@/schemas"
 import { z } from "zod"
 import { DialogFooter } from "../ui/dialog"
 import { Label } from "../ui/label"
@@ -16,72 +14,66 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { getAllDesignation } from "@/controller/designation"
-import { Designation } from "@/lib/types"
+import { AddAssignDesignationSchema, Designation, Employee } from "@/lib/types"
+import { AssignDesignationSchema } from "@/schemas"
 import { submitAssignDesignation } from "@/controller/assigned"
-
 
 export function AddAssignDesignationForm(){
     const [designation, setdesignation] = useState<Designation[]>([]);
     const { id } = useParams<{ id: string }>();
     const {toast} = useToast();
+    const [isLoading, setIsLoading] = useState<Boolean>(true);
+
 
     useEffect(()=> {
-        handleData();
+        const handleData = async() => {
+            try {
+                const response = await getAllDesignation()
+                console.log(response)
+                setdesignation(response);
+            }catch(error){
+                console.log(error)
+            } finally {
+                setIsLoading(false)
+            }
+        }
+        handleData()
     }, [])
-
-    const handleData = async() => {
-        try {
-            const response = await getAllDesignation()
-            console.log(response)
-            setdesignation(response);
-        }catch(error){
-            console.log(error)
-        }
-    }
-
-    const form = useForm<z.infer<typeof AssignDesignation>>({
-        defaultValues: {
-            employee:{
-                id: id
-            },
-            designation:{
-                id: "",
-                designationName: "",
-            },
-            employeeType:  "",
-            status:  ""
-        }
-    });
-    const handleSubmit = (data: z.infer<typeof AssignDesignation>) => {
-        const newData = {
-           employeeType: data.employeeType,
-           status: data.status,
-           employee:{
-            id: data.employee.id,
-           },
-           designation: {
-            id:(() => {
-                const matchingDesignation = designation.find(
-                  (d) => d.designationName === data.designation.designationName
-                );
-            
-                return matchingDesignation ? matchingDesignation.id : null;
-              })()|| null, 
-           }
-        }
-        toast({
-            variant: "default",
-            title: "Data Added, Kindly Refresh the page",
-            description: (
-                <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-                  <code className="text-white">{JSON.stringify(newData, null, 2)}</code>
-                </pre>
-              ),
-        })
-        console.log(newData)// Pass the updated employeeData object to the sumbitEmployeeData function
-        submitAssignDesignation(newData)
-    }
+   
     
+    
+    const form = useForm<z.infer<typeof AssignDesignationSchema>>()
+
+    const handleSubmit = async (data: z.infer<typeof AssignDesignationSchema>) => {
+        try {
+            const handledData: AddAssignDesignationSchema = {
+                employeeType: data.employeeType,
+                status: data.status,
+                designation: data.designation,
+                employee: id || "",
+            };
+    
+            await submitAssignDesignation(handledData, designation);
+    
+            // If the promise resolves without throwing an error, it means the submission was successful
+            toast({
+                variant: "default",
+                title: "Data Submitted",
+            });
+        } catch (error) {
+            // If an error occurs during submission, handle it here
+            console.error("Error submitting data:", error);
+    
+            toast({
+                variant: "destructive",
+                title: "Error submitting data",
+                description: "An error occurred while submitting the data. Please try again later.",
+            });
+        } 
+    }
+    if(isLoading){
+        return null
+    }
     return (
     <Form {...form}>
         <form 
@@ -94,7 +86,7 @@ export function AddAssignDesignationForm(){
                         <FormField
                             
                             control={form.control}
-                            name="designation.designationName"
+                            name="designation"
                             render={({field}) => (
                                 <FormItem>
                                     <Select onValueChange={field.onChange} defaultValue={field.value}>

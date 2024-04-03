@@ -58,7 +58,7 @@ export default function EmployeePage() {
           <PageTittle title="Employees"/>
           <AddEmployeeDialog/>
         </div>
-        <DataTable columns={columns} data={Employee} />
+        <DataTable columns={columns} data={Employee} isEmployee={true}/>
       </div>
     </NormalLayout>
   )

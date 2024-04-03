@@ -1,13 +1,14 @@
 import axios from "axios"
-import { AssignDesignationSubmission } from "@/lib/types";
+import { AddAssignDesignationSchema, AssignDesignation, Designation } from "@/lib/types";
+import { getEmployeeById } from "./employee";
 
 
 export async function getAssignDesignationByEmployeeId(id:string){
     
     try{
         if(id === "") throw Error;
-        const response = await axios.get(`http://localhost:8080/assigned/employee?id=${id}`)
-        console.log(response.data);
+        const response = await axios.get(`http://localhost:8080/assigned/designation/employee?id=${id}`)
+
         return response.data;
     }
     catch(error){
@@ -18,43 +19,55 @@ export async function getAssignDesignationByEmployeeId(id:string){
 export async function isEmployeeAssigned(id:string) {
     if( id === "") throw Error;
     try {
-        const response = await axios.get(`http://localhost:8080/assigned?id=${id}`)
-        console.log(response.data);
+        const response = await axios.get(`http://localhost:8080/assigned/designation/employee/find?id=${id}`)
+
         return response.data;
     } catch (error) {
-        console.error("Error sending data: ", error);
+        return error
     }
 }
 
-export async function submitAssignDesignation(data: AssignDesignationSubmission) {
+export async function submitAssignDesignation(data: AddAssignDesignationSchema, designations : Designation[]) {
     try{
-        console.log(data)
-        const response = await axios.post("http://localhost:8080/assigned", data);
-        console.log(response.data);
+        const designationData = designations.find(value => value.designationName === data.designation)
+        const employeeData = await getEmployeeById(data.employee)
+        const newData= {
+            ...data,
+            designation: designationData,
+            employee: employeeData,
+        }
+        
+        const response = await axios.post("http://localhost:8080/assigned/designation", newData);
         return response.data; 
     } 
     catch(error){
-        console.error("Error sending data: ", error);
+       throw error
     }
 }
 
-export async function updateAssignDesignation(data:AssignDesignationSubmission, id : string) {
+export async function updateAssignDesignation(newData:AddAssignDesignationSchema, currentData:AssignDesignation,designations : Designation[] ,id : string) {
     try{
         if(id === undefined) throw Error
-        const response = await axios.put(`http://localhost:8080/assigned/${id}`,data)
-        console.log(response.data)
+        const designationData = designations.find(value => value.designationName === newData.designation)
+
+        const updatedData: AssignDesignation = {
+            ...currentData,
+            employeeType: newData.employeeType,
+            status: newData.status,
+            designation: designationData!
+        };
+        
+        const response = await axios.put(`http://localhost:8080/assigned/${id}`,updatedData)
         return response.data
     } catch (error) {
-        console.log(error);
+       throw Error
     }
 }
 
 export async function getTopNAssignDesignation(count:string){
     try{
         if(count === undefined) count =''
-    
         const response = await axios.get(`http://localhost:8080/assigned/top?count=${count}`)
-        console.log(response.data.content);
         return response.data.content;
     }catch(error){
         console.log(error);

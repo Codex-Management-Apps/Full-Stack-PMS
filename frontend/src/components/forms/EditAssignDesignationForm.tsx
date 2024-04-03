@@ -8,88 +8,88 @@ import { Button } from "../ui/button"
 
 import { useForm } from "react-hook-form"
 
-import { AssignDesignation} from "@/schemas"
+import { AssignDesignationSchema} from "@/schemas"
 import { z } from "zod"
 
 import { DialogFooter } from "../ui/dialog"
 import { Label } from "../ui/label"
 import { useToast } from "../ui/use-toast"
-import { EditAssignDesignationDialogProps } from "../dialog/EditAssignDesignationDialog"
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "../ui/select"
 import { useParams } from "react-router-dom"
 import { updateAssignDesignation } from "@/controller/assigned"
 import { getAllDesignation } from "@/controller/designation"
-import { Designation } from "@/lib/types"
+import { AddAssignDesignationSchema, Designation,AssignDesignation } from "@/lib/types"
 import { useState, useEffect } from "react"
 
-export function EditAssignDesignationForm(props:EditAssignDesignationDialogProps ){
+export type Props = {
+    data : AssignDesignation | undefined
+}
+
+export function EditAssignDesignationForm({data}:Props ){
     
     const [designation, setdesignation] = useState<Designation[]>([]);
     const { id } = useParams<{ id: string }>();
     const {toast} = useToast();
+    const [isLoading, setIsLoading] = useState<Boolean>(true);
+
 
     useEffect(()=> {
-        handleData();
-    }, [])
-
-    const handleData = async() => {
-        try {
-            const response = await getAllDesignation()
-            console.log(response)
-            setdesignation(response);
-        }catch(error){
-            console.log(error)
-        }
-    }
-    const form = useForm<z.infer<typeof AssignDesignation>>({
-        defaultValues: {
-            employee:{
-                id: id
-            },
-            designation:{
-                id: props.designation.id,
-                designationName: (() => {
-                    const matchingDesignation = designation.find(
-                    (d) => d.id === props.designation.id
-                    );
-                        console.log(matchingDesignation ? matchingDesignation.designationName : "");
-                    return matchingDesignation ? matchingDesignation.designationName : "";
-                })(),
-            },
-            employeeType:  props.employeeType,
-            status:  props.status
-        }
-    });
-    const handleSubmit = (data: z.infer<typeof AssignDesignation>) => {
-        const newData = {
-            employeeType: data.employeeType,
-            status: data.status,
-            designation:{
-                id:(() => {
-                    const matchingDesignation = designation.find(
-                      (d) => d.designationName === data.designation.designationName
-                    );
-                
-                    return matchingDesignation ? matchingDesignation.id : null;
-                  })()|| null
-            },
-            employee:{
-                id: id || null
+        const handleData = async() => {
+            try {
+                const response = await getAllDesignation()
+                console.log(response)
+                setdesignation(response);
+            }catch(error){
+                console.log(error)
+            } finally {
+                setIsLoading(false)
             }
         }
-        toast({
-            variant: "default",
-            title: "Data Updated, Kindly Refresh the page",
-            description: (
-                <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-                  <code className="text-white">{JSON.stringify(newData, null, 2)}</code>
-                </pre>
-              ),
-        })
-       // Pass the updated employeeData object to the sumbitEmployeeData function
-       updateAssignDesignation(newData, props.id)
-    }
+        handleData()
+    }, [])
+   
     
+    
+    const form = useForm<z.infer<typeof AssignDesignationSchema>>({
+        defaultValues:{
+            employeeType: data?.employeeType,
+            status: data?.status,
+            designation: data?.designation.designationName,
+        }
+    })
+
+    const handleSubmit = async (currentData: z.infer<typeof AssignDesignationSchema>) => {
+        try {
+            const handledData: AddAssignDesignationSchema = {
+                employeeType: currentData.employeeType,
+                status: currentData.status,
+                designation: currentData.designation,
+                employee: id || "",
+            };
+            
+            if (data) {
+                await updateAssignDesignation(handledData, data, designation,data.id);
+            }
+            // If the promise resolves without throwing an error, it means the submission was successful
+            toast({
+                variant: "default",
+                title: "Data Updated",
+            });
+        } catch (error) {
+            // If an error occurs during submission this sends error that says something went wrong
+            console.error("Error submitting data:", error);
+    
+            toast({
+                variant: "destructive",
+                title: "Error submitting data",
+                description: "An error occurred while submitting the data. Please try again later.",
+            });
+        } 
+    }
+    if(isLoading){
+        return null
+    }
+   
     return (
     <Form {...form}>
         <form 
@@ -97,12 +97,12 @@ export function EditAssignDesignationForm(props:EditAssignDesignationDialogProps
             className="">
             <div className="grid gap-4 py-4">
                 <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="designation.designationName" className="text-right"> Designation name </Label>
+                    <Label htmlFor="designation" className="text-right"> Designation name </Label>
                     <div className=" col-span-3">
                         <FormField
                             
                             control={form.control}
-                            name="designation.designationName"
+                            name="designation"
                             render={({field}) => (
                                 <FormItem>
                                     <Select onValueChange={field.onChange} defaultValue={field.value}>

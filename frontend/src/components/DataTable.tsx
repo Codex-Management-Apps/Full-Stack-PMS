@@ -24,11 +24,13 @@ import { toast } from "@/components/ui/use-toast"
 interface DataTableProps<TData, TValue>{
     columns: ColumnDef<TData, TValue>[]
     data: TData[]
+    isEmployee : Boolean
 }
 
 export function DataTable<TData, TValue>({
     columns,
     data,
+    isEmployee
   }: DataTableProps<TData, TValue>) {
     const navigate = useNavigate();
     const table = useReactTable({
@@ -89,12 +91,14 @@ export function DataTable<TData, TValue>({
                                             {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                         </TableCell>
                                     ))}
-                                    <TableCell className="flex gap-3">
-                                        <Button variant={"outline"} onClick={() => viewData("view",row as Row<TData & { id: string }>)}>
-                                            View
-                                        </Button>
-                                        <Button variant={"destructive"} onClick={() => viewData("delete",row as Row<TData & { id: string }>)}>Delete</Button>
-                                    </TableCell>
+                                    {isEmployee && 
+                                        <TableCell className="flex gap-3">
+                                            <Button variant={"outline"} onClick={() => viewData("view",row as Row<TData & { id: string }>)}>
+                                                View
+                                            </Button>
+                                            <Button variant={"destructive"} onClick={() => viewData("delete",row as Row<TData & { id: string }>)}>Delete</Button>
+                                        </TableCell>
+                                }
                                 </TableRow>
                             ))
                         ): (

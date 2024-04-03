@@ -1,44 +1,37 @@
-import DashCard, { CardContent } from '@/components/DashCard'
-import PageTittle from '@/components/PageTitle'
-import { AddDeparmentsDialog } from '@/components/dialog/AddDepartmentsDialog'
-import { AddDesignationDialog } from '@/components/dialog/AddDesignationDialog'
 
 import { NormalLayout } from '@/layouts/NormalLayout'
-import { useEffect, useState } from 'react'
 
-import { getTopNAssignDesignation } from '@/controller/assigned'
-import { getTopNDesignation } from '@/controller/designation'
-import { getTopNDepartment } from '@/controller/department'
-import { AssignDesignation, Department, Designation } from '@/lib/types'
 
 
 export default function Dashboard() {
-  const [assignedEmployee, setAssignedEmployee] = useState<AssignDesignation[]>([]);
-  const [designation, setDesignation] = useState<Designation[]>([]);
-  const [departments, setDepartment] = useState<Department[]>([]);
-  const count = "5";
 
-  useEffect(() =>{
-    handleData()
-  },[])
+  // const [assignedEmployee, setAssignedEmployee] = useState<AssignDesignation[]>([]);
+  // const [designation, setDesignation] = useState<Designation[]>([]);
+  // const [departments, setDepartment] = useState<Department[]>([]);
+  // const count = "5";
 
-  const handleData = async () => {
-    try {
-      const employeData = await getTopNAssignDesignation("10");
-      const designationData = await getTopNDesignation(count);
-      const departmentData = await getTopNDepartment(count);
+  // useEffect(() =>{
+  //   handleData()
+  // },[])
 
-      setAssignedEmployee(employeData);
-      setDesignation(designationData);
-      setDepartment(departmentData);
-    } catch(error){
-      console.log(error)
-    }
-  }
+  // const handleData = async () => {
+  //   try {
+  //     const employeData = await getTopNAssignDesignation("10");
+  //     const designationData = await getTopNDesignation(count);
+  //     const departmentData = await getTopNDepartment(count);
+
+  //     setAssignedEmployee(employeData);
+  //     setDesignation(designationData);
+  //     setDepartment(departmentData);
+  //   } catch(error){
+  //     console.log(error)
+  //   }
+  // }
   return (
     <NormalLayout>
       <div className='flex flex-col gap-5'>
-        <PageTittle title="Dashboard" />
+        <p>Under maintenance</p>
+        {/* <PageTittle title="Dashboard" />
         <div className='grid grid-cols-1 gap-4 transition-all lg:grid-cols-2 w-full'>
           <CardContent className='flex flex-col gap-2 '>
             <section>
@@ -75,7 +68,7 @@ export default function Dashboard() {
             </div>
 
           </div>
-        </div>
+        </div> */}
       </div>
     </NormalLayout>
   )

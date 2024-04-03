@@ -18,24 +18,26 @@ import { DialogFooter } from "../ui/dialog"
 import { Label } from "../ui/label"
 import { useToast } from "../ui/use-toast"
 import { UpdateEmployee } from "@/controller/employee"
-import { setCurrentDate } from "@/lib/utils"
 import { Employee } from "@/lib/types"
 
 
-export function EditEmployeeForm(data:Employee){
+type Props = {
+    data:Employee | undefined
+}
+
+export function EditEmployeeForm({data} : Props){
     const {toast} = useToast();
     console.log(data)
 
     const form = useForm<z.infer<typeof AddEmployeeSchema>>({
         defaultValues: {
-            firstname: data.firstname, 
-            middlename: data.middlename,
-            lastname: data.lastname,
-            address_line: data.address_line,
-            barangay: data.barangay,
-            province: data.province,
-            country: data.country,
-            last_update: setCurrentDate(),
+            firstname: data?.firstname ?? '', 
+            middlename: data?.middlename ?? '',
+            lastname: data?.lastname ?? '',
+            address_line: data?.address_line ?? '',
+            barangay: data?.barangay ?? '',
+            province: data?.province ?? '',
+            country: data?.country ?? '',
         }
     });
     // use default values in forms and never use value or default value in input
@@ -43,18 +45,18 @@ export function EditEmployeeForm(data:Employee){
     const handleSubmit = (Submitdata: z.infer<typeof AddEmployeeSchema>) => {
        
         console.log(Submitdata)
-        if(data.id !== '' || data.id !== undefined) {
-            
-            UpdateEmployee(Submitdata, data.id ?? '')// Pass the updated employeeData object to the sumbitEmployeeData function
-            toast({
-                variant: "default",
-                title: "Data Updated, Kindly Refresh the page",
-                description: (
-                    <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-                      <code className="text-white">{JSON.stringify(Submitdata, null, 2)}</code>
-                    </pre>
-                  ),
-            })
+        if(data?.id !== '' || data?.id !== undefined) {
+                
+                UpdateEmployee(Submitdata, data?.id ?? '') // Pass the updated employeeData object to the sumbitEmployeeData function
+                toast({
+                        variant: "default",
+                        title: "Data Updated, Kindly Refresh the page",
+                        description: (
+                                <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+                                    <code className="text-white">{JSON.stringify(Submitdata, null, 2)}</code>
+                                </pre>
+                            ),
+                })
         }else{
             toast({
                 variant: "destructive",

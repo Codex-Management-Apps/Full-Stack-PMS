@@ -49,5 +49,14 @@ public class Position {
         setPositionName(positionName);
         return this;
     }
+    @Override
+    public String toString() {
+        return "{" +
+            " id='" + getId() + "'" +
+            ", positionName='" + getPositionName() + "'" +
+            "}";
+    }
 
 }
+
+    

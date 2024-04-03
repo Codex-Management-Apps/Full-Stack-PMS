@@ -27,7 +27,7 @@ public class AssignPosition {
     @JoinColumn(name = "position_id", referencedColumnName = "id")
     private Position position;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "superior_id", referencedColumnName = "id")     
     private Signatory superior;
 
@@ -38,10 +38,11 @@ public class AssignPosition {
     public AssignPosition() {
     }
 
-    public AssignPosition(Long id, AssignDesignation Employee, Position position, String Created_at) {
+    public AssignPosition(Long id, AssignDesignation Employee, Position position, Signatory superior,String Created_at) {
         this.id = id;
         this.employee = Employee;
         this.position = position;
+        this.superior = superior;
         this.created_at = Created_at;
     }
 

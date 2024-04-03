@@ -27,7 +27,6 @@ export function Nav({ links, isCollapsed }: NavProps) {
   const location = useLocation();
   const pathName = location.pathname;
 
-
   return (
     <TooltipProvider>
       <div

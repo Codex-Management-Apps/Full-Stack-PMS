@@ -13,6 +13,7 @@ public class BackendApplication {
 	public Dotenv dotenv() {
         return Dotenv.configure().load();
     }
+	
 	public static void main(String[] args) {
 		SpringApplication.run(BackendApplication.class, args);
 	}

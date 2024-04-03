@@ -7,6 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Designation {
@@ -18,15 +20,16 @@ public class Designation {
     @Column(name = "designation_name")
     private String designationName;
 
-    @Column(name = "department_id")
-    private String departmentId;
+    @ManyToOne
+    @JoinColumn(name = "departmentId", referencedColumnName = "id")
+    private Department departmentId;
 
     private String status;
 
     public Designation() {
     }
 
-    public Designation(Long id, String designationName, String departmentId, String status, List<AssignDesignation> assignedDesignations) {
+    public Designation(Long id, String designationName, Department departmentId, String status, List<AssignDesignation> assignedDesignations) {
         this.id = id;
         this.designationName = designationName;
         this.departmentId = departmentId;
@@ -50,11 +53,11 @@ public class Designation {
         this.designationName = designationName;
     }
 
-    public String getDepartmentId() {
+    public Department getDepartmentId() {
         return this.departmentId;
     }
 
-    public void setDepartmentId(String departmentId) {
+    public void setDepartmentId(Department departmentId) {
         this.departmentId = departmentId;
     }
 
@@ -84,7 +87,7 @@ public class Designation {
         return this;
     }
 
-    public Designation departmentId(String departmentId) {
+    public Designation departmentId(Department departmentId) {
         setDepartmentId(departmentId);
         return this;
     }
