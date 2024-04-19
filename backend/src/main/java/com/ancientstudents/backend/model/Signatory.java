@@ -33,10 +33,7 @@ public class Signatory {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "last_updated")
     private Date lastUpdated;
-    
-
-
-
+ 
     public Signatory() {
     }
 

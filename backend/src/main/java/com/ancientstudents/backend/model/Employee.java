@@ -18,7 +18,10 @@ public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
- 
+
+    @Column(name="emp_num")
+    private String empNum;
+
     @ManyToOne
     @JoinColumn(name="department_id", referencedColumnName = "id")
     private Department department;
@@ -31,6 +34,8 @@ public class Employee {
     @JoinColumn(name="employeedata_id", referencedColumnName = "id")
     private DataEmployee employeeData;
 
+    private String employeeType;
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at")
     private Date createdAt;
@@ -42,12 +47,13 @@ public class Employee {
     public Employee() {
     }
 
-
-    public Employee(Long id, Department department, Designation designation, DataEmployee employeeData, Date createdAt, Date lastUpdated) {
+    public Employee(Long id, String empNum, Department department, Designation designation, DataEmployee employeeData, String employeeType, Date createdAt, Date lastUpdated) {
         this.id = id;
+        this.empNum = empNum;
         this.department = department;
         this.designation = designation;
         this.employeeData = employeeData;
+        this.employeeType = employeeType;
         this.createdAt = createdAt;
         this.lastUpdated = lastUpdated;
     }
@@ -58,6 +64,14 @@ public class Employee {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getEmpNum() {
+        return this.empNum;
+    }
+
+    public void setEmpNum(String empNum) {
+        this.empNum = empNum;
     }
 
     public Department getDepartment() {
@@ -84,6 +98,14 @@ public class Employee {
         this.employeeData = employeeData;
     }
 
+    public String getEmployeeType() {
+        return this.employeeType;
+    }
+
+    public void setEmployeeType(String employeeType) {
+        this.employeeType = employeeType;
+    }
+
     public Date getCreatedAt() {
         return this.createdAt;
     }
@@ -104,9 +126,11 @@ public class Employee {
     public String toString() {
         return "{" +
             " id='" + getId() + "'" +
+            ", empNum='" + getEmpNum() + "'" +
             ", department='" + getDepartment() + "'" +
             ", designation='" + getDesignation() + "'" +
             ", employeeData='" + getEmployeeData() + "'" +
+            ", employeeType='" + getEmployeeType() + "'" +
             ", createdAt='" + getCreatedAt() + "'" +
             ", lastUpdated='" + getLastUpdated() + "'" +
             "}";

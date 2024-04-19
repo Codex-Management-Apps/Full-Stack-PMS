@@ -42,6 +42,7 @@ public class SignatoryController {
         if(id == null) return null;
         return signatoryRepository.findById(id)
                 .map(signatory -> {
+                    signatory.setName(newSignatory.getName());
                     signatory.setEmployee(newSignatory.getEmployee());
                     signatory.setStatus(newSignatory.getStatus());
                     signatory.setCreatedAt(newSignatory.getCreatedAt());

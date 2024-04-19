@@ -45,9 +45,11 @@ public class EmployeeController {
         if(id == null) return null;
         return employeeRepository.findById(id)
                 .map(employee -> {
+                    employee.setEmpNum(newEmployee.getEmpNum());
                     employee.setDepartment(newEmployee.getDepartment());
                     employee.setDesignation(newEmployee.getDesignation());
                     employee.setEmployeeData(newEmployee.getEmployeeData());
+                    employee.setEmployeeType(newEmployee.getEmployeeType());
                     employee.setCreatedAt(newEmployee.getCreatedAt());
                     employee.setLastUpdated(new Date());
                     return employeeRepository.save(employee);

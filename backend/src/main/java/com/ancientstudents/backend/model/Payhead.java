@@ -11,12 +11,12 @@ import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
 @Entity
-public class AddEarnings {
+public class Payhead {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String typeOfEarnings;
+    private String name;
     private String amount;
     
     @Temporal(TemporalType.TIMESTAMP)
@@ -27,17 +27,17 @@ public class AddEarnings {
     @Column(name = "last_updated")
     private Date lastUpdated;
     
-    public AddEarnings() {
+    public Payhead() {
     }
-    
 
-    public AddEarnings(Long id, String typeOfEarnings, String amount, Date createdAt, Date lastUpdated) {
+    public Payhead(Long id, String name, String amount, Date createdAt, Date lastUpdated) {
         this.id = id;
-        this.typeOfEarnings = typeOfEarnings;
+        this.name = name;
         this.amount = amount;
         this.createdAt = createdAt;
         this.lastUpdated = lastUpdated;
     }
+    
 
     public Long getId() {
         return this.id;
@@ -47,12 +47,12 @@ public class AddEarnings {
         this.id = id;
     }
 
-    public String getTypeOfEarnings() {
-        return this.typeOfEarnings;
+    public String getName() {
+        return this.name;
     }
 
-    public void setTypeOfEarnings(String typeOfEarnings) {
-        this.typeOfEarnings = typeOfEarnings;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getAmount() {
@@ -83,12 +83,10 @@ public class AddEarnings {
     public String toString() {
         return "{" +
             " id='" + getId() + "'" +
-            ", typeOfEarnings='" + getTypeOfEarnings() + "'" +
+            ", name='" + getName() + "'" +
             ", amount='" + getAmount() + "'" +
             ", createdAt='" + getCreatedAt() + "'" +
             ", lastUpdated='" + getLastUpdated() + "'" +
             "}";
     }
-
-
 }

@@ -19,7 +19,6 @@ public class Designation {
 
     @Column(name = "designation_name")
     private String designationName;
-    private String salary;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at")
@@ -33,10 +32,9 @@ public class Designation {
     public Designation() {
     }
 
-    public Designation(Long id, String designationName, String salary, Date createdAt, Date lastUpdated) {
+    public Designation(Long id, String designationName, Date createdAt, Date lastUpdated) {
         this.id = id;
         this.designationName = designationName;
-        this.salary = salary;
         this.createdAt = createdAt;
         this.lastUpdated = lastUpdated;
     }
@@ -57,14 +55,6 @@ public class Designation {
         this.designationName = designationName;
     }
 
-    public String getSalary() {
-        return this.salary;
-    }
-
-    public void setSalary(String salary) {
-        this.salary = salary;
-    }
-
     public Date getCreatedAt() {
         return this.createdAt;
     }
@@ -81,12 +71,12 @@ public class Designation {
         this.lastUpdated = lastUpdated;
     }
 
+
     @Override
     public String toString() {
         return "{" +
             " id='" + getId() + "'" +
             ", designationName='" + getDesignationName() + "'" +
-            ", salary='" + getSalary() + "'" +
             ", createdAt='" + getCreatedAt() + "'" +
             ", lastUpdated='" + getLastUpdated() + "'" +
             "}";

@@ -23,6 +23,7 @@ public class DataEmployeeController {
 
     @Autowired
     private DataEmployeeRepository dataEmployeeRepository;
+   
     // CRUD for Employee
     @PostMapping("/employee/info")
     DataEmployee newEmployee(@RequestBody DataEmployee newEmployee){
@@ -52,6 +53,12 @@ public class DataEmployeeController {
                     employee.setFirstname(newEmployee.getFirstname());
                     employee.setMiddlename(newEmployee.getMiddlename());
                     employee.setLastname(newEmployee.getLastname());
+
+                    employee.setBirthday(newEmployee.getBirthday());
+                    employee.setContact(newEmployee.getContact());
+                    employee.setEmail(newEmployee.getEmail());
+                    employee.setGender(newEmployee.getGender());
+
                     employee.setAddressLine(newEmployee.getAddressLine());
                     employee.setBarangay(newEmployee.getBarangay()); 
                     employee.setProvince(newEmployee.getBarangay());

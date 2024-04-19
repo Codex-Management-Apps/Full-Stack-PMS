@@ -43,7 +43,6 @@ public class DesignationController {
         return designationRepository.findById(id)
                 .map(designation -> {
                     designation.setDesignationName(newDesignation.getDesignationName());
-                    designation.setSalary(newDesignation.getSalary());
                     designation.setCreatedAt(newDesignation.getCreatedAt());
                     designation.setLastUpdated(new Date());
                     return designationRepository.save(designation);

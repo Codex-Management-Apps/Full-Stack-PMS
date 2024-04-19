@@ -25,8 +25,7 @@ public class LeaveRequest {
     private Employee employee;
     private String status;
     private String comment;
-    private String reason;
-    
+    private String leaveType;    
     private Date dateOfLeave;
     private Date dateOfEnd;
 
@@ -42,18 +41,17 @@ public class LeaveRequest {
     public LeaveRequest() {
     }
 
-    public LeaveRequest(Long id, Employee employee, String reason, Date dateOfLeave, Date dateOfEnd, String status, String comment, Date createdAt, Date lastUpdated) {
+    public LeaveRequest(Long id, Employee employee, String status, String comment, String leaveType, Date dateOfLeave, Date dateOfEnd, Date createdAt, Date lastUpdated) {
         this.id = id;
         this.employee = employee;
-        this.reason = reason;
-        this.dateOfLeave = dateOfLeave;
-        this.dateOfEnd = dateOfEnd;
         this.status = status;
         this.comment = comment;
+        this.leaveType = leaveType;
+        this.dateOfLeave = dateOfLeave;
+        this.dateOfEnd = dateOfEnd;
         this.createdAt = createdAt;
         this.lastUpdated = lastUpdated;
     }
-
 
     public Long getId() {
         return this.id;
@@ -69,30 +67,6 @@ public class LeaveRequest {
 
     public void setEmployee(Employee employee) {
         this.employee = employee;
-    }
-
-    public String getReason() {
-        return this.reason;
-    }
-
-    public void setReason(String reason) {
-        this.reason = reason;
-    }
-
-    public Date getDateOfLeave() {
-        return this.dateOfLeave;
-    }
-
-    public void setDateOfLeave(Date dateOfLeave) {
-        this.dateOfLeave = dateOfLeave;
-    }
-
-    public Date getDateOfEnd() {
-        return this.dateOfEnd;
-    }
-
-    public void setDateOfEnd(Date dateOfEnd) {
-        this.dateOfEnd = dateOfEnd;
     }
 
     public String getStatus() {
@@ -111,6 +85,30 @@ public class LeaveRequest {
         this.comment = comment;
     }
 
+    public String getLeaveType() {
+        return this.leaveType;
+    }
+
+    public void setLeaveType(String leaveType) {
+        this.leaveType = leaveType;
+    }
+
+    public Date getDateOfLeave() {
+        return this.dateOfLeave;
+    }
+
+    public void setDateOfLeave(Date dateOfLeave) {
+        this.dateOfLeave = dateOfLeave;
+    }
+
+    public Date getDateOfEnd() {
+        return this.dateOfEnd;
+    }
+
+    public void setDateOfEnd(Date dateOfEnd) {
+        this.dateOfEnd = dateOfEnd;
+    }
+
     public Date getCreatedAt() {
         return this.createdAt;
     }
@@ -126,22 +124,22 @@ public class LeaveRequest {
     public void setLastUpdated(Date lastUpdated) {
         this.lastUpdated = lastUpdated;
     }
-  
 
     @Override
     public String toString() {
         return "{" +
             " id='" + getId() + "'" +
             ", employee='" + getEmployee() + "'" +
-            ", reason='" + getReason() + "'" +
-            ", dateOfLeave='" + getDateOfLeave() + "'" +
-            ", dateOfEnd='" + getDateOfEnd() + "'" +
             ", status='" + getStatus() + "'" +
             ", comment='" + getComment() + "'" +
+            ", leaveType='" + getLeaveType() + "'" +
+            ", dateOfLeave='" + getDateOfLeave() + "'" +
+            ", dateOfEnd='" + getDateOfEnd() + "'" +
             ", createdAt='" + getCreatedAt() + "'" +
             ", lastUpdated='" + getLastUpdated() + "'" +
             "}";
     }
+
 
 }
 

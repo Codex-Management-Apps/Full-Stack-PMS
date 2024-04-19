@@ -21,10 +21,16 @@ public class DataEmployee {
     private String firstname;
     private String middlename;
     private String lastname;
+
+    private String birthday;
+    private String contact;
+    private String email;
+    private String gender;
+
     private String addressLine;
     private String barangay;
-    private String province;
     private String country;
+    private String province;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at")
@@ -37,15 +43,19 @@ public class DataEmployee {
     public DataEmployee() {
     }
 
-    public DataEmployee(Long id, String firstname, String middlename, String lastname, String addressLine, String barangay, String province, String country, Date createdAt, Date lastUpdated) {
+    public DataEmployee(Long id, String firstname, String middlename, String lastname, String birthday, String contact, String email, String gender, String addressLine, String barangay, String country, String province, Date createdAt, Date lastUpdated) {
         this.id = id;
         this.firstname = firstname;
         this.middlename = middlename;
         this.lastname = lastname;
+        this.birthday = birthday;
+        this.contact = contact;
+        this.email = email;
+        this.gender = gender;
         this.addressLine = addressLine;
         this.barangay = barangay;
-        this.province = province;
         this.country = country;
+        this.province = province;
         this.createdAt = createdAt;
         this.lastUpdated = lastUpdated;
     }
@@ -82,6 +92,38 @@ public class DataEmployee {
         this.lastname = lastname;
     }
 
+    public String getBirthday() {
+        return this.birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
+
+    public String getContact() {
+        return this.contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
+    }
+
+    public String getEmail() {
+        return this.email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getGender() {
+        return this.gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
     public String getAddressLine() {
         return this.addressLine;
     }
@@ -98,20 +140,20 @@ public class DataEmployee {
         this.barangay = barangay;
     }
 
-    public String getProvince() {
-        return this.province;
-    }
-
-    public void setProvince(String province) {
-        this.province = province;
-    }
-
     public String getCountry() {
         return this.country;
     }
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public String getProvince() {
+        return this.province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
     }
 
     public Date getCreatedAt() {
@@ -137,10 +179,14 @@ public class DataEmployee {
             ", firstname='" + getFirstname() + "'" +
             ", middlename='" + getMiddlename() + "'" +
             ", lastname='" + getLastname() + "'" +
+            ", birthday='" + getBirthday() + "'" +
+            ", contact='" + getContact() + "'" +
+            ", email='" + getEmail() + "'" +
+            ", gender='" + getGender() + "'" +
             ", addressLine='" + getAddressLine() + "'" +
             ", barangay='" + getBarangay() + "'" +
-            ", province='" + getProvince() + "'" +
             ", country='" + getCountry() + "'" +
+            ", province='" + getProvince() + "'" +
             ", createdAt='" + getCreatedAt() + "'" +
             ", lastUpdated='" + getLastUpdated() + "'" +
             "}";

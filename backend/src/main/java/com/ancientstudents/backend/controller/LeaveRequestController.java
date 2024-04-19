@@ -43,7 +43,7 @@ public class LeaveRequestController {
         return leaveRequestRepository.findById(id)
                 .map(leaveRequest -> {
                     leaveRequest.setEmployee(newLeaveRequest.getEmployee());
-                    leaveRequest.setReason(newLeaveRequest.getReason());
+                    leaveRequest.setLeaveType(newLeaveRequest.getLeaveType());
                     leaveRequest.setDateOfLeave(newLeaveRequest.getDateOfLeave());
                     leaveRequest.setDateOfEnd(newLeaveRequest.getDateOfEnd());
                     leaveRequest.setStatus(newLeaveRequest.getStatus());
