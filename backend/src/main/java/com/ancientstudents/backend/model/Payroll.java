@@ -2,6 +2,9 @@ package com.ancientstudents.backend.model;
 
 import java.util.Date;
 
+import com.ancientstudents.backend.serializer.CustomDateSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -34,10 +37,12 @@ public class Payroll {
     private double net_pay;
 
     @Temporal(TemporalType.TIMESTAMP)
+    @JsonSerialize(using = CustomDateSerializer.class)
     @Column(name = "created_at")
     private Date createdAt;
 
     @Temporal(TemporalType.TIMESTAMP)
+    @JsonSerialize(using = CustomDateSerializer.class)
     @Column(name = "last_updated")
     private Date lastUpdated;
 

@@ -27,7 +27,9 @@ public class DesignationController {
 
     @GetMapping("/designation")
     List<Designation> getAllDesignations(){
-        return designationRepository.findAll();
+        List<Designation> x = designationRepository.findAll();
+        System.out.println(x);
+        return x;
     }
 
     @GetMapping("/designation/{id}")
@@ -66,4 +68,7 @@ public class DesignationController {
 
         return topDesignation;
     }
+
+    // Misc Function
+    
 }
