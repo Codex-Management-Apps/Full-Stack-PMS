@@ -28,7 +28,7 @@ public class AssignDesignation {
 
     @Column(name = "status")
     private String status;
- 
+
     public AssignDesignation() {
     }
 
@@ -99,7 +99,6 @@ public class AssignDesignation {
         setStatus(status);
         return this;
     }
-
 
     @Override
     public String toString() {

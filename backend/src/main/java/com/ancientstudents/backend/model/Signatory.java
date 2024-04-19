@@ -1,12 +1,16 @@
 package com.ancientstudents.backend.model;
 
-import jakarta.persistence.CascadeType;
+import java.util.Date;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 @Entity
 public class Signatory {
@@ -14,21 +18,26 @@ public class Signatory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+    private String name;
+
     @ManyToOne
-    @JoinColumn(name = "in_charge", referencedColumnName = "id")     
-    private AssignPosition inCharge;
+    @JoinColumn(name="employee_id", referencedColumnName = "id")
+    private Employee employee;
 
     private String status;
 
-    public Signatory() {
-        
-    }
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created_at")
+    private Date createdAt;
 
-    public Signatory(Long id, AssignPosition inCharge, String status) {
-        this.id = id;
-        this.inCharge = inCharge;
-        this.status = status;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "last_updated")
+    private Date lastUpdated;
+    
+
+
+
+    public Signatory() {
     }
 
     public Long getId() {
@@ -39,12 +48,20 @@ public class Signatory {
         this.id = id;
     }
 
-    public AssignPosition getSuperior() {
-        return this.inCharge;
+    public String getName() {
+        return this.name;
     }
 
-    public void setSuperior(AssignPosition inCharge) {
-        this.inCharge = inCharge;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Employee getEmployee() {
+        return this.employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 
     public String getStatus() {
@@ -55,27 +72,31 @@ public class Signatory {
         this.status = status;
     }
 
-    public Signatory id(Long id) {
-        setId(id);
-        return this;
+    public Date getCreatedAt() {
+        return this.createdAt;
     }
 
-    public Signatory Superior(AssignPosition Superior) {
-        setSuperior(Superior);
-        return this;
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public Signatory status(String status) {
-        setStatus(status);
-        return this;
+    public Date getLastUpdated() {
+        return this.lastUpdated;
+    }
+
+    public void setLastUpdated(Date lastUpdated) {
+        this.lastUpdated = lastUpdated;
     }
 
     @Override
     public String toString() {
         return "{" +
             " id='" + getId() + "'" +
-            ", Superior='" + getSuperior() + "'" +
+            ", name='" + getName() + "'" +
+            ", employee='" + getEmployee() + "'" +
             ", status='" + getStatus() + "'" +
+            ", createdAt='" + getCreatedAt() + "'" +
+            ", lastUpdated='" + getLastUpdated() + "'" +
             "}";
     }
 

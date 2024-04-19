@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -20,6 +21,8 @@ public class DepartmentController {
     @PostMapping("/department")
     Department newDepartment(@RequestBody Department newDepartment){
         if(newDepartment == null) return null;
+        newDepartment.setCreatedAt(new Date());
+        newDepartment.setLastUpdated(new Date());
         return departmentRepository.save(newDepartment);
     }
 
@@ -42,6 +45,8 @@ public class DepartmentController {
                 .map(department -> {
                     department.setDepartmentName(newDepartment.getDepartmentName());
                     department.setStatus(newDepartment.getStatus());
+                    department.setCreatedAt(newDepartment.getCreatedAt());
+                    department.setLastUpdated(new Date());
                     return departmentRepository.save(department);
                 }).orElseThrow(()->new DepartmentNotFoundException(id));
     }

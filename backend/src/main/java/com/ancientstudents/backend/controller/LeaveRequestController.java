@@ -8,6 +8,7 @@ import com.ancientstudents.backend.repository.LeaveRequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @CrossOrigin("http://localhost:5175/")
@@ -16,30 +17,27 @@ public class LeaveRequestController {
     @Autowired
     private LeaveRequestRepository leaveRequestRepository;
 
-    // Creating Leave Request
-    @PostMapping("/leaveRequest")
+    @PostMapping("/leave")
     LeaveRequest newLeaveRequest(@RequestBody LeaveRequest newLeaveRequest){
         if(newLeaveRequest == null) return null;
+        newLeaveRequest.setCreatedAt(new Date());
+        newLeaveRequest.setLastUpdated(new Date());
         return leaveRequestRepository.save(newLeaveRequest);
     }
 
-    // Getting All Leave Request
-    @GetMapping("/leaveRequest")
+    @GetMapping("/leave")
     List<LeaveRequest> getAllLeaveRequests(){
         return leaveRequestRepository.findAll();
     }
 
-
-    // Getting Specific LeaveRequest
-    @GetMapping("/leaveRequest/{id}")
+    @GetMapping("/leave/{id}")
     LeaveRequest getLeaveRequestById(@PathVariable Long id){
         if(id == null) return null;
         return leaveRequestRepository.findById(id)
                 .orElseThrow(()->new LeaveRequestNotFoundException(id));
     }
 
-    // Updating a Leave Request
-    @PutMapping("leaveRequest/{id}")
+    @PutMapping("leave/{id}")
     LeaveRequest updateLeaveRequest(@RequestBody LeaveRequest newLeaveRequest, @PathVariable Long id){
         if(id == null) return null;
         return leaveRequestRepository.findById(id)
@@ -50,13 +48,14 @@ public class LeaveRequestController {
                     leaveRequest.setDateOfEnd(newLeaveRequest.getDateOfEnd());
                     leaveRequest.setStatus(newLeaveRequest.getStatus());
                     leaveRequest.setComment(newLeaveRequest.getComment());
-                    leaveRequest.setCreated_at(newLeaveRequest.getCreated_at());
+                    leaveRequest.setCreatedAt(newLeaveRequest.getCreatedAt());
+                    leaveRequest.setLastUpdated(new Date());
                     return leaveRequestRepository.save(leaveRequest);
                 }).orElseThrow(()->new LeaveRequestNotFoundException(id));
     }
 
-    // Deleting Leave Request
-    @DeleteMapping("leaveRequest/{id}")
+
+    @DeleteMapping("leave/{id}")
     String deleteUser(@PathVariable Long id){
         if(id == null) return null;
         if(!leaveRequestRepository.existsById(id)){

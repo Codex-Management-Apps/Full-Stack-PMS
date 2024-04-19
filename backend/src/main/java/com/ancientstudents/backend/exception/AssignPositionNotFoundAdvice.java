@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 public class AssignPositionNotFoundAdvice {
-     @ResponseBody
+    @ResponseBody
     @ExceptionHandler(LeaveRequestNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
 

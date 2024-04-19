@@ -1,11 +1,16 @@
 package com.ancientstudents.backend.model;
 
+import java.util.Date;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 @Entity
 public class LeaveRequest {
@@ -13,68 +18,85 @@ public class LeaveRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    
+    
     @ManyToOne
-    @JoinColumn(name = "Employee_id", referencedColumnName = "id")
-    private AssignPosition employee;
-
-    private String reason;
-
-    private String dateOfLeave;
-    
-    private String dateOfEnd;
-    
+    @JoinColumn(name="employee_id", referencedColumnName = "id")
+    private Employee employee;
     private String status;
-    
     private String comment;
+    private String reason;
     
-    private String created_at;
+    private Date dateOfLeave;
+    private Date dateOfEnd;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created_at")
+    private Date createdAt;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "last_updated")
+    private Date lastUpdated;
+    
 
     public LeaveRequest() {
     }
 
+    public LeaveRequest(Long id, Employee employee, String reason, Date dateOfLeave, Date dateOfEnd, String status, String comment, Date createdAt, Date lastUpdated) {
+        this.id = id;
+        this.employee = employee;
+        this.reason = reason;
+        this.dateOfLeave = dateOfLeave;
+        this.dateOfEnd = dateOfEnd;
+        this.status = status;
+        this.comment = comment;
+        this.createdAt = createdAt;
+        this.lastUpdated = lastUpdated;
+    }
+
+
     public Long getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public AssignPosition getEmployee() {
-        return employee;
+    public Employee getEmployee() {
+        return this.employee;
     }
 
-    public void setEmployee(AssignPosition employee) {
+    public void setEmployee(Employee employee) {
         this.employee = employee;
     }
 
     public String getReason() {
-        return reason;
+        return this.reason;
     }
 
     public void setReason(String reason) {
         this.reason = reason;
     }
 
-    public String getDateOfLeave() {
-        return dateOfLeave;
+    public Date getDateOfLeave() {
+        return this.dateOfLeave;
     }
 
-    public void setDateOfLeave(String dateOfLeave) {
+    public void setDateOfLeave(Date dateOfLeave) {
         this.dateOfLeave = dateOfLeave;
     }
 
-    public String getDateOfEnd() {
-        return dateOfEnd;
+    public Date getDateOfEnd() {
+        return this.dateOfEnd;
     }
 
-    public void setDateOfEnd(String dateOfEnd) {
+    public void setDateOfEnd(Date dateOfEnd) {
         this.dateOfEnd = dateOfEnd;
     }
 
     public String getStatus() {
-        return status;
+        return this.status;
     }
 
     public void setStatus(String status) {
@@ -82,20 +104,29 @@ public class LeaveRequest {
     }
 
     public String getComment() {
-        return comment;
+        return this.comment;
     }
 
     public void setComment(String comment) {
         this.comment = comment;
     }
 
-    public String getCreated_at() {
-        return created_at;
+    public Date getCreatedAt() {
+        return this.createdAt;
     }
 
-    public void setCreated_at(String created_at) {
-        this.created_at = created_at;
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
+
+    public Date getLastUpdated() {
+        return this.lastUpdated;
+    }
+
+    public void setLastUpdated(Date lastUpdated) {
+        this.lastUpdated = lastUpdated;
+    }
+  
 
     @Override
     public String toString() {
@@ -107,7 +138,8 @@ public class LeaveRequest {
             ", dateOfEnd='" + getDateOfEnd() + "'" +
             ", status='" + getStatus() + "'" +
             ", comment='" + getComment() + "'" +
-            ", created_at='" + getCreated_at() + "'" +
+            ", createdAt='" + getCreatedAt() + "'" +
+            ", lastUpdated='" + getLastUpdated() + "'" +
             "}";
     }
 

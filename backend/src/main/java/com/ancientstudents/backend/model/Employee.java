@@ -1,10 +1,16 @@
 package com.ancientstudents.backend.model;
 
+import java.util.Date;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 @Entity
 public class Employee {
@@ -12,130 +18,98 @@ public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String emp_num;
-    private String firstname;
-    private String middlename;
-    private String lastname;
-    private String address_line;
-    private String barangay;
-    private String province;
-    private String country;
+ 
+    @ManyToOne
+    @JoinColumn(name="department_id", referencedColumnName = "id")
+    private Department department;
 
-    @Column(name = "lastUpdate")
-    private String lastUpdate;
-    
-    public Employee(){
+    @ManyToOne
+    @JoinColumn(name="designation_id", referencedColumnName = "id")
+    private Designation designation;
+
+    @ManyToOne
+    @JoinColumn(name="employeedata_id", referencedColumnName = "id")
+    private DataEmployee employeeData;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created_at")
+    private Date createdAt;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "last_updated")
+    private Date lastUpdated;
+
+    public Employee() {
     }
 
-    public Employee(Long id, String emp_num, String firstname, String middlename, String lastname, String address_line, String barangay, String province, String country, String lastUpdate) {
+
+    public Employee(Long id, Department department, Designation designation, DataEmployee employeeData, Date createdAt, Date lastUpdated) {
         this.id = id;
-        this.emp_num = emp_num;
-        this.firstname = firstname;
-        this.middlename = middlename;
-        this.lastname = lastname;
-        this.address_line = address_line;
-        this.barangay = barangay;
-        this.province = province;
-        this.country = country;
-        this.lastUpdate = lastUpdate;
+        this.department = department;
+        this.designation = designation;
+        this.employeeData = employeeData;
+        this.createdAt = createdAt;
+        this.lastUpdated = lastUpdated;
     }
-    public Employee(Long id) {
-        this.id = id;
-    }
+
     public Long getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public String getEmp_num() {
-        return emp_num;
+    public Department getDepartment() {
+        return this.department;
     }
 
-    public void setEmp_num(String emp_num) {
-        this.emp_num = emp_num;
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public Designation getDesignation() {
+        return this.designation;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public void setDesignation(Designation designation) {
+        this.designation = designation;
     }
 
-    public String getMiddlename() {
-        return middlename;
+    public DataEmployee getEmployeeData() {
+        return this.employeeData;
     }
 
-    public void setMiddlename(String middlename) {
-        this.middlename = middlename;
+    public void setEmployeeData(DataEmployee employeeData) {
+        this.employeeData = employeeData;
     }
 
-    public String getLastname() {
-        return lastname;
+    public Date getCreatedAt() {
+        return this.createdAt;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public String getAddress_line() {
-        return address_line;
+    public Date getLastUpdated() {
+        return this.lastUpdated;
     }
 
-    public void setAddress_line(String address_line) {
-        this.address_line = address_line;
+    public void setLastUpdated(Date lastUpdated) {
+        this.lastUpdated = lastUpdated;
     }
-
-    public String getBarangay() {
-        return barangay;
-    }
-
-    public void setBarangay(String barangay) {
-        this.barangay = barangay;
-    }
-
-    public String getProvince() {
-        return province;
-    }
-
-    public void setProvince(String province) {
-        this.province = province;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public String getLastUpdate(){
-        return lastUpdate;
-    }
-    public void setLastUpdate(String lastUpdate){
-        this.lastUpdate = lastUpdate;
-    }
-
 
     @Override
     public String toString() {
         return "{" +
             " id='" + getId() + "'" +
-            ", emp_num='" + getEmp_num() + "'" +
-            ", firstname='" + getFirstname() + "'" +
-            ", middlename='" + getMiddlename() + "'" +
-            ", lastname='" + getLastname() + "'" +
-            ", address_line='" + getAddress_line() + "'" +
-            ", barangay='" + getBarangay() + "'" +
-            ", province='" + getProvince() + "'" +
-            ", country='" + getCountry() + "'" +
-            ", lastUpdate='" + getLastUpdate() + "'" +
+            ", department='" + getDepartment() + "'" +
+            ", designation='" + getDesignation() + "'" +
+            ", employeeData='" + getEmployeeData() + "'" +
+            ", createdAt='" + getCreatedAt() + "'" +
+            ", lastUpdated='" + getLastUpdated() + "'" +
             "}";
     }
 
-}
+}   

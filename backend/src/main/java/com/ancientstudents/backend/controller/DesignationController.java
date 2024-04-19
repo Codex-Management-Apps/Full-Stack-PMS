@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @CrossOrigin("http://localhost:5175/")
@@ -19,6 +20,8 @@ public class DesignationController {
     @PostMapping("/designation")
     Designation newDesignation(@RequestBody Designation newDesignation){
         if (newDesignation == null) return null;
+        newDesignation.setCreatedAt(new Date());
+        newDesignation.setLastUpdated(new Date());
         return designationRepository.save(newDesignation);
     }
 
@@ -40,8 +43,9 @@ public class DesignationController {
         return designationRepository.findById(id)
                 .map(designation -> {
                     designation.setDesignationName(newDesignation.getDesignationName());
-                    designation.setDepartmentId(newDesignation.getDepartmentId());
-                    designation.setStatus(newDesignation.getStatus());
+                    designation.setSalary(newDesignation.getSalary());
+                    designation.setCreatedAt(newDesignation.getCreatedAt());
+                    designation.setLastUpdated(new Date());
                     return designationRepository.save(designation);
                 }).orElseThrow(()->new DesignationNotFoundException(id));
     }

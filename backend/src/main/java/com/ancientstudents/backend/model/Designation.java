@@ -1,14 +1,14 @@
 package com.ancientstudents.backend.model;
 
-import java.util.List;
+import java.util.Date;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 @Entity
 public class Designation {
@@ -19,22 +19,26 @@ public class Designation {
 
     @Column(name = "designation_name")
     private String designationName;
+    private String salary;
 
-    @ManyToOne
-    @JoinColumn(name = "departmentId", referencedColumnName = "id")
-    private Department departmentId;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created_at")
+    private Date createdAt;
 
-    private String status;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "last_updated")
+    private Date lastUpdated;
 
+    
     public Designation() {
     }
 
-    public Designation(Long id, String designationName, Department departmentId, String status, List<AssignDesignation> assignedDesignations) {
+    public Designation(Long id, String designationName, String salary, Date createdAt, Date lastUpdated) {
         this.id = id;
         this.designationName = designationName;
-        this.departmentId = departmentId;
-        this.status = status;
-        //this.assignedDesignations = assignedDesignations;
+        this.salary = salary;
+        this.createdAt = createdAt;
+        this.lastUpdated = lastUpdated;
     }
 
     public Long getId() {
@@ -53,64 +57,39 @@ public class Designation {
         this.designationName = designationName;
     }
 
-    public Department getDepartmentId() {
-        return this.departmentId;
+    public String getSalary() {
+        return this.salary;
     }
 
-    public void setDepartmentId(Department departmentId) {
-        this.departmentId = departmentId;
+    public void setSalary(String salary) {
+        this.salary = salary;
     }
 
-    public String getStatus() {
-        return this.status;
+    public Date getCreatedAt() {
+        return this.createdAt;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
-    // public List<AssignDesignation> getAssignedDesignations() {
-    //     return this.assignedDesignations;
-    // }
-
-    // public void setAssignedDesignations(List<AssignDesignation> assignedDesignations) {
-    //     this.assignedDesignations = assignedDesignations;
-    // }
-
-    public Designation id(Long id) {
-        setId(id);
-        return this;
+    public Date getLastUpdated() {
+        return this.lastUpdated;
     }
 
-    public Designation designationName(String designationName) {
-        setDesignationName(designationName);
-        return this;
+    public void setLastUpdated(Date lastUpdated) {
+        this.lastUpdated = lastUpdated;
     }
-
-    public Designation departmentId(Department departmentId) {
-        setDepartmentId(departmentId);
-        return this;
-    }
-
-    public Designation status(String status) {
-        setStatus(status);
-        return this;
-    }
-
-    // public Designation assignedDesignations(List<AssignDesignation> assignedDesignations) {
-    //     setAssignedDesignations(assignedDesignations);
-    //     return this;
-    // }
 
     @Override
     public String toString() {
         return "{" +
             " id='" + getId() + "'" +
             ", designationName='" + getDesignationName() + "'" +
-            ", departmentId='" + getDepartmentId() + "'" +
-            ", status='" + getStatus() + "'" +
-           // ", assignedDesignations='" + getAssignedDesignations() + "'" +
+            ", salary='" + getSalary() + "'" +
+            ", createdAt='" + getCreatedAt() + "'" +
+            ", lastUpdated='" + getLastUpdated() + "'" +
             "}";
     }
-    
+
 }
