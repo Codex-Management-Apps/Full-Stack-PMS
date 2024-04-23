@@ -133,7 +133,7 @@ export default function EmployeePage() {
         {isLoading ? (
           <div>Loading...</div>
         ) : (
-          <DataTable columns={columns} data={Employee} isEmployee={true} isPayroll={false}/>
+          <DataTable columns={columns} data={Employee}/>
         )}
       </div>
     </NormalLayout> 

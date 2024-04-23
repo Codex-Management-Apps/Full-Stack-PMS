@@ -20,6 +20,7 @@ export type EmployeeTable = {
     department: string,
     designation:string,
     employeeType : string,
+    status:string,
     joined: string,
 }
   
@@ -53,6 +54,9 @@ export type EmployeeTable = {
       accessorKey: "employeeType",
       header: "EmployeeType",
     },{
+      accessorKey: "status",
+      header: "Status",
+    },{
       id: "actions",
       enableHiding: false,
       cell: ({ row }) => {
@@ -83,7 +87,7 @@ export function EmployeePageTable(){
               try {
                 const data = await getAllEmployee();
                 const newList: EmployeeTable[] = data.map((employee: Employee) => {
-                  const { id, empNum, employeeData, department, designation, employeeType, createdAt } = employee;
+                  const { id, empNum, employeeData, department, designation, employeeType, createdAt, status} = employee;
                 
                   const { firstname, middlename, lastname, email, contact, gender } = employeeData;
                   const name = `${firstname} ${middlename} ${lastname}`;
@@ -98,11 +102,11 @@ export function EmployeePageTable(){
                     department: department.departmentName,
                     designation: designation.designationName,
                     employeeType,
+                    status,
                     joined: createdAt
                   }
                 });
                   setEmployee(newList);
-                  console.log(newList)
               } catch (error) {
                 console.log(error)
               } finally {

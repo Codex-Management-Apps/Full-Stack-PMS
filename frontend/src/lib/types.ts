@@ -38,6 +38,7 @@ export type Employee = {
   designation: Designation;
   employeeData: EmployeeData;
   employeeType: string;
+  status: string;
   createdAt: string;
   lastUpdated: string;
 };

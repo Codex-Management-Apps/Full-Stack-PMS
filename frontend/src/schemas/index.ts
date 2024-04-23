@@ -28,6 +28,7 @@ export const EmployeeSchema = z.object({
     department: z.string().min(1),
     designation: z.string().min(1),
     employeeType: z.string().min(1),
+    status:z.string().min(1)
 })
 
 export const DepartmentEmployeeSchema = z.object({
@@ -37,4 +38,8 @@ export const DepartmentEmployeeSchema = z.object({
 
 export const DesignationEmployeeSchema = z.object({
     designation: z.string().min(1),
+})
+
+export const EmployeeStatusSchema = z.object({
+    status: z.string().min(1),
 })

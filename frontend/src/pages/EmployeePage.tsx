@@ -1,13 +1,8 @@
 
-// import { getPostById } from '@/controller/post';
-// import { useEffect, useState } from 'react';
-// import { useParams } from 'react-router-dom';
-
 import { NormalLayout } from '@/layouts/NormalLayout'
 import PageTittle from '@/components/PageTitle';
 import { EmployeePageHeading } from '@/components/sections/EmployeePageHeading';
 import { EmployeePageTable } from '@/components/sections/EmployeePageTable';
-
 
 export default function EmployeePage() {
   return (

@@ -25,9 +25,9 @@ type Props = {
     data : Employee
 }
 
-export function EditEmployeeForm({data} : Props){
+export function EditEmployeeDataForm({data} : Props){
     const {toast} = useToast();
-    const [employeeData,setEmployeeData] = useState<EmployeeData>(data.employeeData)
+    const [employeeData, setEmployeeData] = useState<EmployeeData>(data.employeeData)
     const form = useForm<z.infer<typeof DataEmployeeSchema>>({
         resolver: zodResolver(DataEmployeeSchema),
         defaultValues:{

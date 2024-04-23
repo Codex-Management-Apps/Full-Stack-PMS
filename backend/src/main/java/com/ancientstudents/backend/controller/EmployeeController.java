@@ -40,10 +40,18 @@ public class EmployeeController {
     Employee newEmployee(@RequestBody Employee data){
         if(data == null) return null;
 
-        data.setCreatedAt(new Date());
-        data.setLastUpdated(new Date());
-        return employeeRepository.save(data);
-        // return employeeRepository.save(data);
+        Employee emp = new Employee();
+        emp.setEmployeeData(getEmployeeDataById(data.getEmployeeData().getId()));
+        emp.setDepartment(getDepartmentById(data.getDepartment().getId()));
+        emp.setDesignation(getDesignationById(data.getDesignation().getId()));
+
+        emp.setEmpNum(data.getEmpNum());
+        emp.setEmployeeType(data.getEmployeeType());
+        emp.setStatus(data.getStatus());
+        emp.setCreatedAt(new Date());
+        emp.setLastUpdated(new Date());
+
+        return employeeRepository.save(emp);
     }
 
     @GetMapping("/employee")
@@ -74,6 +82,7 @@ public class EmployeeController {
                     employee.setEmpNum(newEmployee.getEmpNum());
                     employee.setEmployeeData(newEmployee.getEmployeeData());
                     employee.setEmployeeType(newEmployee.getEmployeeType());
+                    employee.setStatus(newEmployee.getStatus());
                     employee.setCreatedAt(newEmployee.getCreatedAt());
                     employee.setLastUpdated(new Date());
                     System.out.println(employee);
@@ -109,6 +118,12 @@ public class EmployeeController {
         if(id == null) return null;
         return departmentRepository.findById(id)
                 .orElseThrow(()->new DepartmentNotFoundException(id));
+    }
+
+    DataEmployee getEmployeeDataById(Long id){
+        if(id == null) return null;
+        return dataEmployeeRepository.findById(id)
+                .orElseThrow(()->new DataEmployeeNotFoundException(id));
     }
     
      private DataEmployee updateEmployeeData(DataEmployee newEmployee, Long id){

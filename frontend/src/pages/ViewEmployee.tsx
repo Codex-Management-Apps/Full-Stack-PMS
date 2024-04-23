@@ -9,9 +9,11 @@ import { useEffect, useRef, useState } from 'react'
 import { Employee } from '@/lib/types'
 
 import { getEmployeeById } from '@/controller/employee'
-import { EditEmployeeDialog } from '@/components/dialog/EditEmployeeDialog'
+import { EditEmployeeDataDialog } from '@/components/dialog/EditEmployeeDataDialog'
 import { EditEmployeeDesignationDialog } from '@/components/dialog/EditEmployeeDesignationDialog'
 import { EditEmployeeDepartmentDialog } from '@/components/dialog/EditEmployeeDepartmentDialog'
+import { Separator } from '@/components/ui/separator'
+import { EditEmployeeDialog } from '@/components/dialog/EditEmployeeDialog'
 
   
 
@@ -38,11 +40,67 @@ export default function ViewEmployee(){
     return(
         <NormalLayout>
             <div className='grid grid-cols-2 gap-5'>
+             <div className=' col-span-2 w-full flex flex-col gap-5'>
+                    <div className='font-bold w-full flex justify-between'>
+                            <PageTittle title='View'/>
+                            {employee && (
+                                <EditEmployeeDialog data={employee}/>
+                            )}
+                    </div>
+                    <Card className='w-full mb-5'>
+                        <Table>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead>
+                                        Category
+                                    </TableHead>
+                                    <TableHead>
+                                        Value
+                                    </TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                <TableRow>
+                                    <TableCell>
+                                        ID
+                                    </TableCell>
+                                    <TableCell>
+                                        {employee?.id}
+                                    </TableCell>
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell>
+                                        Emp #
+                                    </TableCell>
+                                    <TableCell>
+                                        {employee?.empNum}
+                                    </TableCell>
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell>
+                                        EmployeeType
+                                    </TableCell>
+                                    <TableCell>
+                                        {employee?.employeeType}
+                                    </TableCell>
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell>
+                                        Status
+                                    </TableCell>
+                                    <TableCell>
+                                        {employee?.status}
+                                    </TableCell>
+                                </TableRow>
+                            </TableBody>
+                        </Table>   
+                    </Card>
+                </div>
                 <div className=' col-span-2 w-full flex flex-col gap-5'>
                     <div className='font-bold w-full flex justify-between'>
-                        <PageTittle title='View User'/>
+                        <PageTittle title='Employee'/>
                         {employee && (
-                            <EditEmployeeDialog data={employee}/>
+                            <EditEmployeeDataDialog data={employee}/>
                         )}
                     </div>
                     <Card className='w-full mb-5'>
@@ -106,12 +164,20 @@ export default function ViewEmployee(){
                                     {`${employee?.employeeData.barangay}, ${employee?.employeeData.addressLine}, ${employee?.employeeData.province}, ${employee?.employeeData.country}`}
                                     </TableCell>
                                 </TableRow>
+                                <TableRow>
+                                    <TableCell>
+                                        Status
+                                    </TableCell>
+                                    <TableCell>
+                                        {employee?.status}
+                                    </TableCell>
+                                </TableRow>
                             </TableBody>
                         </Table>   
                     </Card>
                 </div>
-                    
-
+                
+                
                 <div className='w-full flex flex-col gap-5'>
                     <div className='font-bold w-full flex justify-between'>
                         <PageTittle title='Designation'/>

@@ -26,7 +26,7 @@ public class DataEmployee {
     private String firstname;
     private String middlename;
     private String lastname;
-
+    
     private String birthday;
     private String contact;
     private String email;

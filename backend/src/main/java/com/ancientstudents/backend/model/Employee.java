@@ -41,6 +41,7 @@ public class Employee {
     private DataEmployee employeeData;
 
     private String employeeType;
+    private String status;
 
     @Temporal(TemporalType.TIMESTAMP)
     @JsonSerialize(using = CustomDateSerializer.class)
@@ -114,6 +115,14 @@ public class Employee {
 
     public void setEmployeeType(String employeeType) {
         this.employeeType = employeeType;
+    }
+
+    public String getStatus() {
+        return this.status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Date getCreatedAt() {

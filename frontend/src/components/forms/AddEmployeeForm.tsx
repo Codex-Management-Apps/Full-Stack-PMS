@@ -69,6 +69,7 @@ export function AddEmployeeForm({id} :any){
             department : '',
             designation : '',
             employeeType: '',
+            status: 'Active'
         }
     });
     // empNum: `EMP${String(employeeCount).padStart(3, '0')}`, 
@@ -81,7 +82,8 @@ export function AddEmployeeForm({id} :any){
                 employeeData: dataEmployee,
                 department: department.find(d => d.id === Number(data.department)),
                 designation: designation.find(d => d.id === Number(data.designation)),
-                employeeType: data.employeeType
+                employeeType: data.employeeType,
+                status: data.status
             }
             sumbitEmployeeData(newData)
             toast({
@@ -177,6 +179,27 @@ export function AddEmployeeForm({id} :any){
                                             <SelectItem value="Contractor">Contractor</SelectItem>
                                             <SelectItem value="Temporary">Temporary</SelectItem>
                                             <SelectItem value="Intern">Intern</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="status"
+                        render = {({field}) => (
+                            <FormItem>
+                                <FormLabel>Status</FormLabel>
+                                    <Select onValueChange={ field.onChange } defaultValue={field.value} disabled ={isSubmitting}>
+                                        <FormControl>
+                                            <SelectTrigger>
+                                                <SelectValue
+                                                placeholder="Status" />
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            <SelectItem value="Active">Active</SelectItem>
+                                            <SelectItem value="Inactive">Inactive</SelectItem>
                                         </SelectContent>
                                     </Select>
                             </FormItem>

@@ -25,7 +25,7 @@ type Props = {
 export function EditEmployeeDesignationForm({data} : Props){
     const {toast} = useToast();
     const currentRun = useRef(false);
-    const [employeeDesignation, setEmployeeDesignation] = useState<Department>(data.department)
+    const [employeeDesignation, setEmployeeDesignation] = useState<Designation>(data.designation)
     const [designation, setDesignation] = useState<Designation[]>([]);
 
     useEffect(() =>{
