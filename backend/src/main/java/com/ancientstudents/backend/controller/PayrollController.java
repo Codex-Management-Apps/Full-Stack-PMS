@@ -1,11 +1,13 @@
 package com.ancientstudents.backend.controller;
 
 import com.ancientstudents.backend.exception.PayrollNotFoundException;
+import com.ancientstudents.backend.model.Employee;
 import com.ancientstudents.backend.model.Payroll;
 import com.ancientstudents.backend.repository.PayrollRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -51,7 +53,7 @@ public class PayrollController {
                     payroll.setTotal_earnings(newPayroll.getTotal_earnings());
                     payroll.setTotal_deductions(newPayroll.getTotal_deductions());
                     payroll.setNet_pay(newPayroll.getNet_pay());
-                    
+                    payroll.setStatus(newPayroll.getStatus());
                     payroll.setCreatedAt(newPayroll.getCreatedAt());
                     payroll.setLastUpdated(new Date());
                     return payrollRepository.save(payroll);
@@ -76,5 +78,22 @@ public class PayrollController {
 
     //     return topPayroll;
     // }
+
+    @RequestMapping(value = "/payroll/employee",method= RequestMethod.GET)
+    private List<Payroll> getPayrollByEmployeeID(@RequestParam(value="id") Long empID){
+        if(empID == null) return null;
+
+        List<Payroll> data = payrollRepository.findAll();
+        List<Payroll> found = new ArrayList<Payroll>();
+
+        for(Payroll x : data){
+            Employee emp = x.getEmployee();
+            if(emp.getId() == empID){
+                found.add(x);
+            }
+        }
+
+        return found;
+    }
     
 }

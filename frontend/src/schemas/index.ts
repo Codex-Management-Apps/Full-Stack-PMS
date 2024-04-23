@@ -5,61 +5,36 @@ export const postSchema = z.object({
     content: z.string().min(10),
 });
 
-export const AddEmployeeSchema = z.object({
-    firstname: z.string().min(1),
-    middlename: z.string().min(1),
-    lastname: z.string().min(1),
-    address_line: z.string().min(1),
-    barangay: z.string().min(1),
-    province: z.string().min(1),
-    country: z.string().min(1),
-});
-
-export const AddDepartmentSchema = z.object({
-    departmentName: z.string().min(1),
-    status: z.string().min(1)
-});
-
-export const EmployeeSchema = z.object({
-    firstname: z.string().min(1),
-    middlename: z.string().min(1),
-    lastname: z.string().min(1),
-    address_line: z.string().min(1),
-    barangay: z.string().min(1),
-    province: z.string().min(1),
-    country: z.string().min(1),
-});
-
-
-export const DepartmentSchema = z.object({
-    id:z.string(),
-    departmentName: z.string().min(1),
-    status: z.string().min(1)
-});
-export const DesignationSchema = z.object({
-    id:z.string(),
-    departmentId: DepartmentSchema,
-    designationName: z.string(),
-    status: z.string()
-  });
-  
-
-export const AssignDesignationSchema = z.object({
-    employeeType: z.string(),
-    status: z.string(),
-    designation: z.string(),
-  });
-
-export const SignatorySchema = z.object({
-    superior: z.string(),
-    position: z.string (),
-    status: z.string(),
+export const payrollSchema = z.object({
+    signatory: z.string().min(1),
+    payperiod: z.string().min(1)
 })
 
-export const RequestFileLeave = z.object({
-    reason: z.string(),
-    status: z.string(),
-    dateOfLeave: z.string(),
-    dateOfEnd: z.string(),
-    comment: z.string(),
+export const DataEmployeeSchema = z.object({
+    firstname: z.string().min(1),
+    middlename: z.string().min(1),
+    lastname: z.string().min(1),
+    birthday: z.string().min(1),
+    contact: z.number().min(1),
+    email: z.string().email().min(1),
+    gender: z.string().min(1),
+    addressLine: z.string().min(1),
+    barangay: z.string().min(1),
+    country: z.string().min(1),
+    province: z.string().min(1),
+})
+
+export const EmployeeSchema = z.object({
+    department: z.string().min(1),
+    designation: z.string().min(1),
+    employeeType: z.string().min(1),
+})
+
+export const DepartmentEmployeeSchema = z.object({
+    department: z.string().min(1),
+})
+
+
+export const DesignationEmployeeSchema = z.object({
+    designation: z.string().min(1),
 })

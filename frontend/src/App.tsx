@@ -1,34 +1,59 @@
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
-import Dashboard from './pages/Dashboard';
+import SalarySlipPage from './pages/SalarySlipPage';
 import NoPage from './pages/NoPage';
 import EmployeePage from './pages/EmployeePage';
-import ViewEmployee from './pages/ViewEmployee';
-import EmployeePortal from './pages/EmployeePortal';
+import { ThemeProvider } from './components/theme-provider';
+import PayHeads from './pages/PayheadPage';
 import LeaveRequestPage from './pages/LeaveRequestPage';
-import ViewLeaveRequestPage   from './pages/ViewLeaveRequestPage';
+import PayrollPage from './pages/PayrollPage';
+import {SignatoryPage} from './pages/SignatoryPage';
+import { RegisterPage } from './pages/RegisterPage';
+import ConfirmingEmployeePage from './pages/ConfirmingEmployeePage';
+import ViewEmployee from './pages/ViewEmployee';
+
 
 export default function Home() {
   return (
-    <BrowserRouter>
-        <Routes>
-          <Route index element={<Dashboard/>} />
-          {/* Dashboard */}
-          <Route path="/" element={<Dashboard/>}/> 
-          {/* View Page */}
-          <Route path="/employee" element={<EmployeePage/>} />
-          {/* View Department */}
-          <Route path="/employee/:id" element={<ViewEmployee/>} />
-          {/* Employee Portal Manager */}
-          <Route path="/auth/employee/:id" element={<EmployeePortal/>} />
-          
-          {/* View All Leave Request */}
-          <Route path="/leave" element={<LeaveRequestPage/>} />
-          {/* View Leave Request by ID */}
-          <Route path='/leave/:id' element={<ViewLeaveRequestPage/>}/>
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <BrowserRouter>
+          <Routes>
+            {/* View EmployeePage */}
+            <Route index path="/p/admin/employee" element={<EmployeePage/>} />
+            {/* View Employee ID */}
+            <Route index path="/p/admin/employee/:id" element={<ViewEmployee/>} />
+            {/* View Payroll */}
+            <Route path="/p/admin/employee/payroll/:id" element={<PayrollPage/>}/>
+            {/* View ENewhired */}
+            <Route index path="/p/admin/employee/new" element={<ConfirmingEmployeePage/>} />
 
-          {/* Page Not Found */}
-          <Route path="*" element={<NoPage/>}/>
-        </Routes>
-    </BrowserRouter>
+
+            {/* View Salary Slips */}
+            <Route path="/p/admin/salaryslips" element={<SalarySlipPage/>} />
+
+            {/* View Leave Request */}
+            <Route path="/p/admin/leave" element={<LeaveRequestPage/>}/>
+
+            {/* View PayHeads */}
+            <Route path="/p/admin/payheads" element={<PayHeads/>}/>
+
+            {/* View Signatory */}
+            <Route path="/p/admin/signatory" element={<SignatoryPage/>}/>
+            
+
+            {/* TODO: Implement A rolebase Access */}
+            {/* Employee Portal Manager */}
+            {/* <Route path="/p/employee/" element={<EmployeePortal/>} />}
+
+            {/* View All Leave Request */}
+            <Route path="/p/leave" element={<LeaveRequestPage/>} />
+            
+            {/* Register */}
+            <Route path="/register" element={<RegisterPage/>}/>
+
+            {/* Page Not Found */}
+            <Route path="*" element={<NoPage/>}/>
+          </Routes>
+        </BrowserRouter>
+      </ThemeProvider>
   );
 }

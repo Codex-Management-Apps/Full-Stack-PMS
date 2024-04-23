@@ -1,5 +1,4 @@
 import axios from "axios"
-import { AddAssignDesignationSchema, AssignDesignation, Designation } from "@/lib/types";
 import { getEmployeeById } from "./employee";
 
 

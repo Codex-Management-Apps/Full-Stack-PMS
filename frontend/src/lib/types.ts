@@ -1,134 +1,96 @@
-export type returnData<T> = {
-    response: T,
-    hasRoles: boolean,
-    hasDesignation: boolean,
-}
-
-// Fetch Data Types
-
-export type AssignPosition = {
-    created_at : string,
-    employee: AssignDesignation,
-    id: string,
-    position: Position,
-    superior: Signatory,
-}
-
-export type Position = {
-    id: string,
-    positionName: string,
-}
-
-export type Signatory = {
-    id: string,
-    status: string,
-    superior: AssignPosition,
-}
-
-export type AssignDesignation = {
-    id: string,
-    employeeType: string,
-    status: string,
-    designation: Designation,
-    employee: Employee,
-}
-
-export type Designation = {
-    id: string,
-    departmentId: Department,
-    designationName: string,
-    status: string,
-}
 export type Department = {
-    id: string,
-    departmentName: string,
-    status: string,
-}
-
-export type Employee = {
-    id: string,
-    address_line: string,
-    barangay: string,
-    country: string,
-    firstname: string,
-    lastname: string,
-    middlename: string,
-    province: string,
-    last_update?: string,
+  id: number;
+  departmentName: string;
+  status: string;
+  createdAt: string;
+  lastUpdated: string;
+};
+  
+export type Designation = {
+  id: number;
+  designationName: string;
+  status: string,
+  createdAt: string;
+  lastUpdated: string;
 };
 
+export type EmployeeData = {
+  id: number;
+  firstname: string;
+  middlename: string;
+  lastname: string;
+  birthday: string;
+  contact: string;
+  email: string;
+  gender: string;
+  addressLine: string;
+  barangay: string;
+  country: string;
+  province: string;
+  createdAt: string;
+  lastUpdated: string;
+};
+
+export type Employee = {
+  id: number;
+  empNum: string;
+  department: Department;
+  designation: Designation;
+  employeeData: EmployeeData;
+  employeeType: string;
+  createdAt: string;
+  lastUpdated: string;
+};
+
+export type Signatory = {
+  id: number;
+  name: string;
+  employee: Employee;
+  status: string;
+  createdAt: string;
+  lastUpdated: string;
+};
+
+export type Payroll = {
+  id: number;
+  signatory: Signatory;
+  employee: Employee;
+  start: string;
+  end: string;
+  total_earnings: string;
+  total_deductions: string;
+  net_pay: string;
+  status: string;
+  createdAt: string;
+  lastUpdated: string;
+};
+
+export type Payslip = {
+  id: number,
+  payroll: Payroll,
+  issued_date: string,
+  create_at: string,
+  last_updated: string,
+}
+
 export type LeaveRequest = {
-    id: string,
-    employee: AssignPosition,
-    reason: string,
-    dateOfLeave: string,
-    dateOfEnd: string,
-    status: string,
-    comment: string,
-    created_at: string,
+  id: number,
+  name: string,
+  comment: string,
+  created_at: Date,
+  dateOfLeave: Date,
+  dateOfEnd: Date,
+  last_updated: Date,
+  leaveType: string,
+  status: string,
+  employee: Employee,
 }
 
-
-// Data for submission
-
-export type AddEmployeeSchema = {
-    address_line: string,
-    barangay: string,
-    country: string,
-    firstname: string,
-    lastname: string,
-    middlename: string,
-    province: string,
-}
-export type AssignDesignationSubmission = {
-    employeeType: string,
-    status: string,
-    designation: Designation,
-    employee: Employee,
-    // Employee Data will be added after the initial creation of data
-}
-
-export type AddAssignDesignationSchema = {
-    employeeType: string,
-    status: string,
-    designation: string,
-    employee: string,
-}
-
-export type AddSignatorySchema = {
-    position: string,
-    status: string,
-}
-
-export type AddPositionSchema = {
-    superior: string,
-    position: string,
-    status: string,
-}
-
-export type AddPositionSubmission = {
-    employee: AssignDesignation,
-    postion: Position,
-    superior: Signatory
-    status: string,
-}
-
-
-export type AddAssignPositionSubmissionSchema = {
-    employee: AssignDesignation,
-    position: Position,
-    status: string,
-}
-
-export type SignatorySubmissionSchema = {
-    status: string,
-    superior: AddAssignPositionSubmissionSchema,
-}
-
-export type AddRequestFileLeaveSchema = {
-    comment: string,
-    dateOfEnd: string,
-    dateOfLeave: string,
-    reason: string,
-    employee: AssignPosition
-}
+export type Payhead = {
+  id: number;
+  amount: string;
+  created_at?: string;
+  last_updated?: string;
+  name: string;
+  type: string;
+};

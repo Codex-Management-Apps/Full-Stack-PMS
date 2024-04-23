@@ -1,9 +1,6 @@
-import { getAssignDesignationByEmployeeId, isEmployeeAssigned } from "@/controller/assigned";
-import { getEmployeeById } from "@/controller/employee";
-import { getPositionByEmployeeId, isPositionAssigned } from "@/controller/assignPosition";
+
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
-import { AssignDesignation, AssignPosition, Employee, returnData } from "./types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -28,55 +25,55 @@ export const handleReload = (seconds : number) => {
 
 // Checks data if it exsits
 // Then Sends data starting from Position -> Designation -> Emplyee
-export async function getData( id : string): Promise<returnData<any> | undefined>{
-  if(id === '') return undefined
+// export async function getData( id : string): Promise<returnData<any> | undefined>{
+//   if(id === '') return undefined
   
-  try {
+//   try {
 
-    if(await isPositionAssigned(id)){
+//     if(await isPositionAssigned(id)){
 
-      const response = await getPositionByEmployeeId(id);
+//       const response = await getPositionByEmployeeId(id);
       
-      return {
-        response: response,
-        hasRoles: true,
-        hasDesignation: true,
-      }
+//       return {
+//         response: response,
+//         hasRoles: true,
+//         hasDesignation: true,
+//       }
     
-    }
-    else if(await isEmployeeAssigned(id)) {
+//     }
+//     else if(await isEmployeeAssigned(id)) {
     
-      const response = await getAssignDesignationByEmployeeId(id);
-      return {
-        response: response,
-        hasRoles: false,
-        hasDesignation: true,
-      }
+//       const response = await getAssignDesignationByEmployeeId(id);
+//       return {
+//         response: response,
+//         hasRoles: false,
+//         hasDesignation: true,
+//       }
     
-    } else{
+//     } else{
     
-      const response = await getEmployeeById(id);
-      return {
-        response: response,
-        hasRoles: false,
-        hasDesignation: false,
-      }
+//       const response = await getEmployeeById(id);
+//       return {
+//         response: response,
+//         hasRoles: false,
+//         hasDesignation: false,
+//       }
       
-    }
+//     }
 
-  } catch (error) {
-    console.log("Error: " +error)
-  }
-}
+//   } catch (error) {
+//     console.log("Error: " +error)
+//   }
+// }
 
-export function isAssignDesignation(data: any): data is AssignDesignation {
-  return 'designation' in data;
-}
+// export function isAssignDesignation(data: any): data is AssignDesignation {
+//   return 'designation' in data;
+// }
 
-export function isEmployee(data: any): data is Employee {
-  return 'firstname' in data;
-}
+// export function isEmployee(data: any): data is Employee {
+//   return 'firstname' in data;
+// }
 
-export function isAssignPosition(data: any): data is AssignPosition {
-  return data;
-}
+// export function isAssignPosition(data: any): data is AssignPosition {
+//   return data;
+// }

@@ -1,10 +1,10 @@
-import { AddRequestFileLeaveSchema, LeaveRequest } from "@/lib/types"
+import { LeaveRequest } from "@/lib/types"
 import axios from "axios"
 
 
-export async function createFileLeaveRequest( data: AddRequestFileLeaveSchema){
+export async function createFileLeaveRequest( data: any){
     try {
-        const response = await axios.post(`http://localhost:8080/leaveRequest`,data)
+        const response = await axios.post(`http://localhost:8080/leave`,data)
 
         return response.data
     } catch (error) {
@@ -23,7 +23,7 @@ export async function getAllRequestByEmployeeSuperiorID(id: string){
 export async function getAllLeaveRequest(){
     try {
         
-        const response = await axios.get(`http://localhost:8080/leaveRequest`)
+        const response = await axios.get(`http://localhost:8080/leave`)
 
         return response.data;
 
@@ -33,7 +33,7 @@ export async function getAllLeaveRequest(){
 }
 export async function getLeaveRequestById(id: string){
     try{
-        const response = await axios.get(`http://localhost:8080/leaveRequest/${id}`)
+        const response = await axios.get(`http://localhost:8080/leave/${id}`)
 
         return response.data;
 

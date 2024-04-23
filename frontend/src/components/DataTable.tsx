@@ -1,10 +1,10 @@
 
 import {
     ColumnDef,
-    Row,
     flexRender,
     getCoreRowModel,
     getPaginationRowModel,
+    Row,
     useReactTable,
 } from "@tanstack/react-table"
   
@@ -17,51 +17,26 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
+
+
 import { useNavigate } from "react-router-dom"
-import { DeleteEmployeeById } from "@/controller/employee"
-import { toast } from "@/components/ui/use-toast"
-  
+
 interface DataTableProps<TData, TValue>{
     columns: ColumnDef<TData, TValue>[]
     data: TData[]
-    isEmployee : Boolean
-    isRequest: Boolean
 }
 
 export function DataTable<TData, TValue>({
     columns,
     data,
-    isEmployee,
-    isRequest
   }: DataTableProps<TData, TValue>) {
-    const navigate = useNavigate();
     const table = useReactTable({
-            data,
-            columns,
-            getCoreRowModel: getCoreRowModel(),
-            getPaginationRowModel: getPaginationRowModel()
-        })
-
-    // This took me 2 hours to get the id data for getting EmployeeId
-    // This function basically gets the EmployeeID in the table. not the table id but the table data id
-    const viewData = (status : string, row : Row<TData & { id: string }>)=>{
-        const data = row.getVisibleCells().find((cell) => cell.row.original)
-        const dataId = data?.row.original.id
-        if(status === "view"){
-            navigate(`/employee/${dataId}`)
-        }else if(status === "delete"){
-            if(dataId != undefined){
-                DeleteEmployeeById(dataId)
-                toast({
-                    variant: "default",
-                    title: "Data deleted",
-                })
-            }
-        } else if (status === "req"){
-            navigate(`/leave/${dataId}`)
-        }
-    };
-
+        data,
+        columns,
+        getCoreRowModel: getCoreRowModel(),
+        getPaginationRowModel: getPaginationRowModel()
+    })
+    
     return(
         <div>
             <div className="rounded-md border">
@@ -95,21 +70,7 @@ export function DataTable<TData, TValue>({
                                             {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                         </TableCell>
                                     ))}
-                                    {isEmployee && 
-                                        <TableCell className="flex gap-3">
-                                            <Button variant={"outline"} onClick={() => viewData("view",row as Row<TData & { id: string }>)}>
-                                                View
-                                            </Button>
-                                            <Button variant={"destructive"} onClick={() => viewData("delete",row as Row<TData & { id: string }>)}>Delete</Button>
-                                        </TableCell>
-                                    }
-                                    {isRequest && 
-                                        <TableCell>
-                                             <Button variant={"outline"} onClick={() => viewData("req",row as Row<TData & { id: string }>)}>
-                                                View
-                                            </Button>
-                                        </TableCell>
-                                    }
+                                    
                                 </TableRow>
                             ))
                         ): (
@@ -119,6 +80,7 @@ export function DataTable<TData, TValue>({
                                 </TableCell>
                             </TableRow>
                         )}
+                        
                     </TableBody>
                 </Table>
             </div>

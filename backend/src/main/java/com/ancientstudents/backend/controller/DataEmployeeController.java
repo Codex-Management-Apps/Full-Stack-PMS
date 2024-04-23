@@ -1,6 +1,10 @@
 package com.ancientstudents.backend.controller;
 
 import java.util.List;
+
+import javax.xml.crypto.Data;
+
+import java.util.ArrayList;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +15,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ancientstudents.backend.exception.DataEmployeeNotFoundException;
 import com.ancientstudents.backend.model.DataEmployee;
+import com.ancientstudents.backend.model.Employee;
 import com.ancientstudents.backend.repository.DataEmployeeRepository;
+import com.ancientstudents.backend.repository.EmployeeRepository;
 
 @CrossOrigin("http://localhost:5175/")
 @RestController
@@ -23,6 +32,8 @@ public class DataEmployeeController {
 
     @Autowired
     private DataEmployeeRepository dataEmployeeRepository;
+    @Autowired
+    private EmployeeRepository employeeRepository;
    
     // CRUD for Employee
     @PostMapping("/employee/info")
@@ -46,7 +57,7 @@ public class DataEmployeeController {
     }
 
     @PutMapping("employee/info/{id}")
-    DataEmployee updateEmployee(@RequestBody DataEmployee newEmployee, @PathVariable Long id){
+    public DataEmployee updateEmployeeData(@RequestBody DataEmployee newEmployee, @PathVariable Long id){
         if(id == null) return null;
         return dataEmployeeRepository.findById(id)
                 .map(employee -> {
@@ -78,4 +89,34 @@ public class DataEmployeeController {
         dataEmployeeRepository.deleteById(id);
         return "Employee with id " + id + " has been deleted successfully.";
     }
+
+     // Get All EmployeeData that is not yet assigned
+     @RequestMapping(value = "employee/info/find", method=RequestMethod.GET)
+     private List<DataEmployee> getAssignedEmployeeData(@RequestParam(value ="isAssigned") boolean condition) {
+         
+        List<Employee> employees = employeeRepository.findAll();
+        List<DataEmployee> allDataEmployees = dataEmployeeRepository.findAll();
+        List<DataEmployee> filteredDataEmployees = new ArrayList<>();
+
+        
+        for (DataEmployee dataEmployee : allDataEmployees) {
+            boolean found = false;
+            for (Employee employee : employees) {
+                if (employee.getEmployeeData() != null && employee.getEmployeeData().getId() == dataEmployee.getId()) {
+                    found = true;
+                    break;
+                }
+            }
+            
+            if (condition && found) {
+                filteredDataEmployees.add(dataEmployee);
+            } else if (!condition && !found) {
+                filteredDataEmployees.add(dataEmployee);
+            }
+        }
+    
+        return filteredDataEmployees;
+     }
+    
+
 }

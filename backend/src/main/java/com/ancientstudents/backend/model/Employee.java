@@ -2,9 +2,12 @@ package com.ancientstudents.backend.model;
 
 import java.util.Date;
 
-import com.ancientstudents.backend.serializer.CustomDateSerializer;
+import com.ancientstudents.backend.utils.CustomDateDeserializer;
+import com.ancientstudents.backend.utils.CustomDateSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -25,15 +28,15 @@ public class Employee {
     @Column(name="emp_num")
     private String empNum;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL) 
     @JoinColumn(name="department_id", referencedColumnName = "id")
     private Department department;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="designation_id", referencedColumnName = "id")
     private Designation designation;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="employeedata_id", referencedColumnName = "id")
     private DataEmployee employeeData;
 
@@ -41,11 +44,13 @@ public class Employee {
 
     @Temporal(TemporalType.TIMESTAMP)
     @JsonSerialize(using = CustomDateSerializer.class)
+    @JsonDeserialize(using = CustomDateDeserializer.class)
     @Column(name = "created_at")
     private Date createdAt;
 
     @Temporal(TemporalType.TIMESTAMP)
     @JsonSerialize(using = CustomDateSerializer.class)
+    @JsonDeserialize(using = CustomDateDeserializer.class)
     @Column(name = "last_updated")
     private Date lastUpdated;
 
@@ -127,6 +132,7 @@ public class Employee {
         this.lastUpdated = lastUpdated;
     }
 
+
     @Override
     public String toString() {
         return "{" +
@@ -140,5 +146,5 @@ public class Employee {
             ", lastUpdated='" + getLastUpdated() + "'" +
             "}";
     }
-
+    
 }   

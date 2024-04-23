@@ -23,7 +23,6 @@ export async function sumbitDesignationData(data: Designation){
 
     try{
          const response = await axios.post("http://localhost:8080/designation", data);
-         console.log(response.data);
          return response.data; 
      }
     catch(error){
@@ -35,7 +34,6 @@ export async function getTopNDesignation(count:string){
         if(count === undefined) count =''
     
         const response = await axios.get(`http://localhost:8080/designation/top?count=${count}`)
-        console.log(response.data.content);
         return response.data.content;
     }catch(error){
         console.log(error);

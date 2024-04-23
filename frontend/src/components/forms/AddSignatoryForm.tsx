@@ -13,7 +13,6 @@ import { useToast } from "../ui/use-toast"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
 
 import { useEffect, useState } from "react"
-import { AddPositionSchema, AddSignatorySchema, AssignPosition, Position, SignatorySubmissionSchema } from "@/lib/types"
 import { getAllPosition } from "@/controller/position"
 import { createSignatory, getAllSuperior, getSignatoryBySuperiorID } from "@/controller/signatory"
 import { SignatorySchema } from "@/schemas"

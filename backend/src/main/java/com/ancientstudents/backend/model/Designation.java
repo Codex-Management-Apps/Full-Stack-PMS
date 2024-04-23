@@ -2,7 +2,9 @@ package com.ancientstudents.backend.model;
 
 import java.util.Date;
 
-import com.ancientstudents.backend.serializer.CustomDateSerializer;
+import com.ancientstudents.backend.utils.CustomDateDeserializer;
+import com.ancientstudents.backend.utils.CustomDateSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import jakarta.persistence.Column;
@@ -22,14 +24,16 @@ public class Designation {
 
     @Column(name = "designation_name")
     private String designationName;
-
+    private String status;
     @Temporal(TemporalType.TIMESTAMP)
     @JsonSerialize(using = CustomDateSerializer.class)
+    @JsonDeserialize(using = CustomDateDeserializer.class)
     @Column(name = "created_at")
     private Date createdAt;
 
     @Temporal(TemporalType.TIMESTAMP)
     @JsonSerialize(using = CustomDateSerializer.class)
+    @JsonDeserialize(using = CustomDateDeserializer.class)
     @Column(name = "last_updated")
     private Date lastUpdated;
 
@@ -58,6 +62,14 @@ public class Designation {
 
     public void setDesignationName(String designationName) {
         this.designationName = designationName;
+    }
+
+    public String getStatus() {
+        return this.status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Date getCreatedAt() {

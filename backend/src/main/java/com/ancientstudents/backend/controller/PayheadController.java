@@ -17,7 +17,7 @@ public class PayheadController {
     private PayheadRepository payheadRepository;
      
     @PostMapping("/payhead")
-    Payhead newAddEarnings(@RequestBody Payhead newAddEarnings){
+    Payhead newPayhead (@RequestBody Payhead newAddEarnings){
         if(newAddEarnings == null) return null;
         newAddEarnings.setCreatedAt(new Date());
         newAddEarnings.setLastUpdated(new Date());
@@ -25,19 +25,19 @@ public class PayheadController {
     }
     
     @GetMapping("/payhead")
-    List<Payhead> getAllAddEarningss(){
+    List<Payhead> getAllPayheads(){
         return payheadRepository.findAll();
     }
 
     @GetMapping("/payhead/{id}")
-    Payhead getAddEarningsById(@PathVariable Long id){
+    Payhead getPayheadById(@PathVariable Long id){
         if(id == null) return null;
         return payheadRepository.findById(id)
                 .orElseThrow(()->new AddEarningsNotFoundException(id));
     }
      
     @PutMapping("payhead/{id}")
-    Payhead updateAddEarnings(@RequestBody Payhead newPayhead, @PathVariable Long id){
+    Payhead updatePayhead(@RequestBody Payhead newPayhead, @PathVariable Long id){
         if(id == null) return null;
         return payheadRepository.findById(id)
                 .map(payhead -> {
@@ -50,7 +50,7 @@ public class PayheadController {
     }
      
     @DeleteMapping("payhead/{id}")
-    String deleteAddEarnings(@PathVariable Long id){
+    String deletePayhead(@PathVariable Long id){
         if(id == null) return null;
         if(!payheadRepository.existsById(id)){
             throw new AddEarningsNotFoundException(id);
