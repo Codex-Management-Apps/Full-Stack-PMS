@@ -36,6 +36,7 @@ const columns: ColumnDef<AssignPayhead>[] = [
 
 
 export function PayHeadDialog({row}: any){
+    console.log(row)
     const currentRan = useRef(false);
     const navigate = useNavigate();
     const [employeeEarnings, setEmployeeEarnings] = useState<AssignPayhead[]>([]);

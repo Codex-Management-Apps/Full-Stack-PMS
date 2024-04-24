@@ -12,7 +12,7 @@ import { DialogFooter } from "../ui/dialog"
 
 import { ColumnDef } from "@tanstack/react-table"
 import { useRef, useState, useEffect } from "react"
-import { Employee } from "@/lib/types";
+import { Employee, Signatory } from "@/lib/types";
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { useToast } from "../ui/use-toast"
@@ -23,7 +23,7 @@ import { DataTable } from "../DataTable"
 import { getAllEmployee } from "@/controller/employee"
 import { Separator } from "../ui/separator"
 import { Input } from "../ui/input"
-import { createSignatory } from "@/controller/signatory"
+import { createSignatory, getSignatoryByID, UpdateSignatoryByID } from "@/controller/signatory"
 
 
 const columns: ColumnDef<Employee>[] = [
@@ -57,45 +57,56 @@ const columns: ColumnDef<Employee>[] = [
     }
   ]
 
-export function AddSignatoryForm(){
-
+export function EditSignatoryForm({data}:any){
     const {toast} = useToast(); 
     const currentRan = useRef(false)
     const [employee, setEmployee] = useState<Employee[]>([]);
-
+    const [signatory,setSignatory] = useState<Signatory>();
     
     useEffect(()=>{
-      if(currentRan.current === false){
-          const getData = async () =>{
+        if(currentRan.current === false){
+            const getData = async () =>{
               try {
-                    const data = await getAllEmployee();
-                    console.log(data)
-                    setEmployee(data);
+                    const fetch = await getAllEmployee();
+                    setEmployee(fetch);
               } catch (error) {
                 console.log(error)
               }
             }
+            const getSignatory = async () => {
+                try {
+                    const fetch = await getSignatoryByID(data.id);
+
+                    setSignatory(fetch)
+                } catch (error) {
+                    console.log(error)
+                }
+            }
             currentRan.current = true
             getData()
+            getSignatory()
       }
     },[])
 
     const form = useForm<z.infer<typeof SignatorySchema>>({
         resolver: zodResolver(SignatorySchema),
         defaultValues: {
-            name : '',
-            status: '',
-            employee: '',
+            name : data.signatoryName,
+            status: data.status,
+            employee: String(data.employeeId),
         }
     });
 
-    const handleSubmit = async (data : any) =>{
+    const handleSubmit = async (output : z.infer<typeof SignatorySchema>) =>{
         try {
             const newData = {
-                ...data,
-                employee: employee.find(d => d.id === Number(data.employee)),
+                ...signatory,
+                name: output.name,
+                status: output.status,
+                employee: employee.find(d => d.id === Number(output.employee)),
             }
-            createSignatory(newData)
+            
+            UpdateSignatoryByID(newData, data.id)
             toast({
                 variant: "default",
                 title: "Data Added, Kindly Refresh the page",

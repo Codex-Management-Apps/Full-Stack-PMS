@@ -28,7 +28,6 @@ public class Signatory {
     @ManyToOne
     @JoinColumn(name="employee_id", referencedColumnName = "id")
     private Employee employee;
-
     private String status;
 
     @Temporal(TemporalType.TIMESTAMP)

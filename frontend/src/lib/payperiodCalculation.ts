@@ -12,24 +12,24 @@ const payPeriods: PayPeriod[] = [
 
 export function generatePayPeriodDates(selectedPayPeriod: string) {
 
-const payPeriod = payPeriods.find(period => period.label === selectedPayPeriod);
+  const payPeriod = payPeriods.find(period => period.label === selectedPayPeriod);
 
-if (!payPeriod) {
-    console.error("Invalid pay period selected.");
-    return null;
-}
+  if (!payPeriod) {
+      console.error("Invalid pay period selected.");
+      return null;
+  }
 
-const startDate = new Date(); // Today's date
-startDate.setDate(startDate.getDate() + 1); // Start from tomorrow
+  const startDate = new Date(); // Today's date
+  startDate.setDate(startDate.getDate() + 1); // Start from tomorrow
 
-const endDate = new Date(startDate);
-endDate.setDate(endDate.getDate() + payPeriod.days - 1); // Calculate end date
-console.log(startDate)
-console.log(endDate)
-return {
-    startDate: formatDateTime(startDate),
-    endDate: formatDateTime(endDate),
-}
+  const endDate = new Date(startDate);
+  endDate.setDate(endDate.getDate() + payPeriod.days - 1); // Calculate end date
+  console.log(startDate)
+  console.log(endDate)
+  return {
+      startDate: formatDateTime(startDate),
+      endDate: formatDateTime(endDate),
+  }
 }
 function formatDateTime(date: Date): string {
     const year = date.getFullYear();

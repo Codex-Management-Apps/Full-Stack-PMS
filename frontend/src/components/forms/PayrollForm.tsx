@@ -19,14 +19,15 @@ import { DataTable } from "../DataTable"
 import { ColumnDef, Row } from "@tanstack/react-table"
 
 import { Card } from "../ui/card"
-import { Signatory } from "@/lib/types"
+import { Employee, Signatory } from "@/lib/types"
 import { payrollSchema } from "@/schemas"
 
 
 import {generatePayPeriodDates} from "@/lib/payperiodCalculation"
 import { createPayroll, PayrollSubmission } from "@/controller/payroll"
-import { EmployeeTable } from "@/pages/EmployeePage"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { EmployeeTable } from "../sections/EmployeePageTable"
+import { getEmployeeById } from "@/controller/employee"
 
 export type SignatoryData = {
  id: string,
@@ -59,15 +60,15 @@ const columns : ColumnDef<SignatoryData>[] =[
 type EmpData = {
     data: EmployeeTable
 }
+
 export function PayrollForm({data} : EmpData){
-    const [employee, setEmployee] = useState<EmployeeTable>(data)
+    const [employee, setEmployee] = useState<Employee>()
     const [signatory, setSignatory] = useState<SignatoryData[]>([]);
     const [isLoading, setIsLoading] = useState<Boolean>(true);
     const [payPeriodDates, setPayPeriodDates] = useState<{ startDate: string; endDate: string; } | null>(null);
     const [selectedPayPeriod, setSelectedPayPeriod] = useState<string>();
 
     const {toast} = useToast();
-
     const handlePayPeriodChange = (value: string) => {
         setSelectedPayPeriod(value);
         const dates = generatePayPeriodDates(value);
@@ -99,12 +100,20 @@ export function PayrollForm({data} : EmpData){
                 setSignatory(newList)
             }catch(error){
                 console.log(error)
-            } finally {
-                setIsLoading(false)
+            }
+        }
+        const fetchEmployee = async () => {
+            try{
+                const fetch = await getEmployeeById(data.id)
+                setEmployee(fetch)
+            } catch(error){
+                console.log(error)
             }
         }
         setIsLoading(true)
         handleData()
+        fetchEmployee()
+        setIsLoading(false)
     }, [])
    
     
@@ -112,14 +121,14 @@ export function PayrollForm({data} : EmpData){
         resolver: zodResolver(payrollSchema)
     })
 
-    const handleSubmit = async (data: z.infer<typeof payrollSchema>) => {
+    const handleSubmit = async (output: z.infer<typeof payrollSchema>) => {
         try {
-            const parts = data.signatory.split('-');
-            
+
             if(payPeriodDates){
-                const newData : PayrollSubmission= {
-                    signatory: parts[1],
-                    employee: employee.id.toString(),
+                const newData = {
+                    signatory: signatory.find(d => String(d.id) === output.signatory),
+                    employee: employee,
+                    status:"Active",
                     start: payPeriodDates.startDate,
                     end: payPeriodDates.endDate,
                 }
@@ -173,7 +182,7 @@ export function PayrollForm({data} : EmpData){
                                         </FormControl>
                                         <SelectContent>
                                             {signatory.map((d,i) => (
-                                                <SelectItem key={i} value ={`${d.employeeId}-${d.id}-${d.signatoryName}`}>{d.signatoryName}</SelectItem>
+                                                <SelectItem key={i} value ={String(d.id)}>{d.signatoryName}</SelectItem>
                                             ))}
                                         </SelectContent>
                                     </Select>

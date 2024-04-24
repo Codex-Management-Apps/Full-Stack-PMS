@@ -1,7 +1,10 @@
 package com.ancientstudents.backend.controller;
 
+import com.ancientstudents.backend.exception.EmployeeNotFoundException;
 import com.ancientstudents.backend.exception.SignatoryNotFoundException;
+import com.ancientstudents.backend.model.Employee;
 import com.ancientstudents.backend.model.Signatory;
+import com.ancientstudents.backend.repository.EmployeeRepository;
 import com.ancientstudents.backend.repository.SignatoryRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,14 +18,20 @@ import java.util.List;
 public class SignatoryController {
     @Autowired
     private SignatoryRepository signatoryRepository;
-
+    @Autowired
+    private EmployeeRepository employeeRepository;
     // Crud Functionality
     @PostMapping("/signatory")
     Signatory newSignatory(@RequestBody Signatory newSignatory){
         if(newSignatory == null) return null;
-        newSignatory.setCreatedAt(new Date());
-        newSignatory.setLastUpdated(new Date());
-        return signatoryRepository.save(newSignatory);
+
+        Signatory sig = new Signatory();
+        sig.setName(newSignatory.getName());
+        sig.setEmployee(getEmployeeById(newSignatory.getEmployee().getId()));
+        sig.setStatus(newSignatory.getStatus());
+        sig.setCreatedAt(new Date());
+        sig.setLastUpdated(new Date());
+        return signatoryRepository.save(sig);
     }
 
     @GetMapping("/signatory")
@@ -43,14 +52,14 @@ public class SignatoryController {
         return signatoryRepository.findById(id)
                 .map(signatory -> {
                     signatory.setName(newSignatory.getName());
-                    signatory.setEmployee(newSignatory.getEmployee());
+                    signatory.setEmployee(getEmployeeById(newSignatory.getEmployee().getId()));
+                    
                     signatory.setStatus(newSignatory.getStatus());
                     signatory.setCreatedAt(newSignatory.getCreatedAt());
                     signatory.setLastUpdated(new Date());
                     return signatoryRepository.save(signatory);
                 }).orElseThrow(() -> new SignatoryNotFoundException(id));
     }
-
 
     @DeleteMapping("signatory/{id}")
     String deleteUser(@PathVariable Long id){
@@ -62,11 +71,9 @@ public class SignatoryController {
         return "Signatory with id " + id + " has been deleted successfully.";
     }
 
-    // @RequestMapping(value = "signatory/top", method=RequestMethod.GET)
-    // public Page<Signatory> requestMethodName(@RequestParam(value ="count") String count) {
-    //     PageRequest pageRequest = PageRequest.of(0,Integer.valueOf(count));
-    //     Page<Signatory> topSignatory = signatoryRepository.findAll(pageRequest);
-
-    //     return topSignatory;
-    // }
+    private Employee getEmployeeById(@PathVariable Long id){
+        if(id == null) return null;
+        return employeeRepository.findById(id)
+                .orElseThrow(()->new EmployeeNotFoundException(id));
+    }
 }

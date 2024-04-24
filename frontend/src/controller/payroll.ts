@@ -18,17 +18,11 @@ export async function getAllPayRoll(){
     }
 }
 
-export async function createPayroll(data : PayrollSubmission){
+export async function createPayroll(data : any){
     try {
-        // Data Format for creating
-        // {
-        //     "signatory": "1",
-        //     "employee": "1",
-        //     "start": "2024-04-21 17:37:17",
-        //     "end": "2024-05-20 17:37:17"
-        // }
-        console.log(data)
-        
+        const response = await axios.post("http://localhost:8080/payroll",data)
+
+        return response
     } catch (error) {
         throw error
     }

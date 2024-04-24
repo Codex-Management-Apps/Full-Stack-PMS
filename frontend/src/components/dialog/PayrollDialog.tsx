@@ -12,16 +12,13 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/
 
 import { PayrollForm } from "../forms/PayrollForm";
 import { PayrollData } from "../sections/PayrollData";
-import { Separator } from "../ui/separator";
-import  { EmployeeTable } from "@/pages/EmployeePage";
 import { useEffect, useState } from "react";
 import { getPayrollByEmployeeID } from "@/controller/payroll";
 import { Payroll } from "@/lib/types";
-import { Card } from "../ui/card";
 
 
 export function PayRollDialog(data : any){
-    const employee: EmployeeTable = data.row;
+    const employee = data.row;
     const [hasPayroll, setHasPayroll] = useState<boolean>(false);
     const [payroll, setPayroll] = useState<PayrollData[]>([]);
     const [isLoading, setIsLoading] = useState<Boolean>(true);
@@ -72,9 +69,11 @@ export function PayRollDialog(data : any){
         validate();
         setIsLoading(false)
     }, []);
+
     if(isLoading){
         return null
     }
+    
     return(
         <TooltipProvider>
             <Dialog>
@@ -96,8 +95,12 @@ export function PayRollDialog(data : any){
                     </DialogHeader>
                     {hasPayroll ? (
                        <PayrollData data={employee}/>
+                       
                     ):(
+                        <>
                         <PayrollForm data={employee}/>
+                        <PayrollData data={employee}/>
+                        </>
                     )}
                     
                 </DialogContent>

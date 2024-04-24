@@ -9,6 +9,9 @@ import { DataTable } from "@/components/DataTable";
 import { Signatory } from "@/lib/types";
 import { NormalLayout } from "@/layouts/NormalLayout";
 import { Button } from "@/components/ui/button";
+import { AddSignatoryDialog } from "@/components/dialog/AddSignatoryDialog";
+import { EditSignatoryDialog } from "@/components/dialog/EditSignatoryDialog";
+import { DeleteSignatoryDialog } from "@/components/dialog/DeleteSignatoryDialog";
 
 
 
@@ -17,6 +20,7 @@ export type SignatoryData = {
   employeeId: string,
   signatoryName: string,
   fullname: string,
+  status: string,
   designation: string,
   department: string,
  }
@@ -32,6 +36,9 @@ export type SignatoryData = {
          accessorKey: "fullname",
          header: "Fullname",
      },{
+        accessorKey: "status",
+        header: "Status",
+    },{
          accessorKey: "designation",
          header: "Designation",
      },{
@@ -44,7 +51,10 @@ export type SignatoryData = {
         cell: ({ row }) => {
          
           return (
-            <Button variant={"destructive"}>Delete</Button>
+            <div className="flex gap-5">
+                <EditSignatoryDialog data={row.getVisibleCells().find((cell) => cell.row.original.id)?.row.original || ""}/>
+                <DeleteSignatoryDialog row={row.getVisibleCells().find((cell) => cell.row.original.id)?.row.original || ""}/>
+            </div>
           )
         },
       }
@@ -62,7 +72,7 @@ export function SignatoryPage(){
               const fetchSignatory = await getAllSignatory()
               
               const newList: SignatoryData[] = fetchSignatory.map( (signatory : Signatory) => {
-                  const { id, name, employee } = signatory
+                  const { id, name, employee,status } = signatory
                   const {employeeData, department, designation } = employee;
       
                   const { firstname, middlename, lastname } = employeeData;
@@ -73,6 +83,7 @@ export function SignatoryPage(){
                       employeeId: employee.id,
                       signatoryName: name,
                       fullname: fullname,
+                      status,
                       designation: designation.designationName,
                       department: department.departmentName,
                   }
@@ -90,8 +101,8 @@ export function SignatoryPage(){
       <NormalLayout>
         <div className="w-full flex flex-col gap-5">
             <div className='flex justify-between'>
-            <PageTittle title="Payheads"/>
-            <Button>Add New Signatory</Button>
+            <PageTittle title="Signatory"/>
+            <AddSignatoryDialog/>
             </div>
             <DataTable columns={columns} data={signatory}/>
         </div>  

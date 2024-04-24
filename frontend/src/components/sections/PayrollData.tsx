@@ -4,7 +4,7 @@ import { DataTable } from "../DataTable";
 import { DialogTitle } from "../ui/dialog";
 import { ColumnDef } from "@tanstack/react-table";
 import { useEffect, useState } from "react";
-import { getAllPayRoll, getPayrollByEmployeeID } from "@/controller/payroll";
+import { getPayrollByEmployeeID } from "@/controller/payroll";
 import { Payroll } from "@/lib/types";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
@@ -50,21 +50,21 @@ const columns : ColumnDef<PayrollData>[] =[
         },
         }
 ]
+
 type EmpData = {
     data: EmployeeTable
 }
 
 
 export function PayrollData({data}: EmpData){
-    const [employee, setEmployee] = useState<EmployeeTable>(data)
+    console.log(data)
     const [payroll,setPayroll] = useState<PayrollData[]>([])
-    const [isLoading, setIsLoading] = useState<Boolean>(true);
 
     useEffect(()=> {
         const handleData = async() =>{
             try {
-                const fetchPayroll = await getPayrollByEmployeeID(employee.id.toString())
-                
+                const fetchPayroll = await getPayrollByEmployeeID(data.id.toString())
+                console.log(fetchPayroll)
                 if(fetchPayroll){
                     const newList: PayrollData[] = fetchPayroll.map( (payroll : Payroll) =>{
                         const {id, signatory,start,end, status} = payroll
@@ -82,11 +82,8 @@ export function PayrollData({data}: EmpData){
                 
             } catch (error) {
                 console.log(error)
-            } finally {
-                setIsLoading(false)
-            }
+            } 
         }
-        setIsLoading(true)
         handleData()
     },[])
 

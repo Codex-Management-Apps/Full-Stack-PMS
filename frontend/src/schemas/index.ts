@@ -49,3 +49,9 @@ export const AssignPayheadSchema = z.object({
     amount : z.string().min(1),
     description: z.string().min(1)
 })
+
+export const SignatorySchema = z.object({
+    name : z.string().min(1),
+    status: z.string().min(1),
+    employee: z.string().min(1),
+})

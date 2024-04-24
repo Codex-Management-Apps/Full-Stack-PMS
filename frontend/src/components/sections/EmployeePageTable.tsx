@@ -81,7 +81,7 @@ export type EmployeeTable = {
 export function EmployeePageTable(){
     const currentRan = useRef(false)
     const [Employee, setEmployee] = useState<EmployeeTable[]>([]);
-     const [isLoading, setIsLoading] = useState<Boolean>(true);
+    const [isLoading, setIsLoading] = useState<Boolean>(true);
     useEffect(()=>{
       if(currentRan.current === false){
           const getData = async () =>{
