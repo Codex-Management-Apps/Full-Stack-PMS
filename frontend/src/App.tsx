@@ -10,6 +10,7 @@ import {SignatoryPage} from './pages/SignatoryPage';
 import { RegisterPage } from './pages/RegisterPage';
 import ConfirmingEmployeePage from './pages/ConfirmingEmployeePage';
 import ViewEmployee from './pages/ViewEmployee';
+import { EmployeePayheadPage } from './pages/EmployeePayheadsPage';
 
 
 export default function Home() {
@@ -20,16 +21,16 @@ export default function Home() {
             {/* View EmployeePage */}
             <Route index path="/p/admin/employee" element={<EmployeePage/>} />
             {/* View Employee ID */}
-            <Route index path="/p/admin/employee/:id" element={<ViewEmployee/>} />
+            <Route path="/p/admin/employee/:id" element={<ViewEmployee/>} />
             {/* View Payroll */}
             <Route path="/p/admin/employee/payroll/:id" element={<PayrollPage/>}/>
             {/* View ENewhired */}
-            <Route index path="/p/admin/employee/new" element={<ConfirmingEmployeePage/>} />
-
-
+            <Route path="/p/admin/employee/new" element={<ConfirmingEmployeePage/>} />
+            {/* Configure Payheads */}
+            <Route path="/p/admin/employee/:id/payheads" element={<EmployeePayheadPage/>} />
             {/* View Salary Slips */}
             <Route path="/p/admin/salaryslips" element={<SalarySlipPage/>} />
-
+            
             {/* View Leave Request */}
             <Route path="/p/admin/leave" element={<LeaveRequestPage/>}/>
 

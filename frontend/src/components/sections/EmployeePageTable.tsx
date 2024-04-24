@@ -57,6 +57,7 @@ export type EmployeeTable = {
       accessorKey: "status",
       header: "Status",
     },{
+      header:"Actions",
       id: "actions",
       enableHiding: false,
       cell: ({ row }) => {

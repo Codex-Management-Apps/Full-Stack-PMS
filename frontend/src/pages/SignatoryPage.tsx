@@ -37,7 +37,17 @@ export type SignatoryData = {
      },{
          accessorKey: "department",
          header: "Department",
-     },
+     },{
+        header:"Actions",
+        id: "actions",
+        enableHiding: false,
+        cell: ({ row }) => {
+         
+          return (
+            <Button variant={"destructive"}>Delete</Button>
+          )
+        },
+      }
  ]
  
 
@@ -83,7 +93,7 @@ export function SignatoryPage(){
             <PageTittle title="Payheads"/>
             <Button>Add New Signatory</Button>
             </div>
-            <DataTable columns={columns} data={signatory} isEmployee={false} isPayroll={false}/>
+            <DataTable columns={columns} data={signatory}/>
         </div>  
       </NormalLayout>
     )

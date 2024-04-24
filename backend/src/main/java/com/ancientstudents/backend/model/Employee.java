@@ -28,15 +28,15 @@ public class Employee {
     @Column(name="emp_num")
     private String empNum;
 
-    @ManyToOne(cascade = CascadeType.ALL) 
+    @ManyToOne
     @JoinColumn(name="department_id", referencedColumnName = "id")
     private Department department;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name="designation_id", referencedColumnName = "id")
     private Designation designation;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name="employeedata_id", referencedColumnName = "id")
     private DataEmployee employeeData;
 

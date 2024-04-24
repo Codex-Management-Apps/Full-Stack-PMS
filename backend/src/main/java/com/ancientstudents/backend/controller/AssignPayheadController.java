@@ -14,12 +14,17 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ancientstudents.backend.exception.AddEarningsNotFoundException;
 import com.ancientstudents.backend.exception.AssignPayheadNotFoundException;
 import com.ancientstudents.backend.exception.DataEmployeeNotFoundException;
+import com.ancientstudents.backend.exception.EmployeeNotFoundException;
 import com.ancientstudents.backend.model.AssignPayhead;
+import com.ancientstudents.backend.model.Employee;
 import com.ancientstudents.backend.model.Payhead;
-import com.ancientstudents.backend.model.Payroll;
 import com.ancientstudents.backend.repository.AssignPayheadRepository;
+import com.ancientstudents.backend.repository.EmployeeRepository;
+import com.ancientstudents.backend.repository.PayheadRepository;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,6 +36,10 @@ public class AssignPayheadController {
     
     @Autowired
     private AssignPayheadRepository assignPayheadRepository;
+    @Autowired
+    private EmployeeRepository employeeRepository;
+    @Autowired
+    private PayheadRepository payheadRepository;
 
     @GetMapping("/assign/payhead")
     private List<AssignPayhead> getAllPayHead(){
@@ -38,7 +47,7 @@ public class AssignPayheadController {
     }
 
     @GetMapping("/assign/payhead/{id}")
-    private AssignPayhead getPayheadById(@PathVariable Long id){
+    private AssignPayhead getAssignedPayheadById(@PathVariable Long id){
         if(id == null) return null;
         return assignPayheadRepository.findById(id)
             .orElseThrow(() -> new AssignPayheadNotFoundException(id));
@@ -47,10 +56,15 @@ public class AssignPayheadController {
     @PostMapping("/assign/payhead")
     private AssignPayhead newPayhead(@RequestBody AssignPayhead newAssignPayhead){
         if (newAssignPayhead == null) return null;
-        
-        newAssignPayhead.setCreatedAt(new Date());
-        newAssignPayhead.setLastUpdated(new Date());
-        return assignPayheadRepository.save(newAssignPayhead);
+
+        AssignPayhead assignPayhead = new AssignPayhead();
+        assignPayhead.setPayhead(getPayheadById(newAssignPayhead.getPayhead().getId()));
+        assignPayhead.setEmployee(getEmployeeById(newAssignPayhead.getEmployee().getId()));
+        assignPayhead.setAmount(newAssignPayhead.getAmount());
+        assignPayhead.setDescription(newAssignPayhead.getDescription());
+        assignPayhead.setCreatedAt(new Date());
+        assignPayhead.setLastUpdated(new Date());
+        return assignPayheadRepository.save(assignPayhead);
     }
 
     @PutMapping("/assign/payhead/{id}")
@@ -58,10 +72,13 @@ public class AssignPayheadController {
         if(id == null) return null;
         return assignPayheadRepository.findById(id)
                 .map(assignPayhead -> {
-                    assignPayhead.setPayroll(newAssignPayhead.getPayroll());
-                    assignPayhead.setPayhead(newAssignPayhead.getPayhead());
+                    assignPayhead.setEmployee(getEmployeeById(newAssignPayhead.getEmployee().getId()));
+                    assignPayhead.setPayhead(getPayheadById(newAssignPayhead.getPayhead().getId()));
+                    assignPayhead.setAmount(newAssignPayhead.getAmount());
+                    assignPayhead.setDescription(newAssignPayhead.getDescription());
                     assignPayhead.setCreatedAt(newAssignPayhead.getCreatedAt());
                     assignPayhead.setLastUpdated(new Date());
+                    System.out.println(assignPayhead);
                     return assignPayheadRepository.save(assignPayhead);
                 }).orElseThrow(() -> new AssignPayheadNotFoundException(id));
     }
@@ -80,25 +97,40 @@ public class AssignPayheadController {
 
 
     @RequestMapping(value="/assign/payhead/data", method=RequestMethod.GET)
-    private List<AssignPayhead> GetAllTypeUnderPayrollID(@RequestParam(value="payID") Long ID, @RequestParam(value ="type")String type) {
-
+    private List<AssignPayhead> GetAllTypeUnderEmployeeID(
+        @RequestParam(value="id") Long ID, 
+        @RequestParam(value ="type", required = false) String type
+    ) {
         if(ID == null) return null;
         List<AssignPayhead> allData = assignPayheadRepository.findAll();
         List<AssignPayhead> filteredData = new ArrayList<AssignPayhead>();
 
         if(!allData.isEmpty()){
             for(AssignPayhead data : allData){
-                Payroll x = data.getPayroll();
+                Employee x = data.getEmployee();
                 Payhead y = data.getPayhead();
-                System.out.println(x.getId() + " == " + ID + " and " + y.getType().toLowerCase() + " == " + type.toLowerCase());
-                if(x.getId() == ID && y.getType().toLowerCase().equals(type.toLowerCase())){
-                    System.out.println(data);
-                    filteredData.add(data);
+                if(x.getId() == ID){
+                    if (type == null) {
+                        filteredData.add(data);
+                    } else if (y.getType().toLowerCase().equals(type.toLowerCase())){
+                        filteredData.add(data);
+                    }
                 }
             }
             return filteredData;
         }
         return null;
     }
-    
+    // Utility methods
+    private Employee getEmployeeById(Long id){
+        if(id == null) return null;
+        return employeeRepository.findById(id)
+                .orElseThrow(()->new EmployeeNotFoundException(id));
+    }
+
+    private Payhead getPayheadById(Long id){
+        if(id == null) return null;
+        return payheadRepository.findById(id)
+                .orElseThrow(()->new AddEarningsNotFoundException(id));
+    }
 }

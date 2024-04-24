@@ -18,12 +18,19 @@ const columns : ColumnDef<Payhead>[] =[
         accessorKey: "name",
         header: "Name",
     },{
-        accessorKey: "amount",
-        header: "Amount",
-    },{
         accessorKey: "type",
         header: "Type",
-    },
+    },{
+        header:"Actions",
+        id: "actions",
+        enableHiding: false,
+        cell: ({ row }) => {
+         
+          return (
+            <Button variant={"destructive"}>Delete</Button>
+          )
+        },
+      }
     
 ]
  
@@ -54,7 +61,7 @@ export default function PayHeadsPage() {
         <PageTittle title="Payheads"/>
         <Button>Add New Payhead</Button>
         </div>
-        <DataTable columns={columns} data={payhead} isEmployee={false} isPayroll={false}/>
+        <DataTable columns={columns} data={payhead}/>
       </div>  
     </NormalLayout>
   )

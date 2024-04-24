@@ -42,7 +42,6 @@ public class PayheadController {
         return payheadRepository.findById(id)
                 .map(payhead -> {
                     payhead.setName(newPayhead.getName());
-                    payhead.setAmount(newPayhead.getAmount());
                     payhead.setCreatedAt(newPayhead.getCreatedAt());
                     payhead.setLastUpdated(new Date());
                     return payheadRepository.save(newPayhead);
@@ -58,7 +57,7 @@ public class PayheadController {
         payheadRepository.deleteById(id);
         return "payhead with id " + id + " has been deleted successfully.";
     }
-     
+
     // @RequestMapping(value = "payhead/top", method=RequestMethod.GET)
     // public Page<Payhead> requestMethodName(@RequestParam(value ="count") String count) {
     //     PageRequest pageRequest = PageRequest.of(0,Integer.valueOf(count));
@@ -66,5 +65,5 @@ public class PayheadController {
 
     //     return topAddEarnings;
     // }
-    
+
 }

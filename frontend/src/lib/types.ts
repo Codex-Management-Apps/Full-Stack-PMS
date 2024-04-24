@@ -90,8 +90,18 @@ export type LeaveRequest = {
 export type Payhead = {
   id: number;
   amount: string;
-  created_at?: string;
-  last_updated?: string;
+  created_at: string;
+  last_updated: string;
   name: string;
   type: string;
 };
+
+export type AssignPayhead = {
+  id: number,
+  created_at: Date,
+  last_updated: Date,
+  amount: string,
+  description: string,
+  payhead: Payhead,
+  employee: Employee
+}

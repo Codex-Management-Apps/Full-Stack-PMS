@@ -37,7 +37,7 @@ export function EmployeePageHeading(){
                 New Employee
                 {employeDataCount != 0 && (
                     <div className='absolute top-0 right-0 px-2 bg-red-500 rounded-full text-white'>
-                    {String(employeDataCount)}
+                    { employeDataCount && String(employeDataCount)}
                     </div>
                 )}
             </Button>

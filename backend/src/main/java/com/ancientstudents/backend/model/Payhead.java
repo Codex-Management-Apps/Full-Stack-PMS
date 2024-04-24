@@ -22,7 +22,6 @@ public class Payhead {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String amount;
     private String type;
     
     @Temporal(TemporalType.TIMESTAMP)
@@ -40,15 +39,6 @@ public class Payhead {
     public Payhead() {
     }
 
-    public Payhead(Long id, String name, String amount, Date createdAt, Date lastUpdated) {
-        this.id = id;
-        this.name = name;
-        this.amount = amount;
-        this.createdAt = createdAt;
-        this.lastUpdated = lastUpdated;
-    }
-    
-
     public Long getId() {
         return this.id;
     }
@@ -63,14 +53,6 @@ public class Payhead {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getAmount() {
-        return this.amount;
-    }
-
-    public void setAmount(String amount) {
-        this.amount = amount;
     }
 
     public String getType() {
@@ -97,17 +79,16 @@ public class Payhead {
         this.lastUpdated = lastUpdated;
     }
 
-
     @Override
     public String toString() {
         return "{" +
             " id='" + getId() + "'" +
             ", name='" + getName() + "'" +
-            ", amount='" + getAmount() + "'" +
             ", type='" + getType() + "'" +
             ", createdAt='" + getCreatedAt() + "'" +
             ", lastUpdated='" + getLastUpdated() + "'" +
             "}";
     }
+
     
 }
