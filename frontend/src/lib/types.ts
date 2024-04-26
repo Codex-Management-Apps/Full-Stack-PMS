@@ -69,7 +69,10 @@ export type Payroll = {
 export type Payslip = {
   id: number,
   payroll: Payroll,
-  issued_date: string,
+  issued_date: Date,
+  total_earnings: Number,
+  total_deductions:  Number,
+  net_pay: Number,
   create_at: string,
   last_updated: string,
 }

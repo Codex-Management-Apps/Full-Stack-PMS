@@ -1,11 +1,13 @@
 
 import { DataTable } from '@/components/DataTable'
 import PageTittle from '@/components/PageTitle'
+import { Button } from '@/components/ui/button'
 import { getAllPaySlip } from '@/controller/payslip'
 import { NormalLayout } from '@/layouts/NormalLayout'
 import { Payslip } from '@/lib/types'
 import { ColumnDef } from '@tanstack/react-table'
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 export type PayslipData = {
   id: string,
@@ -39,7 +41,7 @@ const columns: ColumnDef<PayslipData>[]=[
   },{
     accessorKey: "net_pay",
     header: "net_pay",
-  }
+  },
 ]
 
 export default function SalarySlipPage() {
@@ -50,8 +52,8 @@ export default function SalarySlipPage() {
       try {
         const fetchData = await getAllPaySlip()
         const newList : PayslipData[] = fetchData.map((payslip:Payslip) => {
-          const {id, payroll, issued_date} = payslip
-          const {employee, start, end, total_earnings, total_deductions, net_pay} = payroll
+          const {id, payroll, issued_date, total_earnings, total_deductions, net_pay} = payslip
+          const {employee, start, end} = payroll
           const {empNum, employeeData} = employee
           const {firstname, middlename, lastname} = employeeData
           const fullname = `${lastname}, ${firstname} ${middlename}`
@@ -78,7 +80,7 @@ export default function SalarySlipPage() {
     <NormalLayout>
       <div className='flex flex-col gap-5 w-full'>
         <PageTittle title="Salary Slips"/>
-        <DataTable columns={columns} data={payslip} isEmployee={false} isPayroll={false}/>
+        <DataTable columns={columns} data={payslip}/>
       </div>
     </NormalLayout>
   )

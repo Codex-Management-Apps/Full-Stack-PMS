@@ -52,6 +52,17 @@ public class Payslip {
     }
 
 
+    public Payslip(Long id, Payroll payroll, double total_earnings, double total_deductions, double net_pay, Date issued_date, Date createdAt, Date lastUpdated) {
+        this.id = id;
+        this.payroll = payroll;
+        this.total_earnings = total_earnings;
+        this.total_deductions = total_deductions;
+        this.net_pay = net_pay;
+        this.issued_date = issued_date;
+        this.createdAt = createdAt;
+        this.lastUpdated = lastUpdated;
+    }
+
     public Long getId() {
         return this.id;
     }

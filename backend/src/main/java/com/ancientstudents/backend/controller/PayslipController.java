@@ -24,6 +24,7 @@ public class PayslipController {
         if(newPayslip == null) return null;
         newPayslip.setCreatedAt(new Date());
         newPayslip.setLastUpdated(new Date());
+        newPayslip.setIssued_date(new Date());
         return payslipRepository.save(newPayslip);
     }
 

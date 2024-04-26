@@ -5,10 +5,12 @@ import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table'
+import { useToast } from '@/components/ui/use-toast'
 import { getAllTypeUnderEmployeeID } from '@/controller/asssignPayhead'
-import { getPayrollByID } from '@/controller/payroll'
+import { getPayrollByID, UpdatePayroll } from '@/controller/payroll'
+import { createPaySlip } from '@/controller/payslip'
 import { NormalLayout } from '@/layouts/NormalLayout'
-import { AssignPayhead, Payroll } from '@/lib/types'
+import { AssignPayhead, Payroll, Payslip } from '@/lib/types'
 import { ColumnDef } from '@tanstack/react-table'
 import { PlusIcon } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
@@ -32,53 +34,122 @@ const columns: ColumnDef<AssignPayhead>[] = [
 
 
 export default function PayrollPage() {
+  const {toast} = useToast();
   const currentRan = useRef(false);
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const [payroll, setPayroll] = useState<Payroll>();
-
+  
   const [employeeEarnings, setEmployeeEarnings] = useState<AssignPayhead[]>([]);
   const [employeeDeductions, setEmployeeDeductions] = useState<AssignPayhead[]>([]);
 
-    useEffect(() =>{
-        if(currentRan.current === false){{
-            const handleData = async() => {
-              try {
-                const fetchdata = await getPayrollByID( id || "")
-        
+  const [netPay, setNetPay] = useState(0);
+  const [totalEarnings, setTotalEarnings] = useState(0);
+  const [totalDeductions, setTotalDeductions] = useState(0);
+
+  useEffect(() =>{
+      if(currentRan.current === false){{
+          const handleData = async() => {
+            try {
+              if (id){
+                const fetchdata = await getPayrollByID( id )
+
                 setPayroll(fetchdata)
-              } catch (error) {
-                console.log(error)
               }
-            }
-            
-            currentRan.current= true
-            handleData()
-        }}
-    },[])
-    useEffect(()=>{
-      const getAllEarnings = async() =>{
-          try {
-              const earnings = await getAllTypeUnderEmployeeID(String(payroll?.employee.id ), "earnings")
-              
-              setEmployeeEarnings(earnings)
-              
-          } catch (error) {
+      
+
+            } catch (error) {
               console.log(error)
+            }
           }
+          
+          currentRan.current= true
+          handleData()
+      }}
+      console.log("pass")
+  },[])
+  useEffect(()=>{
+    if(payroll){
+      const getAllEarnings = async() =>{
+        try {
+            const earnings = await getAllTypeUnderEmployeeID(String(payroll.employee.id ), "earnings")
+            
+            setEmployeeEarnings(earnings)
+            
+        } catch (error) {
+            console.log(error)
+        }
       }
 
       const getAllDeduction = async() => {
         try {
-            const deductions = await getAllTypeUnderEmployeeID(String(payroll?.employee.id ), "deduction")
+            const deductions = await getAllTypeUnderEmployeeID(String(payroll.employee.id ), "deduction")
             setEmployeeDeductions(deductions)
         } catch (error) {
             console.log(error)
         }
       }
-        getAllEarnings()
-        getAllDeduction()
-    },[payroll])
+      getAllEarnings()
+      getAllDeduction()
+    }
+  },[payroll])
+
+  useEffect(() =>{
+    if(employeeEarnings.length != 0 && employeeDeductions.length != 0){
+      let totalEarnings = 0;
+      for (const earning of employeeEarnings) {
+        totalEarnings += Number(earning.amount);
+      }
+      console.log(totalEarnings)
+      setTotalEarnings(totalEarnings);
+  
+      let totalDeductions = 0;
+      for (const deduction of employeeDeductions) {
+        totalDeductions += Number(deduction.amount);
+      }
+      console.log(totalDeductions)
+      setTotalDeductions(totalDeductions);
+
+      setNetPay(totalEarnings - totalDeductions);
+    }
+  }, [employeeEarnings, employeeDeductions])
+  
+  const handleOnlick = async() =>{
+    try {
+      if(payroll){
+        const data = {
+          payroll : payroll,
+          total_earnings: totalEarnings,
+          total_deductions:  totalDeductions,
+          net_pay: netPay,
+        }
+        // payroll.status ="Inactive"
+        // await UpdatePayroll(payroll, String(payroll.id))
+        console.log(data)
+        await createPaySlip(data)
+        
+        toast({
+          variant: "default",
+          title: "Data Added, Kindly Refresh the page",
+          description: (
+              <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+                  <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+              </pre>
+              ),
+        })
+      }
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Something went wrong",
+        description: (
+            <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+                <code className="text-white">{JSON.stringify(error, null, 2)}</code>
+            </pre>
+            ),
+    })
+    }
+  }
   return (
     <NormalLayout>
       <div className='flex flex-col gap-5 w-full py-3'>
@@ -130,7 +201,7 @@ export default function PayrollPage() {
         <Card className=' flex flex-col p-5 gap-5'>
           <div className='flex justify-between'>
             <PageTittle title="Payheads"/>
-            <Button onClick={() => navigate(`/p/admin/employee/${id}/payheads`)}>Configure</Button>
+            <Button onClick={() => navigate(`/p/admin/employee/${payroll?.employee.id}/payheads`)}>Configure</Button>
           </div>
 
           <div className='grid grid-cols-2 gap-5'>
@@ -150,9 +221,9 @@ export default function PayrollPage() {
 
         <div className='flex justify-between py-10'>
           <Card className='p-5'>
-            Net Salary Pay: $$$$$
+            Net Salary Pay: ${netPay}
           </Card>
-          <Button className=' flex gap-3 items-center'><PlusIcon/>Generate Payslip</Button>
+          <Button onClick={handleOnlick} className=' flex gap-3 items-center'><PlusIcon/>Generate Payslip</Button>
         </div>
 
       </div>

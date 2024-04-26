@@ -46,7 +46,6 @@ export async function deleteAssignPayhead(id:string){
 // 
 export async function getAllTypeUnderEmployeeID(id: any, condition:string){
     try {
-        console.log(id)
         const response = await axios.get(`http://localhost:8080/assign/payhead/data?id=${id}&type=${condition}`)
 
         return response.data;
