@@ -18,6 +18,7 @@ export default function Home() {
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <BrowserRouter>
           <Routes>
+            
             {/* View EmployeePage */}
             <Route index path="/p/admin/employee" element={<EmployeePage/>} />
             {/* View Employee ID */}

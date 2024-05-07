@@ -1,10 +1,8 @@
 package com.ancientstudents.backend.controller;
 
-import com.ancientstudents.backend.exception.EmployeeNotFoundException;
 import com.ancientstudents.backend.exception.PayrollNotFoundException;
 import com.ancientstudents.backend.model.Employee;
 import com.ancientstudents.backend.model.Payroll;
-import com.ancientstudents.backend.repository.EmployeeRepository;
 import com.ancientstudents.backend.repository.PayrollRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +18,6 @@ public class PayrollController {
     @Autowired
     private PayrollRepository payrollRepository;
     @Autowired
-    private EmployeeRepository employeeRepository;
 
     @PostMapping("/payroll")
     Payroll newPayroll(@RequestBody Payroll newPayroll){
@@ -95,9 +92,5 @@ public class PayrollController {
 
         return found;
     }
-    private Employee getEmployeeById(@PathVariable Long id){
-        if(id == null) return null;
-        return employeeRepository.findById(id)
-                .orElseThrow(()->new EmployeeNotFoundException(id));
-    }
+
 }

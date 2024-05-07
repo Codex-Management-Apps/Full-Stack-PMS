@@ -1,21 +1,19 @@
 
 import {
   AppWindow,
-  Banknote,
   Bell,
   CircleUserRound,
-  CreditCard,
-  FileInput,
-  Users,
+
   } from "lucide-react"
 import { Nav } from './ui/nav'
-import { ModeToggle } from "./themeToggle"
 import { Button } from "./ui/button"
 
 
-type Props = {}
+type Props = {
+  layout : any
+}
 
-export default function SideNavbar({}: Props) {
+export default function SideNavbar({layout}: Props) {
 // relative min-w-[280px] border-r px-3 h-full fmax-h-screen lex flex-col gap-2 bg-muted/40 
   return (
     <div className='hidden border-r bg-muted/40 md:block h-full'>
@@ -43,35 +41,7 @@ export default function SideNavbar({}: Props) {
               </div>
             </div>
             <Nav
-                links={[
-                  
-                  {
-                    title: "Employee",
-                    href : "/p/admin/employee",
-                    icon: Users,
-                    variant: "ghost",
-                  }, {
-                    title: "Salary Slips",
-                    href : "/p/admin/salaryslips",
-                    icon: Banknote,
-                    variant: "ghost",
-                  }, {
-                    title: "Leave Management",
-                    href : "/p/admin/leave",
-                    icon: FileInput,
-                    variant: "ghost",
-                  }, {
-                    title: "Payheads",
-                    href : "/p/admin/payheads",
-                    icon: CreditCard,
-                    variant: "ghost",
-                  }, {
-                    title: "Signatory",
-                    href : "/p/admin/signatory",
-                    icon: Users,
-                    variant: "ghost",
-                  }        
-                ]}
+                links={layout}
               />
           </div>
           <div className="m-5">

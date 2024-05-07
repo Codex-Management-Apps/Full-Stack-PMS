@@ -1,13 +1,11 @@
 
 import { DataTable } from '@/components/DataTable'
 import PageTittle from '@/components/PageTitle'
-import { Button } from '@/components/ui/button'
 import { getAllPaySlip } from '@/controller/payslip'
 import { NormalLayout } from '@/layouts/NormalLayout'
 import { Payslip } from '@/lib/types'
 import { ColumnDef } from '@tanstack/react-table'
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 
 export type PayslipData = {
   id: string,

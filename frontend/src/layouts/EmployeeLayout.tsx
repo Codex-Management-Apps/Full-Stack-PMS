@@ -6,37 +6,16 @@ import SideNavbar from "@/components/Sidebar";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ModeToggle } from "@/components/themeToggle";
 
-
-const layout = [
-                  
+const layout = [        
     {
-      title: "Employee",
-      href : "/p/admin/employee",
-      icon: Users,
-      variant: "ghost",
-    }, {
-      title: "Salary Slips",
-      href : "/p/admin/salaryslips",
-      icon: Banknote,
-      variant: "ghost",
-    }, {
-      title: "Leave Management",
-      href : "/p/admin/leave",
+      title: "Leave Request",
+      href : "/p/leave",
       icon: FileInput,
       variant: "ghost",
-    }, {
-      title: "Payheads",
-      href : "/p/admin/payheads",
-      icon: CreditCard,
-      variant: "ghost",
-    }, {
-      title: "Signatory",
-      href : "/p/admin/signatory",
-      icon: Users,
-      variant: "ghost",
-    }        
+    },      
   ]
-export function NormalLayout({
+
+export function EmployeeLayout({
     children
 } : Readonly<{
     children: React.ReactNode;
