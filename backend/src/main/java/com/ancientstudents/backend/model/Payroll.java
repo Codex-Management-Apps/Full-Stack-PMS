@@ -2,6 +2,8 @@ package com.ancientstudents.backend.model;
 
 import java.util.Date;
 
+import org.springframework.stereotype.Component;
+
 import com.ancientstudents.backend.utils.CustomDateDeserializer;
 import com.ancientstudents.backend.utils.CustomDateSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -17,6 +19,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
+@Component
 @Entity
 public class Payroll {
     @Id

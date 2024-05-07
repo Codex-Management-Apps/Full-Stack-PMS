@@ -1,8 +1,7 @@
-import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import { Routes, Route} from 'react-router-dom';
 import SalarySlipPage from './pages/SalarySlipPage';
 import NoPage from './pages/NoPage';
 import EmployeePage from './pages/EmployeePage';
-import { ThemeProvider } from './components/theme-provider';
 import PayHeads from './pages/PayheadPage';
 import LeaveRequestPage from './pages/LeaveRequestPage';
 import PayrollPage from './pages/PayrollPage';
@@ -15,8 +14,7 @@ import { EmployeePayheadPage } from './pages/EmployeePayheadsPage';
 
 export default function Home() {
   return (
-    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <BrowserRouter>
+    
           <Routes>
             
             {/* View EmployeePage */}
@@ -55,7 +53,6 @@ export default function Home() {
             {/* Page Not Found */}
             <Route path="*" element={<NoPage/>}/>
           </Routes>
-        </BrowserRouter>
-      </ThemeProvider>
+
   );
 }

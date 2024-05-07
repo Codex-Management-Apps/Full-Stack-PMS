@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +28,7 @@ import com.ancientstudents.backend.repository.EmployeeRepository;
 
 @CrossOrigin("http://localhost:5175/")
 @RestController
+@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
 public class DataEmployeeController {
 
     @Autowired

@@ -17,6 +17,7 @@ import com.ancientstudents.backend.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -24,6 +25,7 @@ import java.util.List;
 
 @CrossOrigin("http://localhost:5175/")
 @RestController
+@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
 public class EmployeeController {
 
     @Autowired

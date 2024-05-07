@@ -5,6 +5,7 @@ import com.ancientstudents.backend.model.Employee;
 import com.ancientstudents.backend.model.Payroll;
 import com.ancientstudents.backend.repository.PayrollRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @CrossOrigin("http://localhost:5175/")
 @RestController
+@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
 public class PayrollController {
     @Autowired
     private PayrollRepository payrollRepository;

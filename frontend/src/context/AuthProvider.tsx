@@ -1,0 +1,18 @@
+import { createContext, useState } from "react";
+
+const AuthContext = createContext({});
+
+export const AuthProvider = ({
+    children
+}  : Readonly<{
+    children: React.ReactNode;
+}>) => {
+    const [auth, setAuth] = useState({});
+
+    return (
+        <AuthContext.Provider value={{auth, setAuth}}>
+            {children}
+        </AuthContext.Provider>
+    )
+}
+export default AuthContext;
