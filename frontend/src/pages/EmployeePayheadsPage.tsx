@@ -4,7 +4,6 @@ import { DeleteEmployeePayheadDialog } from "@/components/dialog/DeleteEmployeeP
 import { EditAssignPayheadDialog } from "@/components/dialog/EditAssignPayheadDialog";
 import PageTittle from "@/components/PageTitle";
 import {  getAllAssignPayheadUnderEmployeeID } from "@/controller/asssignPayhead";
-import { NormalLayout } from "@/layouts/NormalLayout";
 import { AssignPayhead } from "@/lib/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { useEffect, useRef, useState } from "react";
@@ -61,16 +60,16 @@ export function EmployeePayheadPage(){
         }}
     })
     return(
-        <NormalLayout>   
-            <div className="p-5 flex flex-col gap-5">
-                <div className='font-bold w-full flex justify-between'>
-                    <PageTittle title='Payhead'/>
-                    {employeePayhead && (
-                        <AddEmployeePayheadDialog />
-                    )}
-                </div>
-                <DataTable columns={columns} data={employeePayhead} />
+      
+        <div className="p-5 flex flex-col gap-5">
+            <div className='font-bold w-full flex justify-between'>
+                <PageTittle title='Payhead'/>
+                {employeePayhead && (
+                    <AddEmployeePayheadDialog />
+                )}
             </div>
-        </NormalLayout>
+            <DataTable columns={columns} data={employeePayhead} />
+        </div>
+
     )
 }

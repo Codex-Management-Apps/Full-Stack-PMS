@@ -16,44 +16,59 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { toast } from "@/components/ui/use-toast"
 import { LoginForm } from "@/schemas"
-import axios from "axios"
-import { setAuthHeader } from "../api/axios"
 
+import { useNavigate } from "react-router-dom"
+import { request, setAuthHeader } from "@/api/axios"
+import { toast } from "../ui/use-toast"
+import { useAuth } from "@/context/AuthProvider"
 
 export function Login() {
-
+  const navigate = useNavigate();
+  const { setAuth } = useAuth();
   const form = useForm<z.infer<typeof LoginForm>>({
     resolver: zodResolver(LoginForm),
     defaultValues: {
-        email: "",
+        username: "",
         password: ""
     },
   })
 
   const onSubmit = async(data: z.infer<typeof LoginForm>)=> {
-    toast({
-      variant: "default",
-      title: "Data Added, Kindly Refresh the page",
-      description: (
-          <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-              <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-          </pre>
-          ),
-  })
-    try {
-      axios.post('http://localhost:8080/login',data)
-      .then((response) => {
-        setAuthHeader(response.data.token)
 
-      }).catch((error) => {
-        setAuthHeader(null)
-      })
+   
+    try {
+      const response = await request("POST",'/api/auth/login',data) as any;
+      const accessToken = response?.data.accessToken;
+      const roles =response.data.department[0].departmentName
+      setAuthHeader(accessToken)
+      console.log(roles)
       
       
-    } catch (error) {
-      
+      setAuth({data,accessToken, roles})
+      if (roles === "Marketing") {
+        console.log("Redirecting to employee")
+        navigate("/employee");
+      } else if(roles === "HR"){
+        console.log("Redirecting to admin")
+        navigate("/admin/employee");
+      }
+    } catch (error: any) {
+      if (error.response && error.response.status === 401) {
+        // Unauthorized: Invalid credentials
+        toast({
+            variant: "destructive",
+              title:"Invalid username or password"
+            });
+      } else {
+        // Other errors
+        toast({
+          variant: "destructive",
+        title:"An error occurred while logging in"
+        });
+      }
+      setAuthHeader(null);
+      console.error(error);
     }
 
     
@@ -64,7 +79,7 @@ export function Login() {
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full flex flex-col gap-10">
         <FormField
           control={form.control}
-          name="email"
+          name="username"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Username</FormLabel>

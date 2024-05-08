@@ -8,7 +8,6 @@ import { AddEmployeeDialog } from '@/components/dialog/AddEmployeeDialog'
 import { DeleteEmployeeDataDialog } from '@/components/dialog/DeleteEmployeeDataDialog'
 import PageTittle from '@/components/PageTitle'
 import { getAssignedEmployeeData } from '@/controller/dataemployee'
-import { NormalLayout } from '@/layouts/NormalLayout'
 import { EmployeeData } from '@/lib/types'
 import { ColumnDef } from '@tanstack/react-table'
 import { useEffect, useState } from 'react'
@@ -110,12 +109,12 @@ export default function ConfirmingEmployeePage() {
   },[])
 
   return (
-    <NormalLayout>
+
     
-      <div className='flex flex-col gap-5 w-full'>
-        <PageTittle title="New Employee"/>
-        <DataTable columns={columns} data={data}/>
-      </div>
-    </NormalLayout> 
+    <div className='flex flex-col gap-5 w-full'>
+      <PageTittle title="New Employee"/>
+      <DataTable columns={columns} data={data}/>
+    </div>
+
   )
 }

@@ -15,17 +15,16 @@ export const setAuthHeader = (token: string | null): void => {
 axios.defaults.baseURL = 'http://localhost:8080';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
-export const request = <T>(method: AxiosRequestConfig['method'], url: string, data?: any): Promise<T> => {
-    let headers: any = {};
-    const authToken = getAuthToken();
-    if (authToken !== null && authToken !== "null") {
-        headers = { 'Authorization': `Bearer ${authToken}` };
+export const request = async <T>(method: AxiosRequestConfig["method"], url: string, data?: any): Promise<T> => {
+    let headers: Record<string, string> = {};
+    if (getAuthToken() !== null && getAuthToken() !== "null") {
+        headers = { 'Authorization': `Bearer ${getAuthToken()}` };
     }
 
     return axios({
         method: method,
         url: url,
         headers: headers,
-        data: data
-    });
+        data: data});
+
 };
