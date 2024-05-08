@@ -10,7 +10,6 @@ import com.ancientstudents.backend.model.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +29,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 @CrossOrigin("http://localhost:5175/")
 @RestController
-@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
 public class AssignDesignationController {
     
     @Autowired

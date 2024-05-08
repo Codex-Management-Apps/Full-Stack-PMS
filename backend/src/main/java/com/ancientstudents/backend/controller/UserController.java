@@ -1,7 +1,7 @@
 package com.ancientstudents.backend.controller;
 
 import com.ancientstudents.backend.exception.UserNotFoundException;
-import com.ancientstudents.backend.model.User;
+import com.ancientstudents.backend.model.UserEntity;
 import com.ancientstudents.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,25 +15,25 @@ public class UserController {
     private UserRepository userRepository;
 
     @PostMapping("/user")
-    User newUser(@RequestBody User newUser){
+    UserEntity newUser(@RequestBody UserEntity newUser){
         if(newUser == null) return null;
         return userRepository.save(newUser);
     }
 
     @GetMapping("/users")
-    List<User> getAllUsers(){
+    List<UserEntity> getAllUsers(){
         return userRepository.findAll();
     }
 
     @GetMapping("/user/{id}")
-    User getUserById(@PathVariable Long id){
+    UserEntity getUserById(@PathVariable Long id){
         if(id == null) return null;
         return userRepository.findById(id)
                 .orElseThrow(()->new UserNotFoundException(id));
     }
 
     @PutMapping("user/{id}")
-    User updateUser(@RequestBody User newUser, @PathVariable Long id){
+    UserEntity updateUser(@RequestBody UserEntity newUser, @PathVariable Long id){
         if(id == null) return null;
         return userRepository.findById(id)
                 .map(user -> {

@@ -1,3 +1,5 @@
+export type Roles = 'ADMIN' | 'USER' | 'GUEST';
+
 export type Department = {
   id: number;
   departmentName: string;

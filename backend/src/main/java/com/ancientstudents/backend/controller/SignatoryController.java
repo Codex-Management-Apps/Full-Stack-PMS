@@ -8,7 +8,6 @@ import com.ancientstudents.backend.repository.EmployeeRepository;
 import com.ancientstudents.backend.repository.SignatoryRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -16,7 +15,6 @@ import java.util.List;
 
 @CrossOrigin("http://localhost:5175/")
 @RestController
-@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
 public class SignatoryController {
     @Autowired
     private SignatoryRepository signatoryRepository;

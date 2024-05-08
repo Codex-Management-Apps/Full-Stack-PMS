@@ -1,5 +1,11 @@
 import * as z from "zod"
 
+export const LoginForm = z.object({
+    email: z.string().email().min(2),
+    password: z.string().min(2,{
+        message: "Password must be atleast 2 characters"
+    })
+})
 export const postSchema = z.object({
     title: z.string().min(3),
     content: z.string().min(10),

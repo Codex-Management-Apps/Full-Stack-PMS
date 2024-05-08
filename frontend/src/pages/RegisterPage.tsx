@@ -12,7 +12,7 @@ export function RegisterPage(){
         <div className="w-full h-screen flex flex-col">
             <div className="flex h-screen justify-center">
                 <ScrollArea className="p-5 max-w-[60rem] max-h-full">
-
+                    
                     <div className="flex flex-col gap-5 p-5 rounded-md border">
                     <PageTittle title="Register Employee Data" />
                     <Separator/>
