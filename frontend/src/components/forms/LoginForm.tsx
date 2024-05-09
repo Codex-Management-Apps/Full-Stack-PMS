@@ -21,38 +21,40 @@ import { LoginForm } from "@/schemas"
 import { useNavigate } from "react-router-dom"
 import { request, setAuthHeader } from "@/api/axios"
 import { toast } from "../ui/use-toast"
-import { useAuth } from "@/context/AuthProvider"
+import { useContext, useEffect, useState } from "react"
+import { Auth, AuthContext } from "@/context/AuthProvider"
 
 export function Login() {
   const navigate = useNavigate();
-  const { setAuth } = useAuth();
+  const {auth, setAuth} = useContext(AuthContext)
+  const [response, setResponse] = useState<Auth>()
+  const [doneFetching, setDoneFetching] = useState(false)
   const form = useForm<z.infer<typeof LoginForm>>({
     resolver: zodResolver(LoginForm),
     defaultValues: {
-        username: "",
+        email: "",
         password: ""
     },
   })
 
-  const onSubmit = async(data: z.infer<typeof LoginForm>)=> {
+  const onSubmit = async(data: z.infer<typeof LoginForm>)=> { 
 
-   
     try {
-      const response = await request("POST",'/api/auth/login',data) as any;
-      const accessToken = response?.data.accessToken;
-      const roles =response.data.department[0].departmentName
-      setAuthHeader(accessToken)
-      console.log(roles)
       
-      
-      setAuth({data,accessToken, roles})
-      if (roles === "Marketing") {
-        console.log("Redirecting to employee")
-        navigate("/employee");
-      } else if(roles === "HR"){
-        console.log("Redirecting to admin")
-        navigate("/admin/employee");
+      const response = await request("POST",'/auth/login',data) as any;
+      const userID = response.data.user;
+      const accessToken = response.data.access_token;
+      const refreshToken = response.data.refresh_token;
+      const accessLevel = response.data.accessLevel;
+      console.log("Unsetted Response: " + response.data)
+      const newData = {
+        id: String(userID),
+        accessLevel: accessLevel,
+        accessToken: accessToken,
+        refreshToken: refreshToken
       }
+      setResponse(newData)
+      setDoneFetching(true)
     } catch (error: any) {
       if (error.response && error.response.status === 401) {
         // Unauthorized: Invalid credentials
@@ -69,17 +71,35 @@ export function Login() {
       }
       setAuthHeader(null);
       console.error(error);
-    }
-
-    
+    } 
   }
+
+  useEffect(() =>{
+    if (response && response.accessToken) {
+      setAuthHeader(response.accessToken)
+      setAuth(response)
+      console.log(response)
+      if (response.accessLevel === "ADMIN") {
+
+        console.log("Redirecting to admin")
+        navigate("/admin/employee");
+
+
+      } else if(response.accessLevel  === "MANAGER"){
+
+        console.log("Redirecting to employee")
+        navigate("/employee");
+        
+      }
+    }
+  },[doneFetching])
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full flex flex-col gap-10">
         <FormField
           control={form.control}
-          name="username"
+          name="email"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Username</FormLabel>

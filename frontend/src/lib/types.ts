@@ -34,6 +34,7 @@ export type EmployeeData = {
 };
 
 export type Employee = {
+  [x: string]: any;
   id: number;
   empNum: string;
   department: Department;

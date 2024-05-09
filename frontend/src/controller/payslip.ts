@@ -1,9 +1,9 @@
-import axios from "axios"
+import { ApiResponse, request } from "@/api/axios"
 
 
 export async function getAllPaySlip(){
     try {
-        const response = await axios.get("http://localhost:8080/payslip")
+        const response = await request<ApiResponse<any>>("GET","/payslip")
 
         return response.data
     } catch (error) {
@@ -13,7 +13,7 @@ export async function getAllPaySlip(){
 
 export async function createPaySlip(data: any){
     try {
-        const response = await axios.post("http://localhost:8080/payslip",data)
+        const response = await request<ApiResponse<any>>("POST","/payslip",data)
 
         return response.data
     } catch (error) {

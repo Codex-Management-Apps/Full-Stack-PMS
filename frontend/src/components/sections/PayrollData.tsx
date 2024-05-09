@@ -41,7 +41,7 @@ const columns : ColumnDef<PayrollData>[] =[
             const navigate = useNavigate();
             const viewData = (data : any)=>{
                 const dataId = data.id
-                navigate(`/p/admin/employee/payroll/${dataId}`)
+                navigate(`/admin/employee/payroll/${dataId}`)
                 
             }
             return (

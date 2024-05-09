@@ -1,36 +1,46 @@
-import { createContext, ReactNode, useContext, useState } from 'react'
+import { createContext, ReactNode, SetStateAction, Dispatch, useState, useEffect } from 'react'
 
-interface AuthContextType {
-  auth: AuthData; // Update this to match your actual auth object type
-  setAuth: React.Dispatch<React.SetStateAction<AuthData>>; // Update this to match your actual auth object type
+export type Auth ={
+  accessToken: string,
+  accessLevel: string,
+  refreshToken: string,
+  id: string,
+}
+export interface AuthContextInterface{
+  auth: Auth,
+  setAuth: Dispatch<SetStateAction<Auth>>
 }
 
-// Define the AuthData interface
-interface AuthData {
-  data?: any;
-  accessToken?: string;
-  roles?: string;
+const defaultState = {
+  auth: {
+    accessToken: '',
+    accessLevel: '',
+    refreshToken: '',
+    id: '',
+  },
+  setAuth: (auth: Auth) => {}
+} as AuthContextInterface
+
+export const AuthContext = createContext(defaultState)
+
+type AuthProvideProps ={
+  children: ReactNode
 }
 
-// Create the AuthContext
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+export default function AuthProvider( {children} : AuthProvideProps){
 
-// Create the AuthProvider component
-export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [auth, setAuth] = useState<AuthData>({}); // Update this to match your actual auth object type
+  const [auth, setAuth] = useState<Auth>(() => {
+    const storedAuth = localStorage.getItem('auth');
+    return storedAuth ? JSON.parse(storedAuth) : defaultState.auth;
+  });
 
-  return (
-    <AuthContext.Provider value={{ auth, setAuth }}>
+  useEffect(() => {
+    localStorage.setItem('auth', JSON.stringify(auth));
+  }, [auth]);
+
+  return(
+    <AuthContext.Provider value={{auth, setAuth}}>
       {children}
     </AuthContext.Provider>
-  );
-};
-
-// Create the useAuth custom hook
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
-};
+  )
+}

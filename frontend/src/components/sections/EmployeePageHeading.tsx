@@ -32,7 +32,9 @@ export function EmployeePageHeading(){
         <div className='flex gap-3 items-center mx-1'>
             <div className='relative p-2'>
             <Button onClick={()=>{
-                navigate("/p/admin/employee/new")
+              
+                navigate("/admin/employee/new")
+
                 }}> 
                 New Employee
                 {employeDataCount != 0 && (

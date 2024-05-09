@@ -1,16 +1,17 @@
+import { ApiResponse, request } from "@/api/axios"
 import axios from "axios"
 
 
 export async function createPayhead(data:any){
     try{
-        const response = axios.post("")
+
     } catch(error){
         throw error
     }
 } 
 export async function getAllPayheads(){
     try{
-        const response = await axios.get("http://localhost:8080/payhead")
+        const response = await request<ApiResponse<any>>("GET","/payhead")
 
         return response.data
     } catch(error){

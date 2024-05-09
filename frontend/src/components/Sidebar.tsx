@@ -7,7 +7,7 @@ import {
   } from "lucide-react"
 import { Nav } from './ui/nav'
 import { Button } from "./ui/button"
-import { setAuthHeader } from "@/api/axios"
+import { request, setAuthHeader } from "@/api/axios"
 import { useNavigate } from "react-router-dom"
 
 
@@ -18,8 +18,10 @@ type Props = {
 export default function SideNavbar({layout}: Props) {
   const navigate = useNavigate();
 
-  const handleOnclick = () => {
+  const handleOnclick = async () => {
     setAuthHeader(null)
+    localStorage.removeItem("auth")
+    await request("POST","/auth/logout")
     navigate("/login")
   }
 // relative min-w-[280px] border-r px-3 h-full fmax-h-screen lex flex-col gap-2 bg-muted/40 

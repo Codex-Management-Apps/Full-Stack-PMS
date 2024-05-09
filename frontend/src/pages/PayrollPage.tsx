@@ -71,7 +71,7 @@ export default function PayrollPage() {
     if(payroll){
       const getAllEarnings = async() =>{
         try {
-            const earnings = await getAllTypeUnderEmployeeID(String(payroll.employee.id ), "earnings")
+            const earnings = await getAllTypeUnderEmployeeID(String(payroll.employee.id ), "Earnings")
             
             setEmployeeEarnings(earnings)
             
@@ -82,7 +82,7 @@ export default function PayrollPage() {
 
       const getAllDeduction = async() => {
         try {
-            const deductions = await getAllTypeUnderEmployeeID(String(payroll.employee.id ), "deduction")
+            const deductions = await getAllTypeUnderEmployeeID(String(payroll.employee.id ), "Deductions")
             setEmployeeDeductions(deductions)
         } catch (error) {
             console.log(error)

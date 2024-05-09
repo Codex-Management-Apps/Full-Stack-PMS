@@ -1,4 +1,4 @@
-import axios from "axios"
+import { ApiResponse, request } from "@/api/axios"
 
 
 export type PayrollSubmission = {
@@ -10,7 +10,7 @@ export type PayrollSubmission = {
 
 export async function getAllPayRoll(){
     try {
-        const response = await axios.get("http://localhost:8080/payroll")
+        const response = await request<ApiResponse<any>>("GET","/payroll")
 
         return response.data
     } catch (error) {
@@ -20,7 +20,7 @@ export async function getAllPayRoll(){
 
 export async function createPayroll(data : any){
     try {
-        const response = await axios.post("http://localhost:8080/payroll",data)
+        const response = await request<ApiResponse<any>>("POST","/payroll",data)
 
         return response
     } catch (error) {
@@ -31,7 +31,7 @@ export async function createPayroll(data : any){
 export async function getPayrollByID(id : string){
     if (id == "") return null
     try {
-        const response = await axios.get(`http://localhost:8080/payroll/${id}`)
+        const response = await request<ApiResponse<any>>("GET",`/payroll/${id}`)
         
         return response.data
     } catch (error) {
@@ -45,7 +45,7 @@ export async function UpdatePayroll(data: any, id: string){
     try {
        console.log(data)
         if(id === '') throw Error
-        const response = await axios.put(`http://localhost:8080/payroll/${id}`,data)
+        const response = await request<ApiResponse<any>>("PUT",`/payroll/${id}`,data)
 
         return response.data
     } catch (error) {
@@ -58,7 +58,7 @@ export async function UpdatePayroll(data: any, id: string){
 
 export async function getPayrollByEmployeeID(id: string){
     try {
-        const response = await axios.get(`http://localhost:8080/payroll/employee?id=${id}`)
+        const response = await request<ApiResponse<any>>("GET",`/payroll/employee?id=${id}`)
         return response.data
     } catch (error) {
         throw error

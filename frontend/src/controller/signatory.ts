@@ -1,9 +1,8 @@
-import axios from "axios";
-
+import { ApiResponse, request } from "@/api/axios";
 
 export async function createSignatory(data: any){
     try {
-        const response= await axios.post(`http://localhost:8080/signatory`,data);
+        const response= await request<ApiResponse<any>>("POST",`/signatory`,data);
 
         return response.data
     } catch (error) {
@@ -12,7 +11,7 @@ export async function createSignatory(data: any){
 }
 export async function getAllSignatory(){
     try{
-        const response = await axios.get("http://localhost:8080/signatory")
+        const response = await request<ApiResponse<any>>("GET","/signatory")
 
         return response.data
     } catch (error) {
@@ -22,7 +21,7 @@ export async function getAllSignatory(){
 
 export async function getSignatoryByID(id : string){
     try {
-        const response = await axios.get(`http://localhost:8080/signatory/${id}`)
+        const response = await request<ApiResponse<any>>("GET",`/signatory/${id}`)
         
         return response.data
     } catch (error) {
@@ -32,7 +31,7 @@ export async function getSignatoryByID(id : string){
 
 export async function deleteSignatoryByID(id:string){
     try {
-        const response = await axios.delete(`http://localhost:8080/signatory/${id}`)
+        const response = await request<ApiResponse<any>>("DELETE",`/signatory/${id}`)
 
         return response
     } catch (error) {
@@ -42,7 +41,7 @@ export async function deleteSignatoryByID(id:string){
 
 export async function UpdateSignatoryByID(data:any, id:Number) {
     try {
-        const response= await axios.put(`http://localhost:8080/signatory/${id}`,data);
+        const response= await request<ApiResponse<any>>("PUT",`/signatory/${id}`,data);
 
         return response.data
     } catch (error) {

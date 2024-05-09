@@ -60,16 +60,12 @@ export function EmployeePayheadPage(){
         }}
     })
     return(
-      
         <div className="p-5 flex flex-col gap-5">
             <div className='font-bold w-full flex justify-between'>
                 <PageTittle title='Payhead'/>
-                {employeePayhead && (
-                    <AddEmployeePayheadDialog />
-                )}
+                <AddEmployeePayheadDialog />
             </div>
             <DataTable columns={columns} data={employeePayhead} />
         </div>
-
     )
 }

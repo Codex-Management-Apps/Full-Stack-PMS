@@ -1,7 +1,7 @@
 import { BrowserRouter} from 'react-router-dom';
 import { ThemeProvider } from './components/theme-provider';
-import { AuthProvider } from './context/AuthProvider';
 import Routes from "./Routes"
+import AuthProvider from './context/AuthProvider';
 
 export default function Home() {
   return (   

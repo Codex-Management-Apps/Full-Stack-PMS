@@ -2,10 +2,18 @@ import { Login } from "@/components/forms/LoginForm";
 import PageTittle from "@/components/PageTitle";
 import { ModeToggle } from "@/components/themeToggle";
 import { Toaster } from "@/components/ui/toaster";
+import { AuthContext } from "@/context/AuthProvider";
+import { useContext, useEffect } from "react";
 
 
 
 export function LoginPage(){
+    const {auth} = useContext(AuthContext)
+    useEffect(() => {
+        if(!auth.accessLevel){
+            console.log("has already been authenticated")
+        }
+    })
     return (
         <div className="w-full h-screen flex flex-col">
             <div className="flex h-screen justify-center items-center">
