@@ -1,93 +1,47 @@
-import { NormalLayout } from '@/layouts/NormalLayout'
 import { Card } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow,} from '@/components/ui/table'
 
 import PageTittle from '@/components/PageTitle'
-import { useNavigate, useParams } from 'react-router-dom'
-import { useEffect, useState } from 'react'
-import { EditEmployeeDialog } from '@/components/dialog/EditEmployeeDialog'
-import { AddAssignDesignationDialog } from '@/components/dialog/AddAssignDesignationDialog'
-import { getAssignDesignationByEmployeeId, isEmployeeAssigned } from '@/controller/assigned'
+import { useParams } from 'react-router-dom'
+import { useEffect, useRef, useState } from 'react'
+import { Employee } from '@/lib/types'
+
 import { getEmployeeById } from '@/controller/employee'
-import { EditAssignDesignationDialog } from '@/components/dialog/EditAssignDesignationDialog'
-import { AssignDesignation, Employee } from '@/lib/types'
+import { EditEmployeeDataDialog } from '@/components/dialog/EditEmployeeDataDialog'
+import { EditEmployeeDesignationDialog } from '@/components/dialog/EditEmployeeDesignationDialog'
+import { EditEmployeeDepartmentDialog } from '@/components/dialog/EditEmployeeDepartmentDialog'
+import { EditEmployeeDialog } from '@/components/dialog/EditEmployeeDialog'
+
   
 
 export default function ViewEmployee(){
-
+    const currentRun = useRef(false)
     const { id } = useParams<{ id: string }>();
-    const navigate = useNavigate();
-    const [hadAssigned, setHadAssigned] = useState<Boolean>(false);
-    const [data, setData] = useState<AssignDesignation>({
-        id: "",
-        employeeType: "",
-        status: "",
-        employee: {
-            firstname: "",
-            lastname: "",
-            middlename: "",
-            address_line: '',
-            barangay: '',
-            country: '',
-            province: '',
-            last_update: ''
-        },
-        designation: {
-            designationName: "",
-            id: '',
-            departmentId: {
-                departmentName: '',
-                status: '',
-                id: ''
-            },
-            status: ''
-        } // Replace with the actual value for designation_id
-    })
-    const [data2, setData2] = useState<Employee>({
-        firstname: "",
-        lastname: "",
-        middlename: "",
-        address_line: '',
-        barangay: '',
-        country: '',
-        province: '',
-        last_update: ''
-    })
+    const [employee, setEmployee] = useState<Employee>();
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const isExist = await isEmployeeAssigned(id ?? '');
-                console.log(isExist);
-                if(isExist){
-                    setHadAssigned(true);
-                    const assignedData = await getAssignDesignationByEmployeeId(id ?? '');
-                    setData(assignedData);
-                } else {
-                    const responsedData = await getEmployeeById(id);
-                    setData2(responsedData);
+    useEffect(()=>{
+        if(currentRun.current === false){
+            const fetchData = async () => {
+                try {
+                    const data = await getEmployeeById(id);
+
+                    setEmployee(data);
+                } catch (error) {
+                    console.error("Error fetching data:", error);
                 }
-            } catch (error) {
-                console.error("Error fetching post data: ", error);
-            }
+            };
+            currentRun.current = true;
+            fetchData()
         }
-        fetchData()
-    }, [id])
-
-    const backClick = () => {
-        navigate("/employee")
-    }
+    })
     return(
-        <NormalLayout>
-            <div className='w-full flex flex-col gap-2'>
-                
+        <div className='grid grid-cols-2 gap-5'>
+            <div className=' col-span-2 w-full flex flex-col gap-5'>
                 <div className='font-bold w-full flex justify-between'>
-                    <PageTittle title='View User'/>
-                    <div className='flex gap-3'>
-                        <Button variant={'outline'} onClick={backClick}>Back</Button>
-                        <EditEmployeeDialog {...hadAssigned ? data.employee : data2}/>
-                    </div>
+                        <PageTittle title='View'/>
+                        {employee && (
+                            <EditEmployeeDialog data={employee}/>
+                        )}
                 </div>
                 <Card className='w-full mb-5'>
                     <Table>
@@ -104,85 +58,127 @@ export default function ViewEmployee(){
                         <TableBody>
                             <TableRow>
                                 <TableCell>
-                                    Id
+                                    ID
                                 </TableCell>
                                 <TableCell>
-                                    {hadAssigned ? data.employee.id : data2.id}
-                                </TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell>
-                                    Firstname
-                                </TableCell>
-                                <TableCell>
-                                    {hadAssigned ? data.employee.firstname : data2.firstname}
+                                    {employee?.id}
                                 </TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell>
-                                    Middlename
+                                    Emp #
                                 </TableCell>
                                 <TableCell>
-                                    {hadAssigned ? data.employee.middlename : data2.middlename}
-                                </TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell>
-                                    Lastname
-                                </TableCell>
-                                <TableCell>
-                                {hadAssigned ? data.employee.lastname : data2.lastname}
+                                    {employee?.empNum}
                                 </TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell>
-                                    Address Line
+                                    EmployeeType
                                 </TableCell>
                                 <TableCell>
-                                    {hadAssigned ? data.employee.address_line : data2.address_line}
-                                </TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell>
-                                    Brgy
-                                </TableCell>
-                                <TableCell>
-                                    {hadAssigned ? data.employee.barangay : data2.barangay}
+                                    {employee?.employeeType}
                                 </TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell>
-                                    Province
+                                    Status
                                 </TableCell>
                                 <TableCell>
-                                    {hadAssigned ? data.employee.province : data2.province}
-                                </TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell>
-                                    Country
-                                </TableCell>
-                                <TableCell>
-                                    {hadAssigned ? data.employee.country : data2.country}
+                                    {employee?.status}
                                 </TableCell>
                             </TableRow>
                         </TableBody>
                     </Table>   
                 </Card>
-                    
-
+            </div>
+            <div className=' col-span-2 w-full flex flex-col gap-5'>
                 <div className='font-bold w-full flex justify-between'>
-                <PageTittle title='Assign Designation'/>
-                {hadAssigned ? (
-                    <EditAssignDesignationDialog
-                        id= {data.id}
-                        empNum={data.employee}
-                        designation={data.designation}
-                        employeeType={data.employeeType}
-                        status={data.status}
-                    />
-                    ) : (
-                    <AddAssignDesignationDialog />
+                    <PageTittle title='Employee'/>
+                    {employee && (
+                        <EditEmployeeDataDialog data={employee}/>
+                    )}
+                </div>
+                <Card className='w-full mb-5'>
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>
+                                    Category
+                                </TableHead>
+                                <TableHead>
+                                    Value
+                                </TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            <TableRow>
+                                <TableCell>
+                                    ID
+                                </TableCell>
+                                <TableCell>
+                                    {employee?.employeeData.id}
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell>
+                                    Employee #
+                                </TableCell>
+                                <TableCell>
+                                    {employee?.empNum}
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell>
+                                    Fullname
+                                </TableCell>
+                                <TableCell>
+                                {`${employee?.employeeData.lastname}, ${employee?.employeeData.firstname} ${employee?.employeeData.middlename}`}
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell>
+                                    Contact
+                                </TableCell>
+                                <TableCell>
+                                    {employee?.employeeData.contact}
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell>
+                                    Email
+                                </TableCell>
+                                <TableCell>
+                                {employee?.employeeData.email}
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell>
+                                    Full Address
+                                </TableCell>
+                                <TableCell>
+                                {`${employee?.employeeData.barangay}, ${employee?.employeeData.addressLine}, ${employee?.employeeData.province}, ${employee?.employeeData.country}`}
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell>
+                                    Status
+                                </TableCell>
+                                <TableCell>
+                                    {employee?.status}
+                                </TableCell>
+                            </TableRow>
+                        </TableBody>
+                    </Table>   
+                </Card>
+            </div>
+            
+            
+            <div className='w-full flex flex-col gap-5'>
+                <div className='font-bold w-full flex justify-between'>
+                    <PageTittle title='Designation'/>
+                    {employee && (
+                        <EditEmployeeDesignationDialog data={employee}/>
                     )}
                 </div>
 
@@ -200,15 +196,7 @@ export default function ViewEmployee(){
                                     Designation
                                 </TableCell>
                                 <TableCell>
-                                    {data.designation.designationName}
-                                </TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell>
-                                    Employee Type
-                                </TableCell>
-                                <TableCell>
-                                    {data.employeeType}
+                                    {employee?.designation.designationName}
                                 </TableCell>
                             </TableRow>
                             <TableRow>
@@ -216,13 +204,51 @@ export default function ViewEmployee(){
                                     Status
                                 </TableCell>
                                 <TableCell>
-                                    {data.status}
+                                    {employee?.designation.status}
                                 </TableCell>
                             </TableRow>
                         </TableBody>
                     </Table>
                 </Card>
             </div>
-        </NormalLayout>
+            <div className='w-full flex flex-col gap-5'>
+                <div className='font-bold w-full flex justify-between'>
+                    <PageTittle title='Department'/>
+                    {employee && (
+                        <EditEmployeeDepartmentDialog data={employee}/>
+                    )}
+                </div>
+
+                <Card className='w-full'>
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>Category</TableHead>
+                                <TableHead>Value</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            <TableRow>
+                                <TableCell>
+                                    Department Name
+                                </TableCell>
+                                <TableCell>
+                                    {employee?.department.departmentName}
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell>
+                                    Status
+                                </TableCell>
+                                <TableCell>
+                                    {employee?.department.status}
+                                </TableCell>
+                            </TableRow>
+                        </TableBody>
+                    </Table>
+                </Card>
+            </div>
+        </div>
+
     )
 }

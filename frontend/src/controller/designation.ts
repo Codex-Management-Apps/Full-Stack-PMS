@@ -1,6 +1,5 @@
 
-import axios from "axios";
-
+import { ApiResponse, request } from "@/api/axios";
 
 export type Designation = {
     id: string,
@@ -12,7 +11,7 @@ export type Designation = {
 export async function getAllDesignation(){
     try {
     
-        const response = await axios.get("http://localhost:8080/designation");
+        const response = await request<ApiResponse<any>>("GET","/designation");
         
         return response.data;
     } catch (error) {
@@ -22,8 +21,7 @@ export async function getAllDesignation(){
 export async function sumbitDesignationData(data: Designation){
 
     try{
-         const response = await axios.post("http://localhost:8080/designation", data);
-         console.log(response.data);
+         const response = await request<ApiResponse<any>>("POST","/designation", data);
          return response.data; 
      }
     catch(error){
@@ -34,8 +32,7 @@ export async function getTopNDesignation(count:string){
     try{
         if(count === undefined) count =''
     
-        const response = await axios.get(`http://localhost:8080/designation/top?count=${count}`)
-        console.log(response.data.content);
+        const response = await request<ApiResponse<any>>("GET",`/designation/top?count=${count}`)
         return response.data.content;
     }catch(error){
         console.log(error);

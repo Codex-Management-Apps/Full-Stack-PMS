@@ -1,42 +1,113 @@
-export type AssignDesignation = {
-    id: string,
-    employeeType: string,
-    status: string,
-    designation: Designation,
-    employee: Employee,
-}
+export type Roles = 'ADMIN' | 'USER' | 'GUEST';
 
-export type Designation = {
-    id?: string,
-    departmentId: Department,
-    designationName: string,
-    status: string,
-}
 export type Department = {
-    id?: string,
-    departmentName: string,
-    status: string,
-}
-
-export type Employee = {
-    id?: string,
-    address_line: string,
-    barangay: string,
-    country: string,
-    firstname: string,
-    lastname: string,
-    middlename: string,
-    province: string,
-    last_update?: string,
+  id: number;
+  departmentName: string;
+  status: string;
+  createdAt: string;
+  lastUpdated: string;
+};
+  
+export type Designation = {
+  id: number;
+  designationName: string;
+  status: string,
+  createdAt: string;
+  lastUpdated: string;
 };
 
-export type AssignDesignationSubmission = {
-    employeeType: string,
-    status: string,
-    designation:{
-        id:string | null,
-    },
-    employee:{
-        id:string | null,
-    }
+export type EmployeeData = {
+  id: number;
+  firstname: string;
+  middlename: string;
+  lastname: string;
+  birthday: string;
+  contact: string;
+  email: string;
+  gender: string;
+  addressLine: string;
+  barangay: string;
+  country: string;
+  province: string;
+  createdAt: string;
+  lastUpdated: string;
+};
+
+export type Employee = {
+  [x: string]: any;
+  id: number;
+  empNum: string;
+  department: Department;
+  designation: Designation;
+  employeeData: EmployeeData;
+  employeeType: string;
+  status: string;
+  createdAt: string;
+  lastUpdated: string;
+};
+
+export type Signatory = {
+  id: number;
+  name: string;
+  employee: Employee;
+  status: string;
+  createdAt: string;
+  lastUpdated: string;
+};
+
+export type Payroll = {
+  id: number;
+  signatory: Signatory;
+  employee: Employee;
+  start: string;
+  end: string;
+  total_earnings: string;
+  total_deductions: string;
+  net_pay: string;
+  status: string;
+  createdAt: string;
+  lastUpdated: string;
+};
+
+export type Payslip = {
+  id: number,
+  payroll: Payroll,
+  issued_date: Date,
+  total_earnings: Number,
+  total_deductions:  Number,
+  net_pay: Number,
+  create_at: string,
+  last_updated: string,
+}
+
+export type LeaveRequest = {
+  id: number,
+  name: string,
+  comment: string,
+  created_at: Date,
+  dateOfLeave: Date,
+  dateOfEnd: Date,
+  last_updated: Date,
+  leaveType: string,
+  status: string,
+  employee: Employee,
+}
+
+export type Payhead = {
+  id: number;
+  amount: string;
+  created_at: string;
+  last_updated: string;
+  name: string;
+  type: string;
+};
+
+export type AssignPayhead = {
+  id: number,
+  created_at: Date,
+  last_updated: Date,
+  amount: string,
+  description: string,
+  payhead: Payhead,
+  employee: Employee
 }

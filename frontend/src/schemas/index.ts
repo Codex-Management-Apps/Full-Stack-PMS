@@ -1,57 +1,63 @@
 import * as z from "zod"
 
+export const LoginForm = z.object({
+    email: z.string().email().min(2),
+    password: z.string().min(2,{
+        message: "Password must be atleast 2 characters"
+    })
+})
 export const postSchema = z.object({
     title: z.string().min(3),
     content: z.string().min(10),
 });
 
-export const AddEmployeeSchema = z.object({
+export const payrollSchema = z.object({
+    signatory: z.string().min(1),
+    payperiod: z.string().min(1)
+})
+
+export const DataEmployeeSchema = z.object({
     firstname: z.string().min(1),
     middlename: z.string().min(1),
     lastname: z.string().min(1),
-    address_line: z.string().min(1),
+    birthday: z.string().min(1),
+    contact: z.number().min(1),
+    email: z.string().email().min(1),
+    gender: z.string().min(1),
+    addressLine: z.string().min(1),
     barangay: z.string().min(1),
-    province: z.string().min(1),
     country: z.string().min(1),
-    last_update: z.string()
-});
-
-export const AddDepartmentSchema = z.object({
-    departmentName: z.string().min(1),
-    status: z.string().min(1)
-});
+    province: z.string().min(1),
+})
 
 export const EmployeeSchema = z.object({
-    id:z.string(),
-    firstname: z.string().min(1),
-    middlename: z.string().min(1),
-    lastname: z.string().min(1),
-    address_line: z.string().min(1),
-    barangay: z.string().min(1),
-    province: z.string().min(1),
-    country: z.string().min(1),
-    last_update: z.string()
-});
+    department: z.string().min(1),
+    designation: z.string().min(1),
+    employeeType: z.string().min(1),
+    status:z.string().min(1)
+})
+
+export const DepartmentEmployeeSchema = z.object({
+    department: z.string().min(1),
+})
 
 
-export const DepartmentSchema = z.object({
-    id:z.string(),
-    departmentName: z.string().min(1),
-    status: z.string().min(1)
-});
-export const DesignationSchema = z.object({
-    id:z.string(),
-    departmentId: DepartmentSchema,
-    designationName: z.string(),
-    status: z.string()
-  });
-  
+export const DesignationEmployeeSchema = z.object({
+    designation: z.string().min(1),
+})
 
-export const AssignDesignation = z.object({
-    id: z.string(),
-    employeeType: z.string(),
-    status: z.string(),
-    designation: DesignationSchema,
-    employee: EmployeeSchema,
-  });
+export const EmployeeStatusSchema = z.object({
+    status: z.string().min(1),
+})
 
+export const AssignPayheadSchema = z.object({
+    payhead: z.string().min(1).optional(),
+    amount : z.string().min(1),
+    description: z.string().min(1)
+})
+
+export const SignatorySchema = z.object({
+    name : z.string().min(1),
+    status: z.string().min(1),
+    employee: z.string().min(1),
+})

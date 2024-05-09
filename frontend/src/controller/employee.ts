@@ -1,15 +1,12 @@
 
+import { ApiResponse, request } from "@/api/axios";
 import { Employee } from "@/lib/types";
-import { setCurrentDate } from "@/lib/utils";
-import axios from "axios";
 
-
-export async function sumbitEmployeeData(data: Employee){
+export async function sumbitEmployeeData(data: any){
 
     try{
-         data.last_update = setCurrentDate();
-         const response = await axios.post("http://localhost:8080/employee", data);
-         console.log(response.data);
+        
+         const response = await request<ApiResponse<Employee>>("POST","/employee", data);
          return response.data; 
      }
     catch(error){
@@ -19,9 +16,8 @@ export async function sumbitEmployeeData(data: Employee){
 
  export async function DeleteEmployeeById(id:string){
     try{
-        const response = await axios.delete(`http://localhost:8080/employee/${id}`)
-        console.log(response);
-        return response.data;
+        await request("DELETE",`/employee/${id}`)
+
     }catch(error){
         console.log(error);
     }
@@ -29,18 +25,18 @@ export async function sumbitEmployeeData(data: Employee){
 
 export async function getAllEmployee() {
     try{
-      const response = await axios.get("http://localhost:8080/employee")
-      console.log(response.data)
+      const response = await request<ApiResponse<Employee>>("GET","/employee")
+    
       return response.data
     } catch(error){
         console.log(error)
     }
   }
 
-export async function getEmployeeById(id?:string){
+export async function getEmployeeById(id: any){
     try{
-        const response = await axios.get(`http://localhost:8080/employee/${id}`)
-        console.log(response.data)
+        const response = await request<ApiResponse<Employee>>("GET",`/employee/${id}`)
+
         return response.data
     }
     catch(error){
@@ -48,14 +44,24 @@ export async function getEmployeeById(id?:string){
     }
 }
 
-export async function UpdateEmployee(data:Employee,id:string){
+export async function UpdateEmployee(data:any,id:string){
     try{
         if(id === '') throw Error
-        console.log("Pre: " + data.last_update)
-        const response = await axios.put(`http://localhost:8080/employee/${id}`,data)
-        console.log(response.data)
+        const response = await  request<ApiResponse<Employee>>("PUT",`/employee/${id}`,data)
+
         return response.data
     } catch (error) {
         console.log(error);
     }
 }
+
+
+export async function getEmployeeCount() {
+    try{
+      const response = await request<ApiResponse<any>>("GET","/employee")
+
+      return response.data.length +1
+    } catch(error){
+        console.log(error)
+    }
+  }

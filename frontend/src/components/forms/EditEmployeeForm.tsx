@@ -3,248 +3,94 @@ import {
     FormControl,
     FormField,
     FormItem,
-
-    FormMessage,
+    FormLabel,
   } from "@/components/ui/form"
 import { Button } from "../ui/button"
-import { Input } from "../ui/input"
+import { useForm } from "react-hook-form";
+import { useToast } from "../ui/use-toast";
+import { Employee } from "@/lib/types";
+import { z } from "zod";
+import { EmployeeStatusSchema } from "@/schemas";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
+import { UpdateEmployee } from "@/controller/employee";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 
-import { useForm } from "react-hook-form"
+type Props = {
+    data : Employee
+}
 
-import { AddEmployeeSchema} from "@/schemas"
-import { z } from "zod"
-
-import { DialogFooter } from "../ui/dialog"
-import { Label } from "../ui/label"
-import { useToast } from "../ui/use-toast"
-import { UpdateEmployee } from "@/controller/employee"
-import { setCurrentDate } from "@/lib/utils"
-import { Employee } from "@/lib/types"
-
-
-export function EditEmployeeForm(data:Employee){
+export function EditEmployeeForm({data} : Props){
     const {toast} = useToast();
-    console.log(data)
-
-    const form = useForm<z.infer<typeof AddEmployeeSchema>>({
-        defaultValues: {
-            firstname: data.firstname, 
-            middlename: data.middlename,
-            lastname: data.lastname,
-            address_line: data.address_line,
-            barangay: data.barangay,
-            province: data.province,
-            country: data.country,
-            last_update: setCurrentDate(),
+    const [employee, setEmployee] = useState<Employee>(data)
+    const form = useForm<z.infer<typeof EmployeeStatusSchema>>({
+        resolver: zodResolver(EmployeeStatusSchema),
+        defaultValues:{
+            status: employee.status
         }
     });
-    // use default values in forms and never use value or default value in input
-    // It makes the form values static and unable to edit
-    const handleSubmit = (Submitdata: z.infer<typeof AddEmployeeSchema>) => {
-       
-        console.log(Submitdata)
-        if(data.id !== '' || data.id !== undefined) {
-            
-            UpdateEmployee(Submitdata, data.id ?? '')// Pass the updated employeeData object to the sumbitEmployeeData function
+
+    const handleSubmit = async (output:z.infer<typeof EmployeeStatusSchema>) => {
+        try{
+            const newOutput =  {
+                ...data,
+                status: output.status
+            }
+
+            await UpdateEmployee(newOutput, String(data.id))
             toast({
                 variant: "default",
-                title: "Data Updated, Kindly Refresh the page",
+                title: "Data Added, Kindly Refresh the page",
                 description: (
                     <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-                      <code className="text-white">{JSON.stringify(Submitdata, null, 2)}</code>
+                        <code className="text-white">{JSON.stringify(data, null, 2)}</code>
                     </pre>
-                  ),
+                    ),
             })
-        }else{
+            
+        }catch (error) {
+            console.error("Error submitting data:", error);
             toast({
                 variant: "destructive",
-                title: "Failed to Submit data",
-                description: "Something when wrong when submitting"
-            })
-        }
-        
+                title: "Error submitting data",
+                description: "An error occurred while submitting the data. Please try again later.",
+            });
+        } 
     }
     
     return (
-    <Form {...form}>
+
+        <Form {...form}>
         <form 
             onSubmit={form.handleSubmit(handleSubmit)}
-            className="">
-            <div className="grid gap-4 py-4">
-                <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="firstname" className="text-right"> Firstname </Label>
-                    <div className=" col-span-3">
-                        <FormField
-                            
-                            control={form.control}
-                            name="firstname"
-                            render={({field}) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <Input 
-                                            {...field}
-                                            id="firstname"
-                                            name="firstname"
-                                            placeholder="firstname"
-                                            type="firstname"/>
-                                    </FormControl>
-                                    <FormMessage/>
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="middlename" className="text-right"> Middlename </Label>
-                    <div className=" col-span-3">
-                        <FormField
-                            
-                            control={form.control}
-                            name="middlename"
-                            render={({field}) => (
-                                <FormItem>
-                                    <FormControl>
-                                    <Input 
-                                    {...field}
-                                    id="middlename"
-                                    name="middlename"
-                                    placeholder="middlename"
-                                    type="text"
-                                    />
-                                    </FormControl>
-                                    <FormMessage/>
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="lastname" className="text-right"> Lastname </Label>
-                    <div className=" col-span-3">
-                        <FormField
-                            
-                            control={form.control}
-                            name="lastname"
-                            render={({field}) => (
-                                <FormItem>
-                                    <FormControl>
-                                    <Input 
-                                        {...field}
-                                        id="lastname"
-                                        name="lastname"
-                                        placeholder="lastname"
-                                        type="text"
-                                        />
-                                    </FormControl>
-                                    <FormMessage/>
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="address_line" className="text-right"> Address Line </Label>
-                    <div className=" col-span-3">
-                        <FormField
-                            
-                            control={form.control}
-                            name="address_line"
-                            render={({field}) => (
-                                <FormItem>
-                                    <FormControl>
-                                    <Input 
-                                        {...field}
-                                        id="address_line"
-                                        name="address_line"
-                                        placeholder="address_line"
-                                        type="text"
-                                        />
-                                    </FormControl>
-                                    <FormMessage/>
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="barangay" className="text-right"> Barangay </Label>
-                    <div className=" col-span-3">
-                        <FormField
-                            
-                            control={form.control}
-                            name="barangay"
-                            render={({field}) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <Input 
-                                            {...field}
-                                            id="barangay"
-                                            name="barangay"
-                                            placeholder="barangay"
-                                            type="text"/>
-                                    </FormControl>
-                                    <FormMessage/>
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="province" className="text-right"> Province </Label>
-                    <div className=" col-span-3">
-                        <FormField
-                            
-                            control={form.control}
-                            name="province"
-                            render={({field}) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <Input 
-                                            {...field}
-                                            id="province"
-                                            name="province"
-                                            placeholder="province"
-                                            type="text"/>
-                                    </FormControl>
-                                    <FormMessage/>
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="country" className="text-right"> Country </Label>
-                    <div className=" col-span-3">
-                        <FormField
-                            
-                            control={form.control}
-                            name="country"
-                            render={({field}) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <Input 
-                                            {...field}
-                                            id="country"
-                                            name="country"
-                                            placeholder="country"
-                                            type="text"/>
-                                    </FormControl>
-                                    <FormMessage/>
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-                </div>
-                
+            className="w-full flex flex-col gap-20">
+            <div className="flex flex-col gap-5">
+
+                <FormField
+                        control={form.control}
+                        name="status"
+                        render = {({field}) => (
+                            <FormItem>
+                                <FormLabel>Status</FormLabel>
+                                    <Select onValueChange={ field.onChange } defaultValue={field.value} >
+                                        <FormControl>
+                                            <SelectTrigger>
+                                                <SelectValue
+                                                placeholder="Status" />
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            <SelectItem value="Active">Active</SelectItem>
+                                            <SelectItem value="Inactive">Inactive</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                            </FormItem>
+                        )}
+                    />
             </div>
-            <div>
-                <DialogFooter>
-                    <Button type="submit">Edit</Button>
-                </DialogFooter>
-            </div>
-            
+            <Button type="submit">Submit</Button>
         </form>
     </Form>
-    
+
   )
 }
