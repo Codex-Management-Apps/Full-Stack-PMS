@@ -7,8 +7,7 @@ import PageTittle from "@/components/PageTitle";
 import { getAllSignatory } from "@/controller/signatory";
 import { DataTable } from "@/components/DataTable";
 import { Signatory } from "@/lib/types";
-import { NormalLayout } from "@/layouts/NormalLayout";
-import { Button } from "@/components/ui/button";
+
 import { AddSignatoryDialog } from "@/components/dialog/AddSignatoryDialog";
 import { EditSignatoryDialog } from "@/components/dialog/EditSignatoryDialog";
 import { DeleteSignatoryDialog } from "@/components/dialog/DeleteSignatoryDialog";
@@ -98,7 +97,7 @@ export function SignatoryPage(){
   }, [])
 
     return(
-      <NormalLayout>
+
         <div className="w-full flex flex-col gap-5">
             <div className='flex justify-between'>
             <PageTittle title="Signatory"/>
@@ -106,6 +105,6 @@ export function SignatoryPage(){
             </div>
             <DataTable columns={columns} data={signatory}/>
         </div>  
-      </NormalLayout>
+
     )
 }

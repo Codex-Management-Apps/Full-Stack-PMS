@@ -1,9 +1,8 @@
-import axios from "axios"
-
+import { ApiResponse, request } from "@/api/axios"
 
 export async function createAssignPayhead(data:any){
     try{
-        const response = axios.post("http://localhost:8080/assign/payhead",data)
+        const response = await request<ApiResponse<any>>("POST","/assign/payhead",data)
 
         return response
     } catch(error){
@@ -12,7 +11,7 @@ export async function createAssignPayhead(data:any){
 } 
 export async function getAllAssignPayheads(){
     try{
-        const response = await axios.get("http://localhost:8080/assign/payhead")
+        const response = await request<ApiResponse<any>>("GET","/assign/payhead")
 
         return response.data
     } catch(error){
@@ -21,14 +20,14 @@ export async function getAllAssignPayheads(){
 } 
 export async function getAssignPayheadById(id:string){
     try{
-
+        console.log(id)
     } catch(error){
         throw error
     }
 } 
 export async function updateAssignPayhead(id:string,data:any){
     try{
-        const response = await axios.put(`http://localhost:8080/assign/payhead/${id}`,data)
+        const response = await request<ApiResponse<any>>("POST",`/assign/payhead/${id}`,data)
         return response
     } catch(error){
         throw error
@@ -36,7 +35,7 @@ export async function updateAssignPayhead(id:string,data:any){
 } 
 export async function deleteAssignPayhead(id:string){
     try{
-        const response = await axios.delete(`http://localhost:8080/assign/payhead/${id}`)
+        const response = await request<ApiResponse<any>>("DELETE",`/assign/payhead/${id}`)
 
         return response
     } catch(error){
@@ -46,7 +45,7 @@ export async function deleteAssignPayhead(id:string){
 // 
 export async function getAllTypeUnderEmployeeID(id: any, condition:string){
     try {
-        const response = await axios.get(`http://localhost:8080/assign/payhead/data?id=${id}&type=${condition}`)
+        const response = await request<ApiResponse<any>>("GET",`/assign/payhead/data?id=${id}&type=${condition}`)
 
         return response.data;
     } catch (error) {
@@ -56,7 +55,7 @@ export async function getAllTypeUnderEmployeeID(id: any, condition:string){
 export async function getAllAssignPayheadUnderEmployeeID(id:string){
     if (id == "") return [];
     try {
-        const response = await axios.get(`http://localhost:8080/assign/payhead/data?id=${id}`) 
+        const response = await request<ApiResponse<any>>("GET",`/assign/payhead/data?id=${id}`) 
         return response.data
     } catch (error) {
         

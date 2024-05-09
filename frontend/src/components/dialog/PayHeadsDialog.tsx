@@ -57,7 +57,7 @@ export function PayHeadDialog({row}: any){
 
             const getAllDeduction = async() => {
                 try {
-                    const deductions = await getAllTypeUnderEmployeeID(row.id, "deduction")
+                    const deductions = await getAllTypeUnderEmployeeID(row.id, "deductions")
                     setEmployeeDeductions(deductions)
                 } catch (error) {
                     console.log(error)
@@ -99,7 +99,7 @@ export function PayHeadDialog({row}: any){
                                 <DataTable columns={columns} data={employeeDeductions} />
                             </Card>
                         </div>
-                        <Button onClick={() => navigate(`/p/admin/employee/${row.id}/payheads`)}>Configure</Button>
+                        <Button onClick={() => navigate(`/admin/employee/${row.id}/payheads`)}>Configure</Button>
                     </div>
                     
                 </DialogContent>

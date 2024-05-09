@@ -1,10 +1,10 @@
+import { ApiResponse, request } from "@/api/axios";
 import { Department } from "@/lib/types";
-import axios from "axios";
 
 export async function sumbitDepartmentData(data: Department){
 
     try{
-         const response = await axios.post("http://localhost:8080/department", data);
+         const response = await request<ApiResponse<any>>("POST","/department", data);
          return response.data; 
      }
     catch(error){
@@ -14,7 +14,7 @@ export async function sumbitDepartmentData(data: Department){
 
  export async function DeleteEmployeeById(id:string){
     try{
-        const response = await axios.delete(`http://localhost:8080/department/${id}`)
+        const response = await request<ApiResponse<any>>("DELETE",`/department/${id}`)
         return response.data.content;
     }catch(error){
         console.log(error);
@@ -23,7 +23,7 @@ export async function sumbitDepartmentData(data: Department){
 
 export async function getAllDepartments() {
     try{
-      const response = await axios.get("http://localhost:8080/department")
+      const response = await request<ApiResponse<any>>("GET","/department")
       return response.data
     } catch(error){
         console.log(error)
@@ -34,7 +34,7 @@ export async function getAllDepartments() {
     try{
         if(count === undefined) count =''
     
-        const response = await axios.get(`http://localhost:8080/department/top?count=${count}`)
+        const response = await request<ApiResponse<any>>("GET",`/department/top?count=${count}`)
         return response.data.content;
     }catch(error){
         console.log(error);

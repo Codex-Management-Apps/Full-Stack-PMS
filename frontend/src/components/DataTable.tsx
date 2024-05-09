@@ -19,7 +19,6 @@ import {
 import { Button } from "@/components/ui/button"
 
 
-import { useNavigate } from "react-router-dom"
 
 interface DataTableProps<TData, TValue>{
     columns: ColumnDef<TData, TValue>[]

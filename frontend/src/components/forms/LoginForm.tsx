@@ -16,14 +16,19 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { toast } from "@/components/ui/use-toast"
 import { LoginForm } from "@/schemas"
-import axios from "axios"
-import { setAuthHeader } from "../api/axios"
 
+import { useNavigate } from "react-router-dom"
+import { request, setAuthHeader } from "@/api/axios"
+import { toast } from "../ui/use-toast"
+import { useContext, useEffect, useState } from "react"
+import { Auth, AuthContext } from "@/context/AuthProvider"
 
 export function Login() {
-
+  const navigate = useNavigate();
+  const {auth, setAuth} = useContext(AuthContext)
+  const [response, setResponse] = useState<Auth>()
+  const [doneFetching, setDoneFetching] = useState(false)
   const form = useForm<z.infer<typeof LoginForm>>({
     resolver: zodResolver(LoginForm),
     defaultValues: {
@@ -32,32 +37,62 @@ export function Login() {
     },
   })
 
-  const onSubmit = async(data: z.infer<typeof LoginForm>)=> {
-    toast({
-      variant: "default",
-      title: "Data Added, Kindly Refresh the page",
-      description: (
-          <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-              <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-          </pre>
-          ),
-  })
+  const onSubmit = async(data: z.infer<typeof LoginForm>)=> { 
+
     try {
-      axios.post('http://localhost:8080/login',data)
-      .then((response) => {
-        setAuthHeader(response.data.token)
-
-      }).catch((error) => {
-        setAuthHeader(null)
-      })
       
-      
-    } catch (error) {
-      
-    }
-
-    
+      const response = await request("POST",'/auth/login',data) as any;
+      const userID = response.data.user;
+      const accessToken = response.data.access_token;
+      const refreshToken = response.data.refresh_token;
+      const accessLevel = response.data.accessLevel;
+      console.log("Unsetted Response: " + response.data)
+      const newData = {
+        id: String(userID),
+        accessLevel: accessLevel,
+        accessToken: accessToken,
+        refreshToken: refreshToken
+      }
+      setResponse(newData)
+      setDoneFetching(true)
+    } catch (error: any) {
+      if (error.response && error.response.status === 401) {
+        // Unauthorized: Invalid credentials
+        toast({
+            variant: "destructive",
+              title:"Invalid username or password"
+            });
+      } else {
+        // Other errors
+        toast({
+          variant: "destructive",
+        title:"An error occurred while logging in"
+        });
+      }
+      setAuthHeader(null);
+      console.error(error);
+    } 
   }
+
+  useEffect(() =>{
+    if (response && response.accessToken) {
+      setAuthHeader(response.accessToken)
+      setAuth(response)
+      console.log(response)
+      if (response.accessLevel === "ADMIN") {
+
+        console.log("Redirecting to admin")
+        navigate("/admin/employee");
+
+
+      } else if(response.accessLevel  === "MANAGER"){
+
+        console.log("Redirecting to employee")
+        navigate("/employee");
+        
+      }
+    }
+  },[doneFetching])
 
   return (
     <Form {...form}>

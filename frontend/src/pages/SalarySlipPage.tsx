@@ -2,7 +2,6 @@
 import { DataTable } from '@/components/DataTable'
 import PageTittle from '@/components/PageTitle'
 import { getAllPaySlip } from '@/controller/payslip'
-import { NormalLayout } from '@/layouts/NormalLayout'
 import { Payslip } from '@/lib/types'
 import { ColumnDef } from '@tanstack/react-table'
 import { useEffect, useState } from 'react'
@@ -75,12 +74,11 @@ export default function SalarySlipPage() {
     handleData()
   },[])
   return (
-    <NormalLayout>
       <div className='flex flex-col gap-5 w-full'>
         <PageTittle title="Salary Slips"/>
         <DataTable columns={columns} data={payslip}/>
       </div>
-    </NormalLayout>
+
   )
 }
 

@@ -5,6 +5,7 @@ import { Banknote, CreditCard, FileInput, Menu, Users } from 'lucide-react';
 import SideNavbar from "@/components/Sidebar";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ModeToggle } from "@/components/themeToggle";
+import { Outlet } from "react-router-dom";
 
 const layout = [        
     {
@@ -15,11 +16,7 @@ const layout = [
     },      
   ]
 
-export function EmployeeLayout({
-    children
-} : Readonly<{
-    children: React.ReactNode;
-}>) {
+export function EmployeeLayout() {
     return(
         <div className="w-full h-screen flex">
             <SideNavbar layout={layout}/>
@@ -34,7 +31,7 @@ export function EmployeeLayout({
 
                 </header>
                 <ScrollArea className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
-                    {children}    
+                    <Outlet/>  
                 </ScrollArea>
             </div>
             <Toaster />

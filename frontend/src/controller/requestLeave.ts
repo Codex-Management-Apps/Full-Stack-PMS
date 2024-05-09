@@ -1,10 +1,10 @@
+import { ApiResponse, request } from "@/api/axios"
 import { LeaveRequest } from "@/lib/types"
-import axios from "axios"
 
 
 export async function createFileLeaveRequest( data: any){
     try {
-        const response = await axios.post(`http://localhost:8080/leave`,data)
+        const response = await request<ApiResponse<any>>("POST",`/leave`,data)
 
         return response.data
     } catch (error) {
@@ -23,7 +23,7 @@ export async function getAllRequestByEmployeeSuperiorID(id: string){
 export async function getAllLeaveRequest(){
     try {
         
-        const response = await axios.get(`http://localhost:8080/leave`)
+        const response = await request<ApiResponse<any>>("GET",`/leave`)
 
         return response.data;
 
@@ -33,7 +33,7 @@ export async function getAllLeaveRequest(){
 }
 export async function getLeaveRequestById(id: string){
     try{
-        const response = await axios.get(`http://localhost:8080/leave/${id}`)
+        const response = await request<ApiResponse<any>>("GET",`/leave/${id}`)
 
         return response.data;
 
@@ -44,7 +44,7 @@ export async function getLeaveRequestById(id: string){
 
 export async function updateLeaveRequest(data: LeaveRequest){
     try{
-        const response = await axios.put(`http://localhost:8080/leaveRequest/${data.id}`, data)
+        const response = await request<ApiResponse<any>>("PUT",`/leaveRequest/${data.id}`, data)
 
         return response.data;
 

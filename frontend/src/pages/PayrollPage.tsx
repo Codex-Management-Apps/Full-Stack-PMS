@@ -9,7 +9,6 @@ import { useToast } from '@/components/ui/use-toast'
 import { getAllTypeUnderEmployeeID } from '@/controller/asssignPayhead'
 import { getPayrollByID } from '@/controller/payroll'
 import { createPaySlip } from '@/controller/payslip'
-import { NormalLayout } from '@/layouts/NormalLayout'
 import { AssignPayhead, Payroll } from '@/lib/types'
 import { ColumnDef } from '@tanstack/react-table'
 import { PlusIcon } from 'lucide-react'
@@ -72,7 +71,7 @@ export default function PayrollPage() {
     if(payroll){
       const getAllEarnings = async() =>{
         try {
-            const earnings = await getAllTypeUnderEmployeeID(String(payroll.employee.id ), "earnings")
+            const earnings = await getAllTypeUnderEmployeeID(String(payroll.employee.id ), "Earnings")
             
             setEmployeeEarnings(earnings)
             
@@ -83,7 +82,7 @@ export default function PayrollPage() {
 
       const getAllDeduction = async() => {
         try {
-            const deductions = await getAllTypeUnderEmployeeID(String(payroll.employee.id ), "deduction")
+            const deductions = await getAllTypeUnderEmployeeID(String(payroll.employee.id ), "Deductions")
             setEmployeeDeductions(deductions)
         } catch (error) {
             console.log(error)
@@ -151,7 +150,7 @@ export default function PayrollPage() {
     }
   }
   return (
-    <NormalLayout>
+
       <div className='flex flex-col gap-5 w-full py-3'>
         <PageTittle title="Payroll"/>
        
@@ -227,7 +226,7 @@ export default function PayrollPage() {
         </div>
 
       </div>
-    </NormalLayout>
+
   )
 }
 

@@ -3,7 +3,6 @@ import { DataTable } from '@/components/DataTable';
 import PageTittle from '@/components/PageTitle';
 import { Button } from '@/components/ui/button';
 import { getAllPayheads } from '@/controller/payhead';
-import { NormalLayout } from '@/layouts/NormalLayout'
 import { Payhead } from '@/lib/types';
 import { ColumnDef } from '@tanstack/react-table'
 import { useState, useEffect } from 'react';
@@ -55,7 +54,7 @@ export default function PayHeadsPage() {
   }, [])
 
   return(
-    <NormalLayout>
+
       <div className="w-full flex flex-col gap-5">
         <div className='flex justify-between'>
         <PageTittle title="Payheads"/>
@@ -63,7 +62,7 @@ export default function PayHeadsPage() {
         </div>
         <DataTable columns={columns} data={payhead}/>
       </div>  
-    </NormalLayout>
+
   )
 }
 

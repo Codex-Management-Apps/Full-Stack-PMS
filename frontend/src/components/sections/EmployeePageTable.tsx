@@ -87,27 +87,29 @@ export function EmployeePageTable(){
           const getData = async () =>{
               try {
                 const data = await getAllEmployee();
-                const newList: EmployeeTable[] = data.map((employee: Employee) => {
-                  const { id, empNum, employeeData, department, designation, employeeType, createdAt, status} = employee;
-                
-                  const { firstname, middlename, lastname, email, contact, gender } = employeeData;
-                  const name = `${firstname} ${middlename} ${lastname}`;
+                if (data){
+                  const newList: EmployeeTable[] = data.map((employee: Employee) => {
+                    const { id, empNum, employeeData, department, designation, employeeType, createdAt, status} = employee;
                   
-                  return {
-                    id,
-                    empnum: empNum,
-                    name,
-                    email,
-                    contact,
-                    gender,
-                    department: department.departmentName,
-                    designation: designation.designationName,
-                    employeeType,
-                    status,
-                    joined: createdAt
-                  }
-                });
-                  setEmployee(newList);
+                    const { firstname, middlename, lastname, email, contact, gender } = employeeData;
+                    const name = `${firstname} ${middlename} ${lastname}`;
+                    
+                    return {
+                      id,
+                      empnum: empNum,
+                      name,
+                      email,
+                      contact,
+                      gender,
+                      department: department.departmentName,
+                      designation: designation.designationName,
+                      employeeType,
+                      status,
+                      joined: createdAt
+                    }
+                  });
+                    setEmployee(newList);
+                }
               } catch (error) {
                 console.log(error)
               } finally {
