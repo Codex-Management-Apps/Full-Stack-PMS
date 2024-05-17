@@ -1,17 +1,13 @@
 # Event driven Programming project
-This project is developed following the instruction and requirements for our Event-driven-programming.
-<br><br>
+This project is developed following the instruction and requirements for our Event-driven-programming. Coded using React Vite with Typescript for typing, Backend is developed using Springboot Java framework
+<br>
+<br>
 This project has been de-coupled for cloning reason. (files too large cloning takes mmany minute)
 <br>
 Check the repo here:
 
 - [Backend](https://github.com/khesir/event-driven-PMS-backend)
 - [Frontend](https://github.com/khesir/event-driven-PMS-frontend)
-
-### Technologies
-- React (tailwind, shadcnui, typescript) 
-- Java (springboot)
-- Mysql
 
 ## Feature
 - Includes Govt ID's
